@@ -1,0 +1,4256 @@
+curl --location 'http://api.invixp.com/api/v1/user/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "9712697297",
+    "countryCode":"+91",
+    "userRole": "user",
+    "password":"Admin@123"
+}
+
+'
+
+response: {
+    "data": {
+        "id": 4,
+        "email": "darshitakbari5799@gmail.com",
+        "userName": "darshit57",
+        "firstName": "Darshit Akbari",
+        "lastName": null,
+        "middleName": null,
+        "companyName": null,
+        "verified": true,
+        "verifyCode": "227972",
+        "referralCode": "tdOjaH98",
+        "businessCount": 0,
+        "storeCount": 0,
+        "followerCount": 1,
+        "followingCount": 2,
+        "experienceCount": 2,
+        "directMessageType": "OPEN",
+        "gender": null,
+        "userRole": "USER",
+        "location": null,
+        "contactNumber": "9712697297",
+        "userSigninProvider": "DISGO",
+        "vendorAddedBy": "VENDOR",
+        "addedBy": null,
+        "salesVendorCount": 0,
+        "profileSetting": "PUBLIC",
+        "notificationEnabled": true,
+        "isBlock": false,
+        "userCode": "YQGmKHSB",
+        "profilePicture": {
+            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg",
+            "mediaType": "jpeg",
+            "mediaFor": "USER_PROFILE_PICTURE"
+        },
+        "lastSession": {
+            "id": 27,
+            "userId": 4,
+            "ipv6": null,
+            "ipv4": null,
+            "deviceType": null,
+            "deviceOs": null,
+            "deviceId": null,
+            "deviceToken": null,
+            "deviceOtherDetails": null,
+            "sessionStartTime": "2026-03-02T09:01:35.196Z",
+            "sessionEndTime": null,
+            "isActive": true,
+            "meta": null
+        },
+        "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJkYXJzaGl0YWtiYXJpNTc5OUBnbWFpbC5jb20iLCJ1c2VyUm9sZSI6IlVTRVIiLCJzZXNzaW9uSWQiOjI3LCJkZXZpY2VUeXBlIjpudWxsLCJpYXQiOjE3NzI0NDIwOTUsImV4cCI6MTgwMzk3ODA5NX0.RUdl-B6YRRwc8zhHNvmduY-IOfN5pkkVl9MIj5papYM",
+        "accessToken": "eyJraWQiOiJjbkJ5Z2hYNmwxNGJhVjJKRlNMalJpSjFKSkY1a1VkUm10MHlmdko1S3V3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJlNGQ4MjQ3OC1mMDIxLTcwNjUtYTQzNC03YTcxZTcxZWJiMWEiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9qeFBRQlpYc1MiLCJjbGllbnRfaWQiOiJvczlwY2o2MzNlb25vZjF0a2s3OWdvMXBrIiwib3JpZ2luX2p0aSI6ImYzNDkxOTQwLTdkNWMtNGYwNS1iNTAxLTBjMjFjMzBlMDRmYyIsImV2ZW50X2lkIjoiM2Y0MWZlZGEtOTZjZi00MDhhLTkwMWMtOWU1NzMyZTEyMDRkIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJhd3MuY29nbml0by5zaWduaW4udXNlci5hZG1pbiIsImF1dGhfdGltZSI6MTc3MjQ0MjA5NSwiZXhwIjoxNzcyNDQ1Njk1LCJpYXQiOjE3NzI0NDIwOTUsImp0aSI6ImI4NjdmY2FmLTZjMmEtNDQ5NC05ZGJmLTE1NjdiNmUzYzk4ZSIsInVzZXJuYW1lIjoiZTRkODI0NzgtZjAyMS03MDY1LWE0MzQtN2E3MWU3MWViYjFhIn0.Pi_C5CcrH7Pozt0vEBcWrjT7Mav7_s8YMNR22dkndtGBA3yVFBA6y2eGzH9vyXw0gEzjXM9A8o4B3gDa6fhvztXAck2qmWTaMg_bfE-75n9KeljIugTk_Y3p4DvkeLB-DyartYkD6hj7TeodjrLj7_s0SBv28regQT2ArrqukKs30TLE_scP2TW9eGYhPOmUjfMOyTkfvgXW814bZ1wFhIR9NRB90TF4WfxYduos4yRoXmCLozF_21Gj61kruAbuf_NXXm5A2TXlWd2b3G96MkULCEH-9PQ6BVt2Xj3y1S-lgiH2EDOZfnqSdlsdM9-QLmkWd8WBRi7Cus-4g2lepQ"
+    },
+    "message": "Login successfully",
+    "status": 200
+}
+
+
+
+curl --location 'http://api.invixp.com/api/v1/experience/getAllExperience' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJkYXJzaGl0YWtiYXJpNTc5OUBnbWFpbC5jb20iLCJ1c2VyUm9sZSI6IlVTRVIiLCJzZXNzaW9uSWQiOjI3LCJkZXZpY2VUeXBlIjpudWxsLCJpYXQiOjE3NzI0NDIwOTUsImV4cCI6MTgwMzk3ODA5NX0.RUdl-B6YRRwc8zhHNvmduY-IOfN5pkkVl9MIj5papYM' \
+--data '{
+  "limit" : 40000,
+  "page" : 0,
+  "search" : ""
+}'
+
+
+{
+    "data": [
+        {
+            "id": 31,
+            "title": "oracle",
+            "description": "Oracle explained ",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 4,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ATTENDEES",
+            "freeExpCost": 0,
+            "isOnline": false,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "",
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 51,
+            "experienceStartDateTime": "2026-02-28T15:03:22.022Z",
+            "experienceEndDateTime": "2026-03-02T15:03:25.025Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-27T15:03:32.512Z",
+            "updatedAt": "2026-02-27T15:07:24.915Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1772204611512.jpeg",
+                "mediaType": "jpeg",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 4,
+                "userName": "darshit57",
+                "firstName": "Darshit Akbari",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg",
+                    "mediaType": "jpeg",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 66,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 51,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "47",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-27T15:03:32.512Z",
+                "updatedAt": "2026-02-27T15:07:24.921Z"
+            },
+            "isPurchased": false,
+            "isAdmin": true,
+            "isLikedByMe": false
+        },
+        {
+            "id": 30,
+            "title": "Nebula",
+            "description": "Experience Description",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 3,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ATTENDEES",
+            "freeExpCost": 0,
+            "isOnline": false,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "135 W 41st St, New York, NY 10036",
+            "color": {
+                "act_plus_button_colour": "#88B0B9",
+                "buckect_interier_boarder_colour": "#88B0B9",
+                "button_text_colour": "#FFFFFF",
+                "location_colour": "#88B0B9",
+                "act_title_colour": "#88B0B9",
+                "comment_box_colour": "#FFFFFF",
+                "interier_time_colour": "#88B0B9",
+                "background_colour": "#A722FF",
+                "buckect_interier_colour": "#000000",
+                "date_colour": "#88B0B9",
+                "act_buckect_date_colour": "#FFFFFF",
+                "sub_desc_text_colour": "#FFFFFF",
+                "attendee_text_colour": "#88B0B9",
+                "buckect_plus_colour": "#FFFFFF",
+                "interier_line_dote_colour": "#88B0B9",
+                "comment_text_colour": "#000000",
+                "sub_desc_view_colour": "#88B0B9",
+                "button_bg_colour": "#88B0B9",
+                "button_boarder_colour": "#FFFFFF",
+                "desc_text_colour": "#88B0B9",
+                "act_button_colour": "#FFFFFF",
+                "act_buckect_location_colour": "#FFFFFF",
+                "func_coll_icon_colour": "#88B0B9",
+                "func_coll_bg_colour": "#88B0B9",
+                "title_colour": "#FFFFFF",
+                "button_img_colour": "#FFFFFF"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 50,
+            "experienceStartDateTime": "2026-02-27T02:01:38.038Z",
+            "experienceEndDateTime": "2028-02-27T02:00:42.042Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-27T02:05:23.639Z",
+            "updatedAt": "2026-02-27T18:23:15.096Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1772157922825.jpeg",
+                "mediaType": "jpeg",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 3,
+                "userName": "AV",
+                "firstName": "Avsar Kalola",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 62,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 3,
+                        "userName": "AV",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 64,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 63,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 6,
+                        "userName": "tpavon12",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1772045026576.jpeg"
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 50,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "45",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-27T02:05:23.639Z",
+                "updatedAt": "2026-02-27T03:33:04.561Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 29,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {
+                "act_title_colour": "#2037FF",
+                "comment_text_colour": "#000000",
+                "button_boarder_colour": "#FFFFFF",
+                "act_button_colour": "#FFE3EE",
+                "button_bg_colour": "#FFDFF0",
+                "func_coll_icon_colour": "#171FFF",
+                "background_colour": "#FFC3CD",
+                "sub_desc_view_colour": "#2018FF",
+                "comment_box_colour": "#FFFFFF",
+                "sub_desc_text_colour": "#2C32FF",
+                "button_img_colour": "#FFFFFF",
+                "act_plus_button_colour": "#4142FF",
+                "func_coll_bg_colour": "#FFEBEF",
+                "act_buckect_date_colour": "#FFFFFF",
+                "location_colour": "#110EFF",
+                "title_colour": "#030BFF",
+                "date_colour": "#2404FF",
+                "buckect_interier_boarder_colour": "#142CFF",
+                "button_text_colour": "#1F1AFF",
+                "buckect_interier_colour": "#FFE3F9",
+                "interier_line_dote_colour": "#0012FF",
+                "buckect_plus_colour": "#FFFFFF",
+                "desc_text_colour": "#11FF20",
+                "attendee_text_colour": "#1E1BFF",
+                "act_buckect_location_colour": "#FFFFFF",
+                "interier_time_colour": "#091DFF"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 43,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-25T10:08:31.287Z",
+            "updatedAt": "2026-02-25T10:08:31.287Z",
+            "expPicture": null,
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 60,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 59,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 65,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 61,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 6,
+                        "userName": "tpavon12",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1772045026576.jpeg"
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 43,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-25T10:08:31.282Z",
+                "updatedAt": "2026-02-25T10:08:31.282Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 28,
+            "title": "Disgo @ Testyyyyy",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {
+                "act_title_colour": "#AAAAAA"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 41,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-25T09:19:31.460Z",
+            "updatedAt": "2026-02-25T09:41:35.088Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1772012492870.png",
+                "mediaType": "png",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 57,
+                    "invitationStatus": "REMOVED",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 56,
+                    "invitationStatus": "REMOVED",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 69,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 54,
+                    "invitationStatus": "REMOVED",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 55,
+                    "invitationStatus": "REMOVED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 41,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-25T09:19:31.460Z",
+                "updatedAt": "2026-02-25T09:41:36.199Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 27,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": "{\"act_title_colour\":\"#2037FF\",\"comment_text_colour\":\"#000000\",\"button_boarder_colour\":\"#FFFFFF\",\"act_button_colour\":\"#FFE3EE\",\"button_bg_colour\":\"#FFDFF0\",\"func_coll_icon_colour\":\"#171FFF\",\"background_colour\":\"#FFC3CD\",\"sub_desc_view_colour\":\"#2018FF\",\"comment_box_colour\":\"#FFFFFF\",\"sub_desc_text_colour\":\"#2C32FF\",\"button_img_colour\":\"#FFFFFF\",\"act_plus_button_colour\":\"#4142FF\",\"func_coll_bg_colour\":\"#FFEBEF\",\"act_buckect_date_colour\":\"#FFFFFF\",\"location_colour\":\"#110EFF\",\"title_colour\":\"#030BFF\",\"date_colour\":\"#2404FF\",\"buckect_interier_boarder_colour\":\"#142CFF\",\"button_text_colour\":\"#1F1AFF\",\"buckect_interier_colour\":\"#FFE3F9\",\"interier_line_dote_colour\":\"#0012FF\",\"buckect_plus_colour\":\"#FFFFFF\",\"desc_text_colour\":\"#11FF20\",\"attendee_text_colour\":\"#1E1BFF\",\"act_buckect_location_colour\":\"#FFFFFF\",\"interier_time_colour\":\"#091DFF\"}",
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 40,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-25T09:06:53.527Z",
+            "updatedAt": "2026-02-25T09:06:53.527Z",
+            "expPicture": null,
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 52,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 58,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 53,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                }
+            ],
+            "setting": {
+                "id": 40,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-25T09:06:53.179Z",
+                "updatedAt": "2026-02-25T09:06:53.179Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 26,
+            "title": "Disgo @ Testyyyyy",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {
+                "act_title_colour": "#2037FF",
+                "comment_text_colour": "#000000",
+                "button_boarder_colour": "#FFFFFF",
+                "act_button_colour": "#FFE3EE",
+                "button_bg_colour": "#FFDFF0",
+                "func_coll_icon_colour": "#171FFF",
+                "background_colour": "#FFC3CD",
+                "sub_desc_view_colour": "#2018FF",
+                "comment_box_colour": "#FFFFFF",
+                "sub_desc_text_colour": "#2C32FF",
+                "button_img_colour": "#FFFFFF",
+                "act_plus_button_colour": "#4142FF",
+                "func_coll_bg_colour": "#FFEBEF",
+                "act_buckect_date_colour": "#FFFFFF",
+                "location_colour": "#110EFF",
+                "title_colour": "#030BFF",
+                "date_colour": "#2404FF",
+                "buckect_interier_boarder_colour": "#142CFF",
+                "button_text_colour": "#1F1AFF",
+                "buckect_interier_colour": "#FFE3F9",
+                "interier_line_dote_colour": "#0012FF",
+                "buckect_plus_colour": "#FFFFFF",
+                "desc_text_colour": "#11FF20",
+                "attendee_text_colour": "#1E1BFF",
+                "act_buckect_location_colour": "#FFFFFF",
+                "interier_time_colour": "#091DFF"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 39,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-25T09:03:49.879Z",
+            "updatedAt": "2026-02-25T10:12:39.276Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1772014356993.png",
+                "mediaType": "png",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 50,
+                    "invitationStatus": "REMOVED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 70,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 51,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                }
+            ],
+            "setting": {
+                "id": 39,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-25T09:03:49.879Z",
+                "updatedAt": "2026-02-25T10:12:40.006Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 25,
+            "title": "Disgo @ Testyyyyy",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": "",
+            "location": "",
+            "color": {
+                "act_title_colour": "#2037FF",
+                "comment_text_colour": "#000000",
+                "button_boarder_colour": "#FFFFFF",
+                "act_button_colour": "#FFE3EE",
+                "button_bg_colour": "#FFDFF0",
+                "func_coll_icon_colour": "#171FFF",
+                "background_colour": "#FFC3CD",
+                "sub_desc_view_colour": "#2018FF",
+                "comment_box_colour": "#FFFFFF",
+                "sub_desc_text_colour": "#2C32FF",
+                "button_img_colour": "#FFFFFF",
+                "act_plus_button_colour": "#4142FF",
+                "func_coll_bg_colour": "#FFEBEF",
+                "act_buckect_date_colour": "#FFFFFF",
+                "location_colour": "#110EFF",
+                "title_colour": "#030BFF",
+                "date_colour": "#2404FF",
+                "buckect_interier_boarder_colour": "#142CFF",
+                "button_text_colour": "#1F1AFF",
+                "buckect_interier_colour": "#FFE3F9",
+                "interier_line_dote_colour": "#0012FF",
+                "buckect_plus_colour": "#FFFFFF",
+                "desc_text_colour": "#11FF20",
+                "attendee_text_colour": "#1E1BFF",
+                "act_buckect_location_colour": "#FFFFFF",
+                "interier_time_colour": "#091DFF"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 38,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-24T06:30:37.944Z",
+            "updatedAt": "2026-02-25T10:12:00.654Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1772014317613.png",
+                "mediaType": "png",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 48,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 49,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 47,
+                    "invitationStatus": "REMOVED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 38,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-24T06:30:37.944Z",
+                "updatedAt": "2026-02-25T10:12:01.665Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 24,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {
+                "act_title_colour": "#2037FF",
+                "comment_text_colour": "#000000",
+                "button_boarder_colour": "#FFFFFF",
+                "act_button_colour": "#FFE3EE",
+                "button_bg_colour": "#FFDFF0",
+                "func_coll_icon_colour": "#171FFF",
+                "background_colour": "#FFC3CD",
+                "sub_desc_view_colour": "#2018FF",
+                "comment_box_colour": "#FFFFFF",
+                "sub_desc_text_colour": "#2C32FF",
+                "button_img_colour": "#FFFFFF",
+                "act_plus_button_colour": "#4142FF",
+                "func_coll_bg_colour": "#FFEBEF",
+                "act_buckect_date_colour": "#FFFFFF",
+                "location_colour": "#110EFF",
+                "title_colour": "#030BFF",
+                "date_colour": "#2404FF",
+                "buckect_interier_boarder_colour": "#142CFF",
+                "button_text_colour": "#1F1AFF",
+                "buckect_interier_colour": "#FFE3F9",
+                "interier_line_dote_colour": "#0012FF",
+                "buckect_plus_colour": "#FFFFFF",
+                "desc_text_colour": "#11FF20",
+                "attendee_text_colour": "#1E1BFF",
+                "act_buckect_location_colour": "#FFFFFF",
+                "interier_time_colour": "#091DFF"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 37,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-23T08:55:58.535Z",
+            "updatedAt": "2026-02-23T08:55:58.535Z",
+            "expPicture": null,
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 46,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 71,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 45,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                }
+            ],
+            "setting": {
+                "id": 37,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-23T08:55:58.214Z",
+                "updatedAt": "2026-02-23T08:55:58.214Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 23,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 36,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-23T05:20:04.740Z",
+            "updatedAt": "2026-02-23T05:20:04.740Z",
+            "expPicture": null,
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 43,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 44,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 72,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 36,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-23T05:20:04.408Z",
+                "updatedAt": "2026-02-23T05:20:04.408Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 22,
+            "title": "Jisoo Concert",
+            "description": "Jisoo Asia Tour \"LIGHTS, LOVE, ACTION!\" is the first solo concert tour by Jisoo.",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 3,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ATTENDEES",
+            "freeExpCost": 0,
+            "isOnline": false,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "Korean Concert Hall",
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 35,
+            "experienceStartDateTime": "2026-04-26T01:00:29.000Z",
+            "experienceEndDateTime": "2026-04-27T06:30:36.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-22T02:46:02.124Z",
+            "updatedAt": "2026-02-22T02:46:02.124Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1771728360986.jpeg",
+                "mediaType": "jpeg",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 3,
+                "userName": "AV",
+                "firstName": "Avsar Kalola",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 73,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 41,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 3,
+                        "userName": "AV",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 42,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 35,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "3",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-22T02:46:02.100Z",
+                "updatedAt": "2026-02-22T02:46:02.100Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 21,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 33,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-08T09:17:44.811Z",
+            "updatedAt": "2026-02-08T09:17:44.811Z",
+            "expPicture": {
+                "media": "https://disgo-eb-bucket.s3.ap-south-1.amazonaws.com/experiences/experiences_1770542263101.jpeg",
+                "mediaType": "jpeg",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 74,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 40,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 39,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                }
+            ],
+            "setting": {
+                "id": 33,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-08T09:17:44.466Z",
+                "updatedAt": "2026-02-08T09:17:44.466Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 20,
+            "title": "bike",
+            "description": "Check ",
+            "likeCount": 1,
+            "commentCount": 1,
+            "reportCount": 0,
+            "experienceOwnerId": 4,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ATTENDEES",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "",
+            "color": {
+                "interier_time_colour": "#88B0B9",
+                "buckect_plus_colour": "#FFFFFF",
+                "act_buckect_location_colour": "#FFFFFF",
+                "act_button_colour": "#FFFFFF",
+                "button_img_colour": "#FFFFFF",
+                "comment_box_colour": "#FFFFFF",
+                "sub_desc_text_colour": "#FFFFFF",
+                "sub_desc_view_colour": "#88B0B9",
+                "interier_line_dote_colour": "#88B0B9",
+                "title_colour": "#FF1D14",
+                "buckect_interier_boarder_colour": "#88B0B9",
+                "button_text_colour": "#FFFFFF",
+                "attendee_text_colour": "#88B0B9",
+                "button_boarder_colour": "#FFFFFF",
+                "button_bg_colour": "#88B0B9",
+                "act_plus_button_colour": "#88B0B9",
+                "background_colour": "#FFFDB0",
+                "act_title_colour": "#88B0B9",
+                "desc_text_colour": "#88B0B9",
+                "func_coll_icon_colour": "#88B0B9",
+                "buckect_interier_colour": "#000000",
+                "act_buckect_date_colour": "#FFFFFF",
+                "comment_text_colour": "#000000",
+                "location_colour": "#88B0B9",
+                "date_colour": "#0617FF",
+                "func_coll_bg_colour": "#88B0B9"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 30,
+            "experienceStartDateTime": "2026-02-07T05:34:06.006Z",
+            "experienceEndDateTime": "2026-02-07T05:34:13.013Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-07T05:40:42.658Z",
+            "updatedAt": "2026-03-02T06:35:59.629Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1770442809768.jpeg",
+                "mediaType": "jpeg",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 4,
+                "userName": "darshit57",
+                "firstName": "Darshit Akbari",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg",
+                    "mediaType": "jpeg",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 36,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 75,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": {
+                        "id": 3,
+                        "userName": "AV",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 35,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 76,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": {
+                        "id": 5,
+                        "userName": "darshit1444444",
+                        "profilePicture": null
+                    }
+                }
+            ],
+            "setting": {
+                "id": 30,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "2,23",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-07T05:40:42.658Z",
+                "updatedAt": "2026-03-02T06:35:59.635Z"
+            },
+            "isPurchased": false,
+            "isAdmin": true,
+            "isLikedByMe": false
+        },
+        {
+            "id": 19,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 1,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {
+                "sub_desc_view_colour": "#88B0B9",
+                "act_title_colour": "#88B0B9",
+                "buckect_interier_boarder_colour": "#88B0B9",
+                "attendee_text_colour": "#88B0B9",
+                "act_buckect_location_colour": "#FFFFFF",
+                "act_plus_button_colour": "#88B0B9",
+                "button_bg_colour": "#88B0B9",
+                "button_text_colour": "#FFFFFF",
+                "location_colour": "#1815FF",
+                "act_buckect_date_colour": "#FFFFFF",
+                "date_colour": "#FF1CE2",
+                "act_button_colour": "#FFFFFF",
+                "background_colour": "#DFE8FF",
+                "button_boarder_colour": "#FFFFFF",
+                "buckect_plus_colour": "#FFFFFF",
+                "buckect_interier_colour": "#000000",
+                "interier_line_dote_colour": "#88B0B9",
+                "interier_time_colour": "#88B0B9",
+                "button_img_colour": "#FFFFFF",
+                "desc_text_colour": "#01EFFF",
+                "sub_desc_text_colour": "#FFFFFF",
+                "func_coll_bg_colour": "#88B0B9",
+                "comment_text_colour": "#000000",
+                "func_coll_icon_colour": "#88B0B9",
+                "title_colour": "#02FF31",
+                "comment_box_colour": "#FFFFFF"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 29,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-07T05:35:20.850Z",
+            "updatedAt": "2026-02-08T09:31:34.918Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1770442518002.png",
+                "mediaType": "png",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 34,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 67,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": {
+                        "id": 5,
+                        "userName": "darshit1444444",
+                        "profilePicture": null
+                    }
+                },
+                {
+                    "id": 68,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": {
+                        "id": 4,
+                        "userName": "darshit57",
+                        "profilePicture": {
+                            "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                        }
+                    }
+                },
+                {
+                    "id": 33,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                }
+            ],
+            "setting": {
+                "id": 29,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-07T05:35:20.447Z",
+                "updatedAt": "2026-02-07T05:35:20.447Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 18,
+            "title": "Baja Beach Fest ",
+            "description": "Baja Beach Fest is a major annual reggaeton and Latin music festival held on the beach in Rosarito, Baja California, Mexico, celebrating Latin culture with top artists, food, and experiences.",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 3,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ONLY_ME",
+            "freeExpCost": 0,
+            "isOnline": false,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "Rosarito Beach, MX",
+            "color": {
+                "act_title_colour": "#2037FF",
+                "comment_text_colour": "#000000",
+                "button_boarder_colour": "#FFFFFF",
+                "act_button_colour": "#FFE3EE",
+                "button_bg_colour": "#FFDFF0",
+                "func_coll_icon_colour": "#171FFF",
+                "background_colour": "#FFC3CD",
+                "sub_desc_view_colour": "#2018FF",
+                "comment_box_colour": "#FFFFFF",
+                "sub_desc_text_colour": "#2C32FF",
+                "button_img_colour": "#FFFFFF",
+                "act_plus_button_colour": "#4142FF",
+                "func_coll_bg_colour": "#FFEBEF",
+                "act_buckect_date_colour": "#FFFFFF",
+                "location_colour": "#110EFF",
+                "title_colour": "#030BFF",
+                "date_colour": "#2404FF",
+                "buckect_interier_boarder_colour": "#142CFF",
+                "button_text_colour": "#1F1AFF",
+                "buckect_interier_colour": "#FFE3F9",
+                "interier_line_dote_colour": "#0012FF",
+                "buckect_plus_colour": "#FFFFFF",
+                "desc_text_colour": "#11FF20",
+                "attendee_text_colour": "#1E1BFF",
+                "act_buckect_location_colour": "#FFFFFF",
+                "interier_time_colour": "#091DFF"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 24,
+            "experienceStartDateTime": "2026-08-08T21:27:02.002Z",
+            "experienceEndDateTime": "2026-08-10T21:27:05.005Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-05T11:21:22.832Z",
+            "updatedAt": "2026-02-08T22:38:56.064Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1770290479869.jpeg",
+                "mediaType": "jpeg",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 3,
+                "userName": "AV",
+                "firstName": "Avsar Kalola",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 28,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 3,
+                        "userName": "AV",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 31,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 24,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "28",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-05T11:21:22.832Z",
+                "updatedAt": "2026-02-08T22:28:00.822Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 17,
+            "title": "infosys ",
+            "description": "Hellow method",
+            "likeCount": 0,
+            "commentCount": 2,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ATTENDEES",
+            "freeExpCost": 0,
+            "isOnline": false,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "",
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 22,
+            "experienceStartDateTime": "2026-02-04T06:55:14.000Z",
+            "experienceEndDateTime": "2026-02-04T06:55:17.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-04T06:56:08.850Z",
+            "updatedAt": "2026-02-05T10:48:40.191Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1770188168330.jpeg",
+                "mediaType": "jpeg",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 30,
+                    "invitationStatus": "DECLINED",
+                    "InviteUserDetails": {
+                        "id": 3,
+                        "userName": "AV",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 27,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 22,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "2",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-04T06:56:08.845Z",
+                "updatedAt": "2026-02-04T06:56:08.845Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 16,
+            "title": "Mahadev group",
+            "description": "Most of beautiful experience of Mahadev group",
+            "likeCount": 1,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ATTENDEES",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "",
+            "color": {
+                "act_buckect_date_colour": "#FFFFFF",
+                "act_buckect_location_colour": "#FFFFFF",
+                "act_button_colour": "#FFFFFF",
+                "act_plus_button_colour": "#88B0B9",
+                "act_title_colour": "#88B0B9",
+                "attendee_text_colour": "#88B0B9",
+                "background_colour": "#FF3764",
+                "buckect_interier_boarder_colour": "#88B0B9",
+                "buckect_interier_colour": "#000000",
+                "buckect_plus_colour": "#FFFFFF",
+                "button_bg_colour": "#88B0B9",
+                "button_boarder_colour": "#FFFFFF",
+                "button_img_colour": "#FFFFFF",
+                "button_text_colour": "#FFFFFF",
+                "comment_box_colour": "#FFFFFF",
+                "comment_text_colour": "#000000",
+                "date_colour": "#88B0B9",
+                "desc_text_colour": "#88B0B9",
+                "func_coll_bg_colour": "#88B0B9",
+                "func_coll_icon_colour": "#88B0B9",
+                "interier_line_dote_colour": "#88B0B9",
+                "interier_time_colour": "#88B0B9",
+                "location_colour": "#88B0B9",
+                "sub_desc_text_colour": "#FFFFFF",
+                "sub_desc_view_colour": "#88B0B9",
+                "title_colour": "#FFFFFF"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 21,
+            "experienceStartDateTime": "2026-02-04T05:09:52.000Z",
+            "experienceEndDateTime": "2026-03-04T05:09:54.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-04T05:10:31.544Z",
+            "updatedAt": "2026-02-07T06:48:14.126Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1770181830161.jpeg",
+                "mediaType": "jpeg",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [],
+            "setting": {
+                "id": 21,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "2",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-04T05:10:31.539Z",
+                "updatedAt": "2026-02-04T05:10:31.539Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": true
+        },
+        {
+            "id": 15,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 1,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 20,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-03T04:19:06.985Z",
+            "updatedAt": "2026-02-05T10:48:08.078Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1770092343958.png",
+                "mediaType": "png",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 26,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 25,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 20,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-03T04:19:06.978Z",
+                "updatedAt": "2026-02-03T04:19:06.978Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": true
+        },
+        {
+            "id": 14,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 1,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 19,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-03T04:07:33.292Z",
+            "updatedAt": "2026-02-05T10:48:10.140Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1770091649850.png",
+                "mediaType": "png",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 24,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 23,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                }
+            ],
+            "setting": {
+                "id": 19,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-03T04:07:33.073Z",
+                "updatedAt": "2026-02-03T04:07:33.073Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": true
+        },
+        {
+            "id": 13,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 1,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 18,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-02T18:58:46.897Z",
+            "updatedAt": "2026-02-05T10:48:12.548Z",
+            "expPicture": {
+                "media": null,
+                "mediaType": "IMAGE",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 22,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 21,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 18,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-02T18:58:46.891Z",
+                "updatedAt": "2026-02-02T18:58:46.891Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": true
+        },
+        {
+            "id": 12,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 1,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 17,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-02T11:15:55.363Z",
+            "updatedAt": "2026-02-05T10:48:17.180Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1770030951044.png",
+                "mediaType": "png",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 18,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 19,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                }
+            ],
+            "setting": {
+                "id": 17,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-02T11:15:55.074Z",
+                "updatedAt": "2026-02-02T11:15:55.074Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": true
+        },
+        {
+            "id": 11,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 16,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-02T11:13:51.149Z",
+            "updatedAt": "2026-02-02T11:13:51.149Z",
+            "expPicture": {
+                "media": null,
+                "mediaType": "IMAGE",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 16,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 17,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 16,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-02T11:13:51.145Z",
+                "updatedAt": "2026-02-02T11:13:51.145Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 10,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 15,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-02T11:07:32.392Z",
+            "updatedAt": "2026-02-02T11:07:32.392Z",
+            "expPicture": {
+                "media": null,
+                "mediaType": "IMAGE",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 14,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 15,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 15,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-02T11:07:32.389Z",
+                "updatedAt": "2026-02-02T11:07:32.389Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 9,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 14,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-02T11:06:04.268Z",
+            "updatedAt": "2026-02-02T11:06:04.268Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1770030361952.png",
+                "mediaType": "png",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 13,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 12,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 14,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-02T11:06:03.946Z",
+                "updatedAt": "2026-02-02T11:06:03.946Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 8,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": "",
+            "location": "",
+            "color": {
+                "buckect_plus_colour": "#FFFFFF",
+                "title_colour": "#FFFFFF",
+                "comment_text_colour": "#000000",
+                "background_colour": "#23FF17",
+                "attendee_text_colour": "#88B0B9",
+                "button_text_colour": "#FFFFFF",
+                "act_button_colour": "#FFFFFF",
+                "func_coll_icon_colour": "#88B0B9",
+                "act_plus_button_colour": "#88B0B9",
+                "sub_desc_view_colour": "#88B0B9",
+                "interier_time_colour": "#88B0B9",
+                "buckect_interier_colour": "#000000",
+                "date_colour": "#88B0B9",
+                "act_buckect_date_colour": "#FFFFFF",
+                "desc_text_colour": "#88B0B9",
+                "button_img_colour": "#FFFFFF",
+                "comment_box_colour": "#FFFFFF",
+                "button_bg_colour": "#88B0B9",
+                "act_buckect_location_colour": "#FFFFFF",
+                "interier_line_dote_colour": "#88B0B9",
+                "act_title_colour": "#88B0B9",
+                "buckect_interier_boarder_colour": "#88B0B9",
+                "func_coll_bg_colour": "#88B0B9",
+                "sub_desc_text_colour": "#FFFFFF",
+                "button_boarder_colour": "#FFFFFF",
+                "location_colour": "#88B0B9"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 13,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-02T11:04:28.319Z",
+            "updatedAt": "2026-02-27T19:09:43.166Z",
+            "expPicture": {
+                "media": null,
+                "mediaType": "IMAGE",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 11,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 10,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 13,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "8",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-02T11:04:28.319Z",
+                "updatedAt": "2026-02-27T19:07:52.752Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 6,
+            "title": "Disgo @ Test",
+            "description": "test",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": true,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    71.192383,
+                    22.258652
+                ]
+            },
+            "address": "address",
+            "isProtected": false,
+            "password": null,
+            "location": null,
+            "color": {
+                "hex": "#000000"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 11,
+            "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+            "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-02T04:26:54.205Z",
+            "updatedAt": "2026-02-02T04:26:54.205Z",
+            "expPicture": {
+                "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1770006411415.png",
+                "mediaType": "png",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 8,
+                    "invitationStatus": "RESPONSE_WAITING",
+                    "InviteUserDetails": null
+                },
+                {
+                    "id": 7,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 11,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "314,314",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-02T04:26:53.777Z",
+                "updatedAt": "2026-02-02T04:26:53.777Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 4,
+            "title": "rents due rave ",
+            "description": "Rave 21+",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 3,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ADMIN",
+            "freeExpCost": 0,
+            "isOnline": false,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "15830 Stagg St",
+            "color": {
+                "hex": "#000000"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 8,
+            "experienceStartDateTime": "2026-02-01T06:44:01.000Z",
+            "experienceEndDateTime": "2026-02-02T06:44:07.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-01T06:51:42.654Z",
+            "updatedAt": "2026-02-01T06:51:42.654Z",
+            "expPicture": {
+                "media": null,
+                "mediaType": "IMAGE",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 3,
+                "userName": "AV",
+                "firstName": "Avsar Kalola",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 20,
+                    "invitationStatus": "JOINED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                },
+                {
+                    "id": 4,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 3,
+                        "userName": "AV",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 8,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "3",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-02-01T06:51:42.634Z",
+                "updatedAt": "2026-02-01T06:51:42.634Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 3,
+            "title": "Google exp",
+            "description": "",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ATTENDEES",
+            "freeExpCost": 0,
+            "isOnline": false,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "",
+            "color": {
+                "hex": "#000000"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 7,
+            "experienceStartDateTime": "2026-01-31T17:52:12.000Z",
+            "experienceEndDateTime": "2026-01-31T17:52:16.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-01-31T17:52:26.274Z",
+            "updatedAt": "2026-01-31T17:52:26.274Z",
+            "expPicture": {
+                "media": null,
+                "mediaType": "IMAGE",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 3,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 7,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "2",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-01-31T17:52:26.271Z",
+                "updatedAt": "2026-01-31T17:52:26.271Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 2,
+            "title": "festival",
+            "description": "Nice Festival Celebration ",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ATTENDEES",
+            "freeExpCost": 0,
+            "isOnline": false,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "",
+            "color": {
+                "hex": "#000000"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 6,
+            "experienceStartDateTime": "2026-01-31T09:29:50.000Z",
+            "experienceEndDateTime": "2026-01-31T09:29:55.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-01-31T09:30:32.850Z",
+            "updatedAt": "2026-01-31T09:30:32.850Z",
+            "expPicture": {
+                "media": null,
+                "mediaType": "IMAGE",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 2,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 6,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "2",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-01-31T09:30:32.846Z",
+                "updatedAt": "2026-01-31T09:30:32.846Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        },
+        {
+            "id": 1,
+            "title": "concentric",
+            "description": "",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 2,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ATTENDEES",
+            "freeExpCost": 0,
+            "isOnline": false,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "",
+            "color": {
+                "hex": "#000000"
+            },
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 3,
+            "experienceStartDateTime": "2026-01-29T12:24:28.000Z",
+            "experienceEndDateTime": "2026-01-29T12:24:33.000Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-01-29T12:24:39.960Z",
+            "updatedAt": "2026-01-29T12:24:39.960Z",
+            "expPicture": {
+                "media": null,
+                "mediaType": "IMAGE",
+                "mediaFor": "EXPERIENCE_PICTURE"
+            },
+            "userDetail": {
+                "id": 2,
+                "userName": "Piyush",
+                "firstName": "piyush",
+                "lastName": null,
+                "middleName": null,
+                "profilePicture": {
+                    "media": null,
+                    "mediaType": "IMAGE",
+                    "mediaFor": "USER_PROFILE_PICTURE"
+                }
+            },
+            "inviteDetails": [
+                {
+                    "id": 1,
+                    "invitationStatus": "ACCEPTED",
+                    "InviteUserDetails": {
+                        "id": 2,
+                        "userName": "Piyush",
+                        "profilePicture": {
+                            "media": null
+                        }
+                    }
+                }
+            ],
+            "setting": {
+                "id": 3,
+                "settingType": "EXPERIENCE",
+                "experienceView": "PUBLIC",
+                "experienceJoin": "PUBLIC",
+                "activityView": "PRIVATE",
+                "activityJoin": "PRIVATE",
+                "meta": null,
+                "showNotification": null,
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "postView": "PRIVATE",
+                "collaborators": "2",
+                "settingFor": null,
+                "parentId": null,
+                "createdAt": "2026-01-29T12:24:39.956Z",
+                "updatedAt": "2026-01-29T12:24:39.956Z"
+            },
+            "isPurchased": false,
+            "isAdmin": false,
+            "isLikedByMe": false
+        }
+    ],
+    "message": "Experiences fetched successfully!",
+    "status": 200
+}
+
+
+
+
+curl --location 'http://api.invixp.com/api/v1/experience/26?timezone=Asia%2FKolkata' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJkYXJzaGl0YWtiYXJpNTc5OUBnbWFpbC5jb20iLCJ1c2VyUm9sZSI6IlVTRVIiLCJzZXNzaW9uSWQiOjI3LCJkZXZpY2VUeXBlIjpudWxsLCJpYXQiOjE3NzI0NDIwOTUsImV4cCI6MTgwMzk3ODA5NX0.RUdl-B6YRRwc8zhHNvmduY-IOfN5pkkVl9MIj5papYM' \
+--data ''
+
+{
+    "data": {
+        "id": 26,
+        "title": "Disgo @ Testyyyyy",
+        "description": "test",
+        "likeCount": 0,
+        "commentCount": 0,
+        "reportCount": 0,
+        "experienceOwnerId": 2,
+        "experienceCost": 0,
+        "experienceFor": "APP",
+        "controlBy": "ADMIN",
+        "freeExpCost": 0,
+        "isOnline": true,
+        "isLocationVisible": false,
+        "geom": {
+            "crs": {
+                "type": "name",
+                "properties": {
+                    "name": "EPSG:4326"
+                }
+            },
+            "type": "Point",
+            "coordinates": [
+                71.192383,
+                22.258652
+            ]
+        },
+        "address": "address",
+        "isProtected": false,
+        "password": null,
+        "location": null,
+        "color": {
+            "act_title_colour": "#2037FF",
+            "comment_text_colour": "#000000",
+            "button_boarder_colour": "#FFFFFF",
+            "act_button_colour": "#FFE3EE",
+            "button_bg_colour": "#FFDFF0",
+            "func_coll_icon_colour": "#171FFF",
+            "background_colour": "#FFC3CD",
+            "sub_desc_view_colour": "#2018FF",
+            "comment_box_colour": "#FFFFFF",
+            "sub_desc_text_colour": "#2C32FF",
+            "button_img_colour": "#FFFFFF",
+            "act_plus_button_colour": "#4142FF",
+            "func_coll_bg_colour": "#FFEBEF",
+            "act_buckect_date_colour": "#FFFFFF",
+            "location_colour": "#110EFF",
+            "title_colour": "#030BFF",
+            "date_colour": "#2404FF",
+            "buckect_interier_boarder_colour": "#142CFF",
+            "button_text_colour": "#1F1AFF",
+            "buckect_interier_colour": "#FFE3F9",
+            "interier_line_dote_colour": "#0012FF",
+            "buckect_plus_colour": "#FFFFFF",
+            "desc_text_colour": "#11FF20",
+            "attendee_text_colour": "#1E1BFF",
+            "act_buckect_location_colour": "#FFFFFF",
+            "interier_time_colour": "#091DFF"
+        },
+        "eventMap": null,
+        "instagramUrl": null,
+        "twitterUrl": null,
+        "facebookUrl": null,
+        "googleUrl": null,
+        "streamLink": "",
+        "settingId": 39,
+        "experienceStartDateTime": "2021-02-21T00:00:00.000Z",
+        "experienceEndDateTime": "2021-02-21T00:00:00.000Z",
+        "meta": null,
+        "isPined": false,
+        "isDisabled": false,
+        "isDeleted": false,
+        "createdBy": "system",
+        "updatedBy": "system",
+        "createdAt": "2026-02-25T09:03:49.879Z",
+        "updatedAt": "2026-02-25T10:12:39.276Z",
+        "setting": {
+            "id": 39,
+            "settingType": "EXPERIENCE",
+            "experienceView": "PUBLIC",
+            "experienceJoin": "PUBLIC",
+            "activityView": "PRIVATE",
+            "activityJoin": "PRIVATE",
+            "meta": null,
+            "showNotification": null,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "postView": "PRIVATE",
+            "collaborators": "314,314",
+            "settingFor": null,
+            "parentId": null,
+            "createdAt": "2026-02-25T09:03:49.879Z",
+            "updatedAt": "2026-02-25T10:12:40.006Z"
+        },
+        "expPicture": {
+            "media": "https://invi-media.s3.amazonaws.com/experiences/experiences_1772014356993.png",
+            "mediaType": "png"
+        },
+        "userDetail": {
+            "id": 2,
+            "userName": "Piyush",
+            "firstName": "piyush",
+            "lastName": null,
+            "middleName": null,
+            "profilePicture": {
+                "media": null,
+                "mediaType": "IMAGE"
+            }
+        },
+        "isLikedByMe": false,
+        "contentList": [],
+        "experienceTaskList": [],
+        "inviteDetails": [
+            {
+                "invitationStatus": "RESPONSE_WAITING",
+                "guest": 314,
+                "host": 2,
+                "hostInviteUserDetails": {
+                    "id": 2,
+                    "userName": "Piyush",
+                    "profilePicture": {
+                        "media": null
+                    }
+                },
+                "inviteType": "Admin"
+            },
+            {
+                "id": 4,
+                "invitationStatus": "JOINED",
+                "guest": 4,
+                "host": 2,
+                "hostInviteUserDetails": {
+                    "id": 2,
+                    "userName": "Piyush",
+                    "profilePicture": {
+                        "media": null
+                    }
+                },
+                "inviteType": "Attendee",
+                "userName": "darshit57",
+                "profilePicture": {
+                    "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                }
+            }
+        ],
+        "activities": {
+            "groupActivities": [],
+            "myActivities": []
+        },
+        "myInvitationStatus": "JOINED",
+        "canCreateActivity": true,
+        "isAdmin": false,
+        "isPurchased": false,
+        "functions": [],
+        "isQuestionnarie": false,
+        "isTicket": false,
+        "collaborators": [
+            {
+                "id": 43,
+                "adminId": 2,
+                "collaboratorFor": "EXPERIENCE",
+                "parentId": 26,
+                "collaboratorId": 314,
+                "collaboratorRole": "ADMIN",
+                "isDeleted": false,
+                "createdBy": "system",
+                "updatedBy": "system",
+                "createdAt": "2026-02-25T10:12:41.728Z",
+                "updatedAt": "2026-02-25T10:12:42.416Z",
+                "collaboratorData": null
+            }
+        ],
+        "userRequestCount": 0,
+        "chatRoomId": 32
+    },
+    "message": "Experiences fetched successfully!",
+    "status": 200
+}
+
+
+
+curl --location 'http://api.invixp.com/api/v1/activity' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJkYXJzaGl0YWtiYXJpNTc5OUBnbWFpbC5jb20iLCJ1c2VyUm9sZSI6IlVTRVIiLCJzZXNzaW9uSWQiOjI3LCJkZXZpY2VUeXBlIjpudWxsLCJpYXQiOjE3NzI0NDIwOTUsImV4cCI6MTgwMzk3ODA5NX0.RUdl-B6YRRwc8zhHNvmduY-IOfN5pkkVl9MIj5papYM' \
+--data ''
+
+{
+    "data": [
+        {
+            "id": 1,
+            "activityName": "testing",
+            "description": "",
+            "experienceId": 18,
+            "activityCost": 0,
+            "activityStartDateTime": "2026-02-05T11:21:07.000Z",
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "color": null,
+            "activityFor": "EXPERIENCE",
+            "address": "",
+            "activityEndDateTime": "2026-02-05T11:21:07.000Z",
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "activitySequenceNumber": null,
+            "activityLocation": "",
+            "isOnline": false,
+            "isDisabled": false,
+            "isLocationVisible": false,
+            "controlBy": "ADMIN",
+            "vendorId": null,
+            "age": 21,
+            "creatorId": 3,
+            "settingId": 25,
+            "reportCount": 0,
+            "ageGroups": "All Age Group",
+            "promo": "-",
+            "includes": "-",
+            "meta": null,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-05T11:27:17.864Z",
+            "updatedAt": "2026-02-05T11:27:17.864Z"
+        },
+        {
+            "id": 2,
+            "activityName": "IIt",
+            "description": "",
+            "experienceId": 17,
+            "activityCost": 0,
+            "activityStartDateTime": "2026-02-04T06:55:00.000Z",
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "color": null,
+            "activityFor": "EXPERIENCE",
+            "address": "",
+            "activityEndDateTime": "2026-02-07T06:55:00.000Z",
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "activitySequenceNumber": null,
+            "activityLocation": "",
+            "isOnline": false,
+            "isDisabled": false,
+            "isLocationVisible": false,
+            "controlBy": "ATTENDEES",
+            "vendorId": null,
+            "age": 0,
+            "creatorId": 2,
+            "settingId": 27,
+            "reportCount": 0,
+            "ageGroups": "All Age Group",
+            "promo": "-",
+            "includes": "-",
+            "meta": null,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-06T08:53:48.062Z",
+            "updatedAt": "2026-02-06T08:53:48.062Z"
+        },
+        {
+            "id": 3,
+            "activityName": "table",
+            "description": "",
+            "experienceId": 19,
+            "activityCost": 0,
+            "activityStartDateTime": "2021-02-21T00:00:00.000Z",
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "color": null,
+            "activityFor": "EXPERIENCE",
+            "address": "",
+            "activityEndDateTime": "2021-02-22T00:00:00.000Z",
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "activitySequenceNumber": null,
+            "activityLocation": "",
+            "isOnline": false,
+            "isDisabled": false,
+            "isLocationVisible": false,
+            "controlBy": "ATTENDEES",
+            "vendorId": null,
+            "age": 0,
+            "creatorId": 2,
+            "settingId": 31,
+            "reportCount": 0,
+            "ageGroups": "All Age Group",
+            "promo": "-",
+            "includes": "-",
+            "meta": null,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-07T08:00:27.009Z",
+            "updatedAt": "2026-02-07T08:00:27.009Z"
+        },
+        {
+            "id": 4,
+            "activityName": "arrive i suuuurat",
+            "description": "it is a good place",
+            "experienceId": null,
+            "activityCost": 0,
+            "activityStartDateTime": "2020-09-17T11:23:16.000Z",
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "color": null,
+            "activityFor": "USER",
+            "address": null,
+            "activityEndDateTime": "2020-09-18T11:23:16.000Z",
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "activitySequenceNumber": null,
+            "activityLocation": "surat",
+            "isOnline": false,
+            "isDisabled": false,
+            "isLocationVisible": false,
+            "controlBy": "ATTENDEES",
+            "vendorId": null,
+            "age": 0,
+            "creatorId": 2,
+            "settingId": 32,
+            "reportCount": 0,
+            "ageGroups": "All Age Group",
+            "promo": "-",
+            "includes": "-",
+            "meta": null,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-08T03:58:46.898Z",
+            "updatedAt": "2026-02-08T03:58:46.898Z"
+        }
+    ],
+    "message": "Activity fetched successfully!",
+    "status": 200
+}
+
+
+
+curl --location 'http://api.invixp.com/api/v1/activity/5' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJkYXJzaGl0YWtiYXJpNTc5OUBnbWFpbC5jb20iLCJ1c2VyUm9sZSI6IlVTRVIiLCJzZXNzaW9uSWQiOjI3LCJkZXZpY2VUeXBlIjpudWxsLCJpYXQiOjE3NzI0NDIwOTUsImV4cCI6MTgwMzk3ODA5NX0.RUdl-B6YRRwc8zhHNvmduY-IOfN5pkkVl9MIj5papYM' \
+--data ''
+
+{
+    "data": {
+        "id": 5,
+        "activityName": "test",
+        "description": "Desc",
+        "experienceId": 31,
+        "activityCost": 0,
+        "activityStartDateTime": "2026-02-28T15:03:22.000Z",
+        "geom": {
+            "crs": {
+                "type": "name",
+                "properties": {
+                    "name": "EPSG:4326"
+                }
+            },
+            "type": "Point",
+            "coordinates": [
+                0,
+                0
+            ]
+        },
+        "color": null,
+        "activityFor": "EXPERIENCE",
+        "address": "",
+        "activityEndDateTime": "2026-02-28T15:03:22.000Z",
+        "instagramUrl": null,
+        "twitterUrl": null,
+        "facebookUrl": null,
+        "googleUrl": null,
+        "streamLink": "",
+        "activitySequenceNumber": null,
+        "activityLocation": "",
+        "isOnline": true,
+        "isDisabled": false,
+        "isLocationVisible": false,
+        "controlBy": "ADMIN",
+        "vendorId": null,
+        "age": 0,
+        "creatorId": 4,
+        "settingId": 53,
+        "reportCount": 0,
+        "ageGroups": "All Age Group",
+        "promo": "-",
+        "includes": "-",
+        "meta": null,
+        "isDeleted": false,
+        "createdBy": "system",
+        "updatedBy": "system",
+        "createdAt": "2026-03-02T09:17:20.561Z",
+        "updatedAt": "2026-03-02T09:17:20.561Z",
+        "inviteDetails": [
+            {
+                "id": 4,
+                "guest": 4,
+                "host": 4,
+                "invitationStatus": "ACCEPTED",
+                "inviteType": "Creator",
+                "userName": "darshit57",
+                "profilePicture": {
+                    "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+                }
+            }
+        ],
+        "viewCount": 0,
+        "chatRoom": {
+            "id": 39,
+            "groupCreateBy": 4,
+            "parentId": 5,
+            "participateIds": [
+                4
+            ],
+            "name": null,
+            "roomType": "ACTIVITY",
+            "settingId": null,
+            "meta": null,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-03-02T09:17:20.648Z",
+            "updatedAt": "2026-03-02T09:17:20.648Z"
+        },
+        "experienceDetail": {
+            "id": 31,
+            "title": "oracle",
+            "description": "Oracle explained ",
+            "likeCount": 0,
+            "commentCount": 0,
+            "reportCount": 0,
+            "experienceOwnerId": 4,
+            "experienceCost": 0,
+            "experienceFor": "APP",
+            "controlBy": "ATTENDEES",
+            "freeExpCost": 0,
+            "isOnline": false,
+            "isLocationVisible": false,
+            "geom": {
+                "crs": {
+                    "type": "name",
+                    "properties": {
+                        "name": "EPSG:4326"
+                    }
+                },
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "address": "",
+            "isProtected": false,
+            "password": "",
+            "location": "",
+            "color": {},
+            "eventMap": null,
+            "instagramUrl": null,
+            "twitterUrl": null,
+            "facebookUrl": null,
+            "googleUrl": null,
+            "streamLink": "",
+            "settingId": 51,
+            "experienceStartDateTime": "2026-02-28T15:03:22.022Z",
+            "experienceEndDateTime": "2026-03-02T15:03:25.025Z",
+            "meta": null,
+            "isPined": false,
+            "isDisabled": false,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "createdAt": "2026-02-27T15:03:32.512Z",
+            "updatedAt": "2026-02-27T15:07:24.915Z",
+            "inviteDetails": [
+                {
+                    "id": 66,
+                    "guest": 4,
+                    "host": 4,
+                    "parentId": 31,
+                    "inviteType": "EXP",
+                    "invitedAt": "2026-02-27T15:03:32.818Z",
+                    "invitationStatus": "ACCEPTED",
+                    "declineReason": null,
+                    "meta": null,
+                    "isDeleted": false,
+                    "createdBy": "system",
+                    "updatedBy": "system",
+                    "createdAt": "2026-02-27T15:03:32.819Z",
+                    "updatedAt": "2026-02-27T15:03:32.819Z"
+                }
+            ]
+        },
+        "activityPicture": {
+            "media": "https://invi-media.s3.amazonaws.com/activities/activities_1772443039491.jpeg",
+            "mediaType": "jpeg"
+        },
+        "posts": [],
+        "creator": {
+            "id": 4,
+            "userName": "darshit57",
+            "profilePicture": {
+                "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg"
+            }
+        },
+        "activitySettings": {
+            "id": 53,
+            "settingType": "ACTIVITY",
+            "experienceView": "PRIVATE",
+            "experienceJoin": "PRIVATE",
+            "activityView": "PUBLIC",
+            "activityJoin": "PUBLIC",
+            "meta": null,
+            "showNotification": null,
+            "isDeleted": false,
+            "createdBy": "system",
+            "updatedBy": "system",
+            "postView": "PRIVATE",
+            "collaborators": "4",
+            "settingFor": null,
+            "parentId": null,
+            "createdAt": "2026-03-02T09:17:20.556Z",
+            "updatedAt": "2026-03-02T09:17:20.556Z"
+        },
+        "socialDetail": null,
+        "myInvitationStatus": "ACCEPTED",
+        "isPurchased": false,
+        "isQuestionnarie": false,
+        "isTicket": false,
+        "functions": [],
+        "collaborators": [
+            {
+                "id": 4,
+                "email": "darshitakbari5799@gmail.com",
+                "bio": null,
+                "profileSetting": "PUBLIC",
+                "userName": "darshit57",
+                "firstName": "Darshit Akbari",
+                "isDeleted": false,
+                "settingId": 23,
+                "countryCode": 91,
+                "followerCount": 1,
+                "followingCount": 2,
+                "experienceCount": 2,
+                "directMessageType": "OPEN",
+                "location": null,
+                "contactNumber": "9712697297",
+                "fullNameSetting": "EVERY_ONE",
+                "soil": 0,
+                "profilePicture": {
+                    "id": 24,
+                    "media": "https://invi-media.s3.amazonaws.com/users/users_1770288355773.jpeg",
+                    "mediaType": "jpeg",
+                    "mediaFor": "USER_PROFILE_PICTURE",
+                    "parentId": 4,
+                    "isDeleted": false
+                },
+                "backgroundPicture": null
+            }
+        ],
+        "userRequestCount": 0,
+        "isAdmin": true,
+        "isUserJoined": true
+    },
+    "message": "Activity fetched successfully!",
+    "status": 200
+}
