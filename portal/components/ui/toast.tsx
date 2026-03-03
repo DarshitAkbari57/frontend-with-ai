@@ -110,7 +110,12 @@ const ToastDescription = React.forwardRef<
 ));
 ToastDescription.displayName = ToastPrimitives.Description.displayName;
 
-type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>;
+interface ToastOptions {
+  title?: string;
+  description?: string;
+  variant?: 'default' | 'destructive';
+  action?: React.ReactNode;
+}
 
 type ToastActionElement = React.ReactElement<typeof ToastAction>;
 
@@ -125,7 +130,7 @@ type ToastData = {
   title?: string;
   description?: string;
   variant?: 'default' | 'destructive';
-  action?: ToastActionElement;
+  action?: React.ReactNode;
 };
 
 const toastListeners = new Set<(toast: ToastData) => void>();
@@ -134,7 +139,7 @@ function emitToast(toast: ToastData) {
   toastListeners.forEach((listener) => listener(toast));
 }
 
-export function toast({ title, description, variant, action }: ToastProps & { variant?: 'default' | 'destructive' }) {
+export function toast({ title, description, variant, action }: ToastOptions = {}) {
   const id = generateToastId();
   const data: ToastData = { id, title, description, variant, action };
   emitToast(data);

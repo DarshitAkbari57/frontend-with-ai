@@ -1,3 +1,72 @@
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface Booking {
+  id: number;
+  [key: string]: any;
+}
+
+export interface Ticket {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  [key: string]: any;
+}
+
+export interface Activity {
+  id: number;
+  activityName: string;
+  description: string;
+  experienceId: number;
+  activityCost: number;
+  activityStartDateTime: string;
+  geom: {
+    crs: {
+      type: string;
+      properties: {
+        name: string;
+      };
+    };
+    type: string;
+    coordinates: [number, number];
+  };
+  color: any;
+  activityFor: string;
+  address: string;
+  activityEndDateTime: string;
+  instagramUrl: string | null;
+  twitterUrl: string | null;
+  facebookUrl: string | null;
+  googleUrl: string | null;
+  streamLink: string;
+  activitySequenceNumber: any;
+  activityLocation: string;
+  isOnline: boolean;
+  isDisabled: boolean;
+  isLocationVisible: boolean;
+  controlBy: string;
+  vendorId: any;
+  age: number;
+  creatorId: number;
+  settingId: number;
+  reportCount: number;
+  ageGroups: string;
+  promo: string;
+  includes: string;
+  meta: any;
+  isDeleted: boolean;
+  createdBy: string;
+  updatedBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Experience {
   id: number;
   title: string;
@@ -9,6 +78,7 @@ export interface Experience {
   experienceCost: number;
   experienceFor: string;
   controlBy: string;
+
   freeExpCost: number;
   isOnline: boolean;
   isLocationVisible: boolean;
@@ -94,52 +164,6 @@ export interface Experience {
   isPurchased: boolean;
   isAdmin: boolean;
   isLikedByMe: boolean;
-}
-
-export interface Activity {
-  id: number;
-  activityName: string;
-  description: string;
-  experienceId: number;
-  activityCost: number;
-  activityStartDateTime: string;
-  geom: {
-    crs: {
-      type: string;
-      properties: {
-        name: string;
-      };
-    };
-    type: string;
-    coordinates: [number, number];
-  };
-  color: any;
-  activityFor: string;
-  address: string;
-  activityEndDateTime: string;
-  instagramUrl: string | null;
-  twitterUrl: string | null;
-  facebookUrl: string | null;
-  googleUrl: string | null;
-  streamLink: string;
-  activitySequenceNumber: any;
-  activityLocation: string;
-  isOnline: boolean;
-  isDisabled: boolean;
-  isLocationVisible: boolean;
-  controlBy: string;
-  vendorId: any;
-  age: number;
-  creatorId: number;
-  settingId: number;
-  reportCount: number;
-  ageGroups: string;
-  promo: string;
-  includes: string;
-  meta: any;
-  isDeleted: boolean;
-  createdBy: string;
-  updatedBy: string;
-  createdAt: string;
-  updatedAt: string;
+  tickets?: Ticket[];
+  activities?: Activity[];
 }

@@ -1,4 +1,6 @@
-import { Experience } from '@/types/api';
+'use client';
+
+import type { Experience } from '@/types/api';
 
 export async function getExperiences(params: {
   page?: number;
@@ -18,7 +20,6 @@ export async function getExperiences(params: {
   if (params.limit !== undefined) {
     query.append('limit', params.limit.toString());
   }
-  // Append other filter parameters
   Object.entries(params).forEach(([key, value]) => {
     if (key !== 'page' && key !== 'limit' && value !== undefined && value !== null) {
       query.append(key, String(value));
@@ -28,6 +29,37 @@ export async function getExperiences(params: {
   const res = await fetch(`/api/experiences?${query.toString()}`);
   if (!res.ok) {
     throw new Error('Failed to fetch experiences');
+  }
+  return res.json();
+}
+
+export async function getExperienceById(id: number): Promise<Experience> {
+  const res = await fetch(`/api/experiences/${id}`);
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.error || 'Failed to fetch experience');
+  }
+  return res.json();
+}
+
+export async function deleteExperience(id: number): Promise<{ success: boolean }> {
+  const res = await fetch(`/api/experiences/${id}`, { method: 'DELETE' });
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.error || 'Failed to delete experience');
+  }
+  return res.json();
+}
+
+export async function updateExperience(id: number, updates: Partial<Experience>): Promise<Experience> {
+  const res = await fetch(`/api/experiences/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updates),
+  });
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.error || 'Failed to update experience');
   }
   return res.json();
 }
