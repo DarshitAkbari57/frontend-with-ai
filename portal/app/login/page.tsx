@@ -7,10 +7,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
+import { CountryPicker } from '@/components/auth/country-picker';
+
 export default function LoginPage() {
   const router = useRouter();
-  const [mobileNumber, setMobileNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [countryCode, setCountryCode] = useState('+91');
+  const [userRole] = useState('user');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,7 +29,7 @@ export default function LoginPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ mobileNumber, password }),
+        body: JSON.stringify({ email, password, countryCode, userRole }),
       });
 
       if (res.ok) {
@@ -54,17 +58,27 @@ export default function LoginPage() {
                 {error}
               </div>
             )}
-            <div className="space-y-2">
-              <Label htmlFor="mobileNumber">Mobile Number</Label>
-              <Input
-                id="mobileNumber"
-                type="tel"
-                placeholder="Enter your mobile number"
-                value={mobileNumber}
-                onChange={(e) => setMobileNumber(e.target.value)}
-                required
-                disabled={isLoading}
-              />
+            <div className="grid grid-cols-4 gap-4">
+              <div className="col-span-1 space-y-2">
+                <Label htmlFor="countryCode">Code</Label>
+                <CountryPicker
+                  value={countryCode}
+                  onChange={setCountryCode}
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="col-span-3 space-y-2">
+                <Label htmlFor="email">Email / Mobile</Label>
+                <Input
+                  id="email"
+                  type="text"
+                  placeholder="Enter your email or mobile"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
@@ -79,7 +93,7 @@ export default function LoginPage() {
               />
             </div>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="pt-4">
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>

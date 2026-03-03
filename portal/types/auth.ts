@@ -7,10 +7,17 @@ export interface AuthTokens {
 }
 
 export interface User {
-  sub: string;
-  email?: string;
-  phone_number?: string;
-  given_name?: string;
-  family_name?: string;
+  id: number;
+  email: string;
+  userName: string;
+  firstName: string;
+  lastName: string | null;
+  userRole: string;
+  contactNumber: string;
+  profilePicture?: {
+    media: string;
+    mediaType: string;
+    mediaFor: string;
+  };
   [key: string]: any;
 }
