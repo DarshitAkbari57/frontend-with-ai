@@ -37,7 +37,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <h2 className="text-lg font-semibold">Portal</h2>
           <nav className="mt-6 space-y-2">
             {navItems.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive =
+                pathname === item.href ||
+                (item.href !== '/dashboard' && pathname.startsWith(`${item.href}/`));
               return (
                 <Link
                   key={item.href}
