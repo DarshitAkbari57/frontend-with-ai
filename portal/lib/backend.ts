@@ -16,6 +16,7 @@ function normalizeToken(token?: string): string | undefined {
 export async function fetchFromBackend<T>(path: string, options: RequestInit = {}): Promise<T> {
   const cookieStore = await cookies();
   const idToken = cookieStore.get('idToken')?.value;
+  const accessToken = cookieStore.get('accessToken')?.value;
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!baseUrl) {
@@ -75,6 +76,7 @@ export async function fetchFromBackend<T>(path: string, options: RequestInit = {
 export async function fetchBackendRaw<T>(path: string, options: RequestInit = {}): Promise<{ data: T } & Record<string, any>> {
   const cookieStore = await cookies();
   const idToken = cookieStore.get('idToken')?.value;
+  const accessToken = cookieStore.get('accessToken')?.value;
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!baseUrl) {
