@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/toast';
@@ -108,26 +109,30 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
   });
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="truncate">{activity.activityName}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-zinc-600 line-clamp-2">{activity.description}</p>
-        <div className="mt-3 flex items-center justify-between text-sm">
-          <span className="truncate">{activity.address || 'No address'}</span>
-          <span>{activity.activityCost === 0 ? 'Free' : `$${activity.activityCost}`}</span>
-        </div>
-        <div className="mt-2 text-sm text-zinc-500">
-          {formatDateTime(activity.activityStartDateTime)}
-        </div>
-        {activity.isOnline && (
-          <div className="mt-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
-            Online
+    <Card className="hover:shadow-lg transition-shadow">
+      <Link href={`/activities/${activity.id}`} className="block">
+        <CardHeader>
+          <CardTitle className="truncate hover:text-blue-600">{activity.activityName}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-zinc-600 line-clamp-2">{activity.description}</p>
+          <div className="mt-3 flex items-center justify-between text-sm">
+            <span className="truncate">{activity.address || 'No address'}</span>
+            <span>{activity.activityCost === 0 ? 'Free' : `$${activity.activityCost}`}</span>
           </div>
-        )}
-        {activity.isAdmin && (
-          <div className="mt-4 flex gap-2">
+          <div className="mt-2 text-sm text-zinc-500">
+            {formatDateTime(activity.activityStartDateTime)}
+          </div>
+          {activity.isOnline && (
+            <div className="mt-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
+              Online
+            </div>
+          )}
+        </CardContent>
+      </Link>
+      {activity.isAdmin && (
+        <CardContent className="pt-0">
+          <div className="flex gap-2">
             <Button size="sm" variant="outline" onClick={() => toggleMutation.mutate()} disabled={toggleMutation.isPending}>
               {toggleMutation.isPending ? 'Updating...' : activity.isDisabled ? 'Enable' : 'Disable'}
             </Button>
@@ -135,8 +140,8 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
               {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
             </Button>
           </div>
-        )}
-      </CardContent>
+        </CardContent>
+      )}
     </Card>
   );
 }
