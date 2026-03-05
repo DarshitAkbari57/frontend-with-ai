@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ArrowLeft, CalendarDays, Globe, MapPin, UsersRound, Clock3, Link2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -58,14 +58,10 @@ export default function ExperienceDetailPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const experienceId = Number(params?.id);
-  const [imageFailed, setImageFailed] = useState(false);
+  const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null);
   const { data: experience, isLoading, error } = useExperience(
     Number.isFinite(experienceId) ? experienceId : undefined
   );
-
-  useEffect(() => {
-    setImageFailed(false);
-  }, [experience?.expPicture?.media]);
 
   const handleBackToExperiences = () => {
     if (window.history.length > 1) {
@@ -118,8 +114,8 @@ export default function ExperienceDetailPage() {
 
   const activities = normalizeActivities(experience);
   const tickets = normalizeTickets(experience);
-  const imageUrl = experience.expPicture?.media;
-  const shouldShowImage = Boolean(imageUrl) && !imageFailed;
+  const imageUrl = experience.expPicture?.media ?? null;
+  const shouldShowImage = Boolean(imageUrl) && failedImageUrl !== imageUrl;
 
   const socialLinks = [
     { label: 'Instagram', href: experience.instagramUrl },
@@ -161,11 +157,11 @@ export default function ExperienceDetailPage() {
                 priority
                 sizes="(max-width: 1024px) 100vw, 70vw"
                 unoptimized
-                onError={() => setImageFailed(true)}
+                onError={() => setFailedImageUrl(imageUrl)}
                 className="object-cover"
               />
             ) : (
-              <div className="flex h-full items-center justify-center bg-gradient-to-br from-zinc-100 via-zinc-200 to-zinc-300 text-sm font-medium text-zinc-500 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-300">
+              <div className="flex h-full items-center justify-center bg-linear-to-br from-zinc-100 via-zinc-200 to-zinc-300 text-sm font-medium text-zinc-500 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-300">
                 No cover image available
               </div>
             )}

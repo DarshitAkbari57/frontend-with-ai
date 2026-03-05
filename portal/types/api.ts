@@ -4,6 +4,8 @@ export interface PaginatedResponse<T> {
   page: number;
   limit: number;
   totalPages: number;
+  hasMore?: boolean;
+  hasExactTotal?: boolean;
 }
 
 export interface Booking {

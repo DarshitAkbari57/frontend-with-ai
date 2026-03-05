@@ -28,10 +28,13 @@ export default function ExperiencesPage() {
   }, [error]);
 
   const totalPages = data?.totalPages ?? 1;
+  const canGoNext = data?.hasMore ?? page < totalPages;
+  const hasExactTotal = data?.hasExactTotal ?? false;
   const experiences = data?.data ?? [];
 
   const handlePageChange = (newPage: number) => {
-    setPage(newPage);
+    const safePage = Math.max(1, newPage);
+    setPage((prevPage) => (prevPage === safePage ? prevPage : safePage));
   };
 
   const handleLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -50,9 +53,15 @@ export default function ExperiencesPage() {
               Explore all experiences from backend data. Click any card to open full details.
             </p>
           </div>
-          <div className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900">
-            <span className="font-semibold">{data?.total ?? 0}</span> total experiences
-          </div>
+          {hasExactTotal ? (
+            <div className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900">
+              <span className="font-semibold">{data?.total ?? 0}</span> total experiences
+            </div>
+          ) : (
+            <div className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+              Total count unavailable
+            </div>
+          )}
         </div>
       </div>
 
@@ -98,34 +107,32 @@ export default function ExperiencesPage() {
               No experiences found for the selected page size.
             </div>
           ) : (
-            <>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {experiences.map((experience) => (
-                  <ExperienceCard key={experience.id} experience={experience} />
-                ))}
-              </div>
-
-              <div className="flex items-center justify-between rounded-xl border border-zinc-200/80 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-                <Button
-                  variant="outline"
-                  onClick={() => handlePageChange(page - 1)}
-                  disabled={page === 1 || isFetching}
-                >
-                  Previous
-                </Button>
-                <div className="text-sm text-zinc-600 dark:text-zinc-300">
-                  Page {page} of {totalPages}
-                </div>
-                <Button
-                  variant="outline"
-                  onClick={() => handlePageChange(page + 1)}
-                  disabled={page >= totalPages || isFetching}
-                >
-                  Next
-                </Button>
-              </div>
-            </>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {experiences.map((experience) => (
+                <ExperienceCard key={experience.id} experience={experience} />
+              ))}
+            </div>
           )}
+
+          <div className="flex items-center justify-between rounded-xl border border-zinc-200/80 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+            <Button
+              variant="outline"
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1 || isFetching}
+            >
+              Previous
+            </Button>
+            <div className="text-sm text-zinc-600 dark:text-zinc-300">
+              {hasExactTotal ? `Page ${page} of ${totalPages}` : `Page ${page}`}
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => handlePageChange(page + 1)}
+              disabled={!canGoNext || isFetching}
+            >
+              Next
+            </Button>
+          </div>
         </>
       )}
     </div>

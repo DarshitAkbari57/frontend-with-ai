@@ -12,6 +12,8 @@ export async function getExperiences(params: {
   page: number;
   limit: number;
   totalPages: number;
+  hasMore?: boolean;
+  hasExactTotal?: boolean;
 }> {
   const query = new URLSearchParams();
   if (params.page !== undefined) {

@@ -55,8 +55,16 @@ export async function GET(request: NextRequest) {
       body: JSON.stringify(body),
     });
 
-    const total = response.total ?? response.data.length;
-    const totalPages = Math.ceil(total / limit);
+    const hasExactTotal = typeof response.total === 'number' && Number.isFinite(response.total);
+    const total = hasExactTotal
+      ? Math.max(0, response.total as number)
+      : Math.max(0, (page - 1) * limit + response.data.length);
+    const hasMore = hasExactTotal
+      ? page * limit < total
+      : response.data.length === limit;
+    const totalPages = hasExactTotal
+      ? Math.max(1, Math.ceil(total / limit))
+      : Math.max(1, page + (hasMore ? 1 : 0));
 
     return NextResponse.json({
       data: response.data,
@@ -64,6 +72,8 @@ export async function GET(request: NextRequest) {
       page,
       limit,
       totalPages,
+      hasMore,
+      hasExactTotal,
     });
   } catch (error: any) {
     const status = error.status || 500;

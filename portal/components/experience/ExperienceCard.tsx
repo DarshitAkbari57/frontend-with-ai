@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Experience } from '@/types/api';
 import { CalendarDays, MapPin, UserRound } from 'lucide-react';
@@ -26,11 +26,7 @@ function formatDate(dateString: string) {
 
 export default function ExperienceCard({ experience }: ExperienceCardProps) {
   const router = useRouter();
-  const [imageFailed, setImageFailed] = useState(false);
-
-  useEffect(() => {
-    setImageFailed(false);
-  }, [experience.expPicture?.media]);
+  const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null);
 
   const handleOpenDetails = () => {
     router.push(`/experiences/${experience.id}`);
@@ -44,8 +40,8 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
   };
 
   const costLabel = experience.experienceCost > 0 ? `$${experience.experienceCost}` : 'Free';
-  const imageUrl = experience.expPicture?.media;
-  const shouldShowImage = Boolean(imageUrl) && !imageFailed;
+  const imageUrl = experience.expPicture?.media ?? null;
+  const shouldShowImage = Boolean(imageUrl) && failedImageUrl !== imageUrl;
 
   return (
     <Card
@@ -53,7 +49,7 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
       tabIndex={0}
       onClick={handleOpenDetails}
       onKeyDown={handleKeyDown}
-      className="group cursor-pointer overflow-hidden border-zinc-200/80 !py-0 !gap-0 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-zinc-800"
+      className="group cursor-pointer overflow-hidden border-zinc-200/80 py-0 gap-0 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-zinc-800"
     >
       <div className="relative h-44 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
         {shouldShowImage ? (
@@ -63,11 +59,11 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             unoptimized
-            onError={() => setImageFailed(true)}
+            onError={() => setFailedImageUrl(imageUrl)}
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full items-center justify-center bg-gradient-to-br from-zinc-100 via-zinc-200 to-zinc-300 text-sm font-medium text-zinc-500 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-300">
+          <div className="flex h-full items-center justify-center bg-linear-to-br from-zinc-100 via-zinc-200 to-zinc-300 text-sm font-medium text-zinc-500 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-300">
             No image available
           </div>
         )}
