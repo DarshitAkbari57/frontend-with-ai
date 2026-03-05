@@ -132,7 +132,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
             <img
               src={activity.activityPicture.media}
               alt={activity.activityName}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-fill"
               onError={(e) => {
                 const target = e.currentTarget;
                 target.style.display = 'none';
