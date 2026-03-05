@@ -66,6 +66,10 @@ export interface Activity {
   createdAt: string;
   updatedAt: string;
   isAdmin?: boolean;
+  activityPicture?: {
+    media: string;
+    mediaType: string;
+  } | null;
 }
 
 export interface Experience {

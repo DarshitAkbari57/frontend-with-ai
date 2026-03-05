@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchBackendRaw } from '@/lib/backend';
+import { fetchBackendRaw, fetchFromBackend } from '@/lib/backend';
 import type { Activity } from '@/types/api';
 
 function toPositiveInt(value: string | null, fallback: number): number {
@@ -42,8 +42,26 @@ export async function GET(request: NextRequest) {
     const startIndex = (safePage - 1) * limit;
     const data = activities.slice(startIndex, startIndex + limit);
 
+    // Enrich paginated activities with activityPicture from detail endpoint
+    const enriched = await Promise.all(
+      data.map(async (activity) => {
+        try {
+          const detail = await fetchFromBackend<any>(
+            `/activity/${activity.id}`,
+            { method: 'GET' }
+          );
+          return {
+            ...activity,
+            activityPicture: detail.activityPicture ?? null,
+          };
+        } catch {
+          return { ...activity, activityPicture: null };
+        }
+      })
+    );
+
     return NextResponse.json({
-      data,
+      data: enriched,
       total,
       page: safePage,
       limit,

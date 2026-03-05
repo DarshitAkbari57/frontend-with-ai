@@ -134,6 +134,21 @@ export default function ActivityDetailPage() {
         </Link>
       </div>
 
+      {/* Activity Image */}
+      <div className="w-full h-64 md:h-80 rounded-lg overflow-hidden">
+        {activity.activityPicture?.media ? (
+          <img
+            src={activity.activityPicture.media}
+            alt={activity.activityName}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-zinc-100 via-zinc-200 to-zinc-300 text-sm font-medium text-zinc-400 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-500">
+            No image available
+          </div>
+        )}
+      </div>
+
       {/* Basic Information */}
       <Card>
         <CardHeader>
@@ -270,31 +285,6 @@ export default function ActivityDetailPage() {
             <a href={activity.streamLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">
               {activity.streamLink}
             </a>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Admin Actions */}
-      {activity.isAdmin && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Admin Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={() => toggleMutation.mutate()}
-              disabled={toggleMutation.isPending}
-            >
-              {toggleMutation.isPending ? 'Updating...' : activity.isDisabled ? 'Enable Activity' : 'Disable Activity'}
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => deleteMutation.mutate()}
-              disabled={deleteMutation.isPending}
-            >
-              {deleteMutation.isPending ? 'Deleting...' : 'Delete Activity'}
-            </Button>
           </CardContent>
         </Card>
       )}
