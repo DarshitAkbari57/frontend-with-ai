@@ -15,8 +15,7 @@ function normalizeToken(token?: string): string | undefined {
 
 export async function fetchFromBackend<T>(path: string, options: RequestInit = {}): Promise<T> {
   const cookieStore = await cookies();
-  const accessToken = normalizeToken(cookieStore.get('accessToken')?.value);
-  const idToken = normalizeToken(cookieStore.get('idToken')?.value);
+  const idToken = cookieStore.get('idToken')?.value;
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!baseUrl) {
@@ -32,9 +31,8 @@ export async function fetchFromBackend<T>(path: string, options: RequestInit = {
     ...options.headers,
   };
 
-  const tokenForRequest = accessToken || idToken;
-  if (tokenForRequest) {
-    (headers as Record<string, string>)['Authorization'] = `Bearer ${tokenForRequest}`;
+  if (idToken) {
+    (headers as Record<string, string>)['Authorization'] = `Bearer ${idToken}`;
   }
 
   let response = await fetch(url, {
@@ -76,8 +74,7 @@ export async function fetchFromBackend<T>(path: string, options: RequestInit = {
 // Helper that returns full backend response (including metadata like total)
 export async function fetchBackendRaw<T>(path: string, options: RequestInit = {}): Promise<{ data: T } & Record<string, any>> {
   const cookieStore = await cookies();
-  const accessToken = normalizeToken(cookieStore.get('accessToken')?.value);
-  const idToken = normalizeToken(cookieStore.get('idToken')?.value);
+  const idToken = cookieStore.get('idToken')?.value;
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!baseUrl) {
@@ -92,9 +89,8 @@ export async function fetchBackendRaw<T>(path: string, options: RequestInit = {}
     ...options.headers,
   };
 
-  const tokenForRequest = accessToken || idToken;
-  if (tokenForRequest) {
-    (headers as Record<string, string>)['Authorization'] = `Bearer ${tokenForRequest}`;
+  if (idToken) {
+    (headers as Record<string, string>)['Authorization'] = `Bearer ${idToken}`;
   }
 
   let response = await fetch(url, {
