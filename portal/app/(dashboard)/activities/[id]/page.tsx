@@ -140,7 +140,7 @@ export default function ActivityDetailPage() {
           <img
             src={activity.activityPicture.media}
             alt={activity.activityName}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-fill"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-zinc-100 via-zinc-200 to-zinc-300 text-sm font-medium text-zinc-400 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-500">
