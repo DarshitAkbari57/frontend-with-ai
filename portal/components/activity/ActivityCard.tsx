@@ -1,11 +1,13 @@
 'use client';
 
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/toast';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import type { Activity } from '@/types/api';
-import { deleteActivity, updateActivity } from '@/services/activityService';
+import { CalendarDays, MapPin, UserRound, ArrowRight, Shield, Globe, Clock } from 'lucide-react';
+import { deleteActivity, updateActivity } from '@/lib/api';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -26,11 +28,24 @@ function formatDateTime(dateString: string) {
   }).format(date);
 }
 
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) {
+    return 'Date unavailable';
+  }
+
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(date);
+}
+
 export default function ActivityCard({ activity }: ActivityCardProps) {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: () => deleteActivity(activity.id),
+    mutationFn: () => deleteActivity(activity.id.toString()),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['activities'] });
       const queries = queryClient.getQueriesData<{ data: Activity[]; total: number; page: number; limit: number; totalPages: number }>({ queryKey: ['activities'] });
@@ -64,7 +79,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
   });
 
   const toggleMutation = useMutation({
-    mutationFn: () => updateActivity(activity.id, { isDisabled: !activity.isDisabled }),
+    mutationFn: () => updateActivity(activity.id.toString(), { isDisabled: !activity.isDisabled }),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['activities'] });
       await queryClient.cancelQueries({ queryKey: ['activity', activity.id] });
@@ -100,43 +115,83 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
         description: toggleMutation.isError
           ? (toggleMutation.error as Error).message
           : activity.isDisabled
-          ? 'Activity enabled'
-          : 'Activity disabled',
+            ? 'Activity enabled'
+            : 'Activity disabled',
         variant: toggleMutation.isError ? 'destructive' : 'default',
       });
     },
   });
 
+  const costLabel = activity.activityCost > 0 ? `$${activity.activityCost}` : 'Free';
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="truncate">{activity.activityName}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-zinc-600 line-clamp-2">{activity.description}</p>
-        <div className="mt-3 flex items-center justify-between text-sm">
-          <span className="truncate">{activity.address || 'No address'}</span>
-          <span>{activity.activityCost === 0 ? 'Free' : `$${activity.activityCost}`}</span>
-        </div>
-        <div className="mt-2 text-sm text-zinc-500">
-          {formatDateTime(activity.activityStartDateTime)}
-        </div>
-        {activity.isOnline && (
-          <div className="mt-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
-            Online
+    <Link href={`/activities/${activity.id}`} className="block h-full">
+      <Card className="group cursor-pointer overflow-hidden border-zinc-200/80 !py-0 !gap-0 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-zinc-800 h-full flex flex-col">
+        <div className="relative h-32 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+          {activity.activityPicture?.media ? (
+            <img
+              src={activity.activityPicture.media}
+              alt={activity.activityName}
+              className="h-full w-full object-cover"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = 'none';
+                target.parentElement?.querySelector('[data-placeholder]')?.classList.remove('hidden');
+              }}
+            />
+          ) : null}
+          <div
+            data-placeholder
+            className={`flex h-full items-center justify-center bg-gradient-to-br from-zinc-100 via-zinc-200 to-zinc-300 text-sm font-medium text-zinc-400 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-500 ${activity.activityPicture?.media ? 'hidden absolute inset-0' : ''}`}
+          >
+            No image available
           </div>
-        )}
-        {activity.isAdmin && (
-          <div className="mt-4 flex gap-2">
-            <Button size="sm" variant="outline" onClick={() => toggleMutation.mutate()} disabled={toggleMutation.isPending}>
-              {toggleMutation.isPending ? 'Updating...' : activity.isDisabled ? 'Enable' : 'Disable'}
-            </Button>
-            <Button size="sm" variant="destructive" onClick={() => deleteMutation.mutate()} disabled={deleteMutation.isPending}>
-              {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
-            </Button>
+          <div className="absolute left-3 top-3 rounded-full bg-black/70 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+            {costLabel}
           </div>
-        )}
-      </CardContent>
-    </Card>
+          {activity.isOnline && (
+            <div className="absolute right-3 top-3 rounded-full bg-emerald-500/90 px-2.5 py-1 text-xs font-semibold text-white">
+              Online
+            </div>
+          )}
+        </div>
+
+        <CardHeader className="pb-3">
+          <CardTitle className="line-clamp-1 text-lg">{activity.activityName}</CardTitle>
+        </CardHeader>
+
+        <CardContent className="space-y-3 flex-1">
+          <p className="line-clamp-2 min-h-10 text-sm text-zinc-600 dark:text-zinc-300">
+            {activity.description || 'No description available.'}
+          </p>
+
+          <div className="space-y-2 text-sm text-zinc-600 dark:text-zinc-300">
+            <div className="flex items-start gap-2">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
+              <span className="line-clamp-1">{activity.address || activity.activityLocation || 'Location not provided'}</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <CalendarDays className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
+              <span className="line-clamp-1">{formatDate(activity.activityStartDateTime)}</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
+              <span className="line-clamp-1">{activity.activityFor}</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <UserRound className="mt-0.5 h-4 w-4 shrink-0 text-zinc-500" />
+              <span className="mb-5 line-clamp-1">Creator #{activity.creatorId}</span>
+            </div>
+            {activity.ageGroups && activity.ageGroups !== 'All Age Group' && (
+              <div className="mb-5 flex items-start gap-2">
+                <Shield className="h-4 w-4 shrink-0 text-zinc-500" />
+                <span className="line-clamp-1">{activity.ageGroups}</span>
+              </div>
+            )}
+          </div>
+        </CardContent>
+
+      </Card>
+    </Link>
   );
 }
