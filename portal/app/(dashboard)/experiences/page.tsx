@@ -28,6 +28,7 @@ export default function ExperiencesPage() {
   }, [error]);
 
   const totalPages = data?.totalPages ?? 1;
+  const experiences = data?.data ?? [];
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -41,15 +42,31 @@ export default function ExperiencesPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Experiences</h1>
+      <div className="rounded-2xl border border-zinc-200/80 bg-gradient-to-br from-white via-zinc-50 to-zinc-100/80 p-6 shadow-sm dark:border-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-900">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Experiences</h1>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
+              Explore all experiences from backend data. Click any card to open full details.
+            </p>
+          </div>
+          <div className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900">
+            <span className="font-semibold">{data?.total ?? 0}</span> total experiences
+          </div>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between rounded-xl border border-zinc-200/80 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+        <h2 className="text-base font-semibold">Experience List</h2>
         <div className="flex items-center gap-2">
-          <Label htmlFor="limit" className="mr-2">Show</Label>
+          <Label htmlFor="limit" className="mr-2">
+            Show
+          </Label>
           <select
             id="limit"
             value={limit}
             onChange={handleLimitChange}
-            className="border rounded-md px-2 py-1 text-sm bg-white dark:bg-zinc-900 dark:border-zinc-700"
+            className="rounded-md border bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-900"
           >
             <option value={5}>5</option>
             <option value={10}>10</option>
@@ -76,38 +93,39 @@ export default function ExperiencesPage() {
         </div>
       ) : (
         <>
-          {/* Total count */}
-          <div className="text-sm text-zinc-600 dark:text-zinc-400">
-            Total: {data?.total ?? 0} experiences
-          </div>
-
-          {/* Grid of cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data?.data?.map((experience) => (
-              <ExperienceCard key={experience.id} experience={experience} />
-            ))}
-          </div>
-
-          {/* Pagination controls */}
-          <div className="flex items-center justify-between">
-            <Button
-              variant="outline"
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 1}
-            >
-              Previous
-            </Button>
-            <div className="text-sm text-zinc-600 dark:text-zinc-400">
-              Page {page} of {totalPages}
+          {experiences.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-zinc-300 p-10 text-center text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
+              No experiences found for the selected page size.
             </div>
-            <Button
-              variant="outline"
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page >= totalPages}
-            >
-              Next
-            </Button>
-          </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {experiences.map((experience) => (
+                  <ExperienceCard key={experience.id} experience={experience} />
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between rounded-xl border border-zinc-200/80 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+                <Button
+                  variant="outline"
+                  onClick={() => handlePageChange(page - 1)}
+                  disabled={page === 1 || isFetching}
+                >
+                  Previous
+                </Button>
+                <div className="text-sm text-zinc-600 dark:text-zinc-300">
+                  Page {page} of {totalPages}
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => handlePageChange(page + 1)}
+                  disabled={page >= totalPages || isFetching}
+                >
+                  Next
+                </Button>
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
