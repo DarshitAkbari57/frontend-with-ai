@@ -132,7 +132,7 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
       tabIndex={0}
       onClick={handleOpenDetails}
       onKeyDown={handleKeyDown}
-      className="group cursor-pointer overflow-hidden border-zinc-200/80 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-zinc-800"
+      className="group cursor-pointer overflow-hidden border-zinc-200/80 !py-0 !gap-0 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-zinc-800"
     >
       <div className="relative h-44 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
         {experience.expPicture?.media ? (
