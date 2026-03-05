@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Experience } from '@/types/api';
 import { CalendarDays, MapPin, UserRound } from 'lucide-react';
@@ -25,6 +26,11 @@ function formatDate(dateString: string) {
 
 export default function ExperienceCard({ experience }: ExperienceCardProps) {
   const router = useRouter();
+  const [imageFailed, setImageFailed] = useState(false);
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [experience.expPicture?.media]);
 
   const handleOpenDetails = () => {
     router.push(`/experiences/${experience.id}`);
@@ -38,6 +44,8 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
   };
 
   const costLabel = experience.experienceCost > 0 ? `$${experience.experienceCost}` : 'Free';
+  const imageUrl = experience.expPicture?.media;
+  const shouldShowImage = Boolean(imageUrl) && !imageFailed;
 
   return (
     <Card
@@ -48,12 +56,14 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
       className="group cursor-pointer overflow-hidden border-zinc-200/80 !py-0 !gap-0 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-zinc-800"
     >
       <div className="relative h-44 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-        {experience.expPicture?.media ? (
+        {shouldShowImage ? (
           <Image
-            src={experience.expPicture.media}
+            src={imageUrl as string}
             alt={experience.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            unoptimized
+            onError={() => setImageFailed(true)}
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (

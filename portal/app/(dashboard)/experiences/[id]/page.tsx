@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, CalendarDays, Globe, MapPin, UsersRound, Clock3, Link2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -55,10 +56,25 @@ function normalizeTickets(experience: Experience): Ticket[] {
 
 export default function ExperienceDetailPage() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
   const experienceId = Number(params?.id);
+  const [imageFailed, setImageFailed] = useState(false);
   const { data: experience, isLoading, error } = useExperience(
     Number.isFinite(experienceId) ? experienceId : undefined
   );
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [experience?.expPicture?.media]);
+
+  const handleBackToExperiences = () => {
+    if (window.history.length > 1) {
+      router.back();
+      return;
+    }
+
+    router.push('/experiences');
+  };
 
   if (!Number.isFinite(experienceId)) {
     return (
@@ -102,6 +118,8 @@ export default function ExperienceDetailPage() {
 
   const activities = normalizeActivities(experience);
   const tickets = normalizeTickets(experience);
+  const imageUrl = experience.expPicture?.media;
+  const shouldShowImage = Boolean(imageUrl) && !imageFailed;
 
   const socialLinks = [
     { label: 'Instagram', href: experience.instagramUrl },
@@ -113,11 +131,9 @@ export default function ExperienceDetailPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-3">
-        <Button asChild variant="outline" size="sm">
-          <Link href="/experiences">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to experiences
-          </Link>
+        <Button variant="outline" size="sm" onClick={handleBackToExperiences}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to experiences
         </Button>
         <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
           Experience #{experience.id}
@@ -135,15 +151,17 @@ export default function ExperienceDetailPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-        <Card className="overflow-hidden border-zinc-200/80 dark:border-zinc-800">
+        <Card className="overflow-hidden border-zinc-200/80 pt-0 dark:border-zinc-800">
           <div className="relative h-72 w-full bg-zinc-100 dark:bg-zinc-900">
-            {experience.expPicture?.media ? (
+            {shouldShowImage ? (
               <Image
-                src={experience.expPicture.media}
+                src={imageUrl as string}
                 alt={experience.title}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 70vw"
+                unoptimized
+                onError={() => setImageFailed(true)}
                 className="object-cover"
               />
             ) : (
