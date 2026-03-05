@@ -6,10 +6,24 @@ import { toast } from '@/components/ui/toast';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import type { Activity } from '@/types/api';
 import { deleteActivity, updateActivity } from '@/services/activityService';
-import { format } from 'date-fns';
 
 interface ActivityCardProps {
   activity: Activity;
+}
+
+function formatDateTime(dateString: string) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) {
+    return 'Invalid date';
+  }
+
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(date);
 }
 
 export default function ActivityCard({ activity }: ActivityCardProps) {
@@ -26,7 +40,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
             if (!old) return old;
             return {
               ...old,
-              data: old.data.filter((a) => a.id !== activity.id),
+              data: old.data.filter((a: Activity) => a.id !== activity.id),
               total: old.total - 1,
             };
           });
@@ -61,7 +75,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
             if (!old) return old;
             return {
               ...old,
-              data: old.data.map((a) => (a.id === activity.id ? { ...a, isDisabled: !a.isDisabled } : a)),
+              data: old.data.map((a: Activity) => (a.id === activity.id ? { ...a, isDisabled: !a.isDisabled } : a)),
             };
           });
         }
@@ -105,7 +119,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
           <span>{activity.activityCost === 0 ? 'Free' : `$${activity.activityCost}`}</span>
         </div>
         <div className="mt-2 text-sm text-zinc-500">
-          {format(new Date(activity.activityStartDateTime), 'MMM d, yyyy h:mm a')}
+          {formatDateTime(activity.activityStartDateTime)}
         </div>
         {activity.isOnline && (
           <div className="mt-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">

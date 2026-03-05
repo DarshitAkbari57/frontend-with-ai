@@ -1,5 +1,11 @@
 import { NextResponse } from 'next/server';
-import type { User } from '@/types/auth';
+
+function normalizeToken(token?: string): string | null {
+  if (!token) return null;
+  const trimmed = token.trim();
+  if (!trimmed) return null;
+  return trimmed.startsWith('Bearer ') ? trimmed.slice(7) : trimmed;
+}
 
 export async function POST(request: Request) {
   try {
@@ -29,7 +35,18 @@ export async function POST(request: Request) {
       );
     }
 
-    const { token, accessToken } = data.data;
+    const { token, accessToken } = data.data ?? {};
+
+    const normalizedAccessToken = normalizeToken(accessToken);
+    const normalizedToken = normalizeToken(token);
+    const primaryToken = normalizedAccessToken || normalizedToken;
+
+    if (!primaryToken) {
+      return NextResponse.json(
+        { error: 'Authentication failed: token missing in login response' },
+        { status: 502 }
+      );
+    }
 
     const response = NextResponse.json(
       { success: true, user: data.data },
@@ -43,17 +60,12 @@ export async function POST(request: Request) {
       path: '/',
     };
 
-    // Use 'accessToken' for the main JWT (it seems 'token' is also a Bearer token)
-    // The response has both 'token' (with Bearer prefix) and 'accessToken' (raw JWT)
-    response.cookies.set('accessToken', accessToken, {
+    response.cookies.set('accessToken', primaryToken, {
       ...cookieOptions,
       maxAge: 60 * 60 * 24, // Setting to 1 day as expires information isn't directly in top level
     });
 
-    // Some systems expect idToken, let's store 'token' (raw JWT without Bearer if possible, but let's see)
-    // Actually the 'token' in data.data has 'Bearer ' prefix, we should probably strip it if we want the raw JWT
-    const rawToken = token.startsWith('Bearer ') ? token.substring(7) : token;
-    response.cookies.set('idToken', rawToken, {
+    response.cookies.set('idToken', normalizedToken || primaryToken, {
       ...cookieOptions,
       maxAge: 60 * 60 * 24,
     });

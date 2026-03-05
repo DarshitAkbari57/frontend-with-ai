@@ -1,23 +1,59 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchBackendRaw } from '@/lib/fetchBackend';
+import { fetchBackendRaw } from '@/lib/backend';
+import type { Activity } from '@/types/api';
+
+function toPositiveInt(value: string | null, fallback: number): number {
+  const parsed = Number.parseInt(value ?? '', 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const params: any = {};
-  for (const [key, value] of searchParams.entries()) {
-    params[key] = Number(value) || value;
-  }
-
   try {
-    const response = await fetchBackendRaw<{ data: any[]; total: number; page: number; limit: number; totalPages: number }>('/activity/getAllActivities', {
-      method: 'POST',
-      body: JSON.stringify(params),
+    const { searchParams } = new URL(request.url);
+    const page = toPositiveInt(searchParams.get('page'), 1);
+    const limit = toPositiveInt(searchParams.get('limit'), 20);
+    const experienceId = searchParams.get('experienceId');
+    const search = searchParams.get('search')?.trim().toLowerCase();
+
+    const response = await fetchBackendRaw<Activity[]>('/activity', {
+      method: 'GET',
     });
-    return NextResponse.json(response);
+
+    let activities = Array.isArray(response.data) ? response.data : [];
+
+    if (experienceId !== null) {
+      const parsedExperienceId = Number.parseInt(experienceId, 10);
+      if (Number.isFinite(parsedExperienceId)) {
+        activities = activities.filter((activity) => activity.experienceId === parsedExperienceId);
+      }
+    }
+
+    if (search) {
+      activities = activities.filter((activity) =>
+        `${activity.activityName} ${activity.description ?? ''} ${activity.activityLocation ?? ''}`
+          .toLowerCase()
+          .includes(search)
+      );
+    }
+
+    const total = activities.length;
+    const totalPages = total === 0 ? 1 : Math.ceil(total / limit);
+    const safePage = Math.min(page, totalPages);
+    const startIndex = (safePage - 1) * limit;
+    const data = activities.slice(startIndex, startIndex + limit);
+
+    return NextResponse.json({
+      data,
+      total,
+      page: safePage,
+      limit,
+      totalPages,
+    });
   } catch (error: any) {
+    const status = error.status || 500;
     return NextResponse.json(
       { error: error.message || 'Failed to fetch activities' },
-      { status: 500 }
+      { status }
     );
   }
 }
@@ -31,9 +67,10 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(response);
   } catch (error: any) {
+    const status = error.status || 500;
     return NextResponse.json(
       { error: error.message || 'Failed to create activity' },
-      { status: 500 }
+      { status }
     );
   }
 }

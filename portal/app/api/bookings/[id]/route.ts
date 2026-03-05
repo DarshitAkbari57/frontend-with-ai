@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchBackendRaw } from '@/lib/fetchBackend';
+import { fetchBackendRaw } from '@/lib/backend';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  const id = parseInt(params.id, 10);
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id: idParam } = await params;
+  const id = parseInt(idParam, 10);
   try {
     const response = await fetchBackendRaw<any>('/booking/getBookingById', {
       method: 'POST',
@@ -17,8 +18,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
-  const id = parseInt(params.id, 10);
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id: idParam } = await params;
+  const id = parseInt(idParam, 10);
   try {
     const updates = await request.json();
     const response = await fetchBackendRaw<any>(`/booking/updateBooking/${id}`, {

@@ -6,9 +6,17 @@ export interface BackendResponse<T> {
   status: number;
 }
 
+function normalizeToken(token?: string): string | undefined {
+  if (!token) return undefined;
+  const trimmed = token.trim();
+  if (!trimmed) return undefined;
+  return trimmed.startsWith('Bearer ') ? trimmed.slice(7) : trimmed;
+}
+
 export async function fetchFromBackend<T>(path: string, options: RequestInit = {}): Promise<T> {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get('accessToken')?.value;
+  const accessToken = normalizeToken(cookieStore.get('accessToken')?.value);
+  const idToken = normalizeToken(cookieStore.get('idToken')?.value);
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!baseUrl) {
@@ -24,14 +32,28 @@ export async function fetchFromBackend<T>(path: string, options: RequestInit = {
     ...options.headers,
   };
 
-  if (accessToken) {
-    (headers as Record<string, string>)['Authorization'] = `Bearer ${accessToken}`;
+  const tokenForRequest = accessToken || idToken;
+  if (tokenForRequest) {
+    (headers as Record<string, string>)['Authorization'] = `Bearer ${tokenForRequest}`;
   }
 
-  const response = await fetch(url, {
+  let response = await fetch(url, {
     ...options,
     headers,
   });
+
+  const fallbackToken =
+    accessToken && idToken && accessToken !== idToken ? idToken : undefined;
+  if (response.status === 401 && fallbackToken) {
+    const retryHeaders: HeadersInit = {
+      ...headers,
+      Authorization: `Bearer ${fallbackToken}`,
+    };
+    response = await fetch(url, {
+      ...options,
+      headers: retryHeaders,
+    });
+  }
 
   if (!response.ok) {
     let errorMessage = `Backend responded with status ${response.status}`;
@@ -54,7 +76,8 @@ export async function fetchFromBackend<T>(path: string, options: RequestInit = {
 // Helper that returns full backend response (including metadata like total)
 export async function fetchBackendRaw<T>(path: string, options: RequestInit = {}): Promise<{ data: T } & Record<string, any>> {
   const cookieStore = await cookies();
-  const accessToken = cookieStore.get('accessToken')?.value;
+  const accessToken = normalizeToken(cookieStore.get('accessToken')?.value);
+  const idToken = normalizeToken(cookieStore.get('idToken')?.value);
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!baseUrl) {
@@ -69,14 +92,28 @@ export async function fetchBackendRaw<T>(path: string, options: RequestInit = {}
     ...options.headers,
   };
 
-  if (accessToken) {
-    (headers as Record<string, string>)['Authorization'] = `Bearer ${accessToken}`;
+  const tokenForRequest = accessToken || idToken;
+  if (tokenForRequest) {
+    (headers as Record<string, string>)['Authorization'] = `Bearer ${tokenForRequest}`;
   }
 
-  const response = await fetch(url, {
+  let response = await fetch(url, {
     ...options,
     headers,
   });
+
+  const fallbackToken =
+    accessToken && idToken && accessToken !== idToken ? idToken : undefined;
+  if (response.status === 401 && fallbackToken) {
+    const retryHeaders: HeadersInit = {
+      ...headers,
+      Authorization: `Bearer ${fallbackToken}`,
+    };
+    response = await fetch(url, {
+      ...options,
+      headers: retryHeaders,
+    });
+  }
 
   if (!response.ok) {
     let errorMessage = `Backend responded with status ${response.status}`;

@@ -23,7 +23,7 @@ export interface Activity {
   id: number;
   activityName: string;
   description: string;
-  experienceId: number;
+  experienceId: number | null;
   activityCost: number;
   activityStartDateTime: string;
   geom: {
@@ -38,7 +38,7 @@ export interface Activity {
   };
   color: any;
   activityFor: string;
-  address: string;
+  address: string | null;
   activityEndDateTime: string;
   instagramUrl: string | null;
   twitterUrl: string | null;
@@ -65,6 +65,7 @@ export interface Activity {
   updatedBy: string;
   createdAt: string;
   updatedAt: string;
+  isAdmin?: boolean;
 }
 
 export interface Experience {
