@@ -11,7 +11,7 @@ export default function ActivitiesPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(20);
 
-  const { data, isLoading, error } = useActivities({
+  const { data, isLoading, error, isFetching } = useActivities({
     page,
     limit,
   });
@@ -27,7 +27,9 @@ export default function ActivitiesPage() {
   }, [error]);
 
   const totalPages = data?.totalPages ?? 1;
+  const canGoNext = data?.hasMore ?? page < totalPages;
   const activities = data?.data ?? [];
+  const hasExactTotal = data?.hasExactTotal ?? false;
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -100,22 +102,22 @@ export default function ActivitiesPage() {
       </div>
 
       {/* Footer with pagination */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 px-6 py-4">
+      <div className="fixed bottom-0 left-0 right-0 md:left-64 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 px-6 py-4">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <Button
             variant="outline"
             onClick={() => handlePageChange(page - 1)}
-            disabled={page === 1}
+            disabled={page === 1 || isFetching}
           >
             Previous
           </Button>
           <div className="text-sm text-zinc-600 dark:text-zinc-400">
-            Page {page} of {totalPages}
+            {hasExactTotal ? `Page ${page} of ${totalPages}` : `Page ${page}`}
           </div>
           <Button
             variant="outline"
             onClick={() => handlePageChange(page + 1)}
-            disabled={page >= totalPages}
+            disabled={!canGoNext || isFetching}
           >
             Next
           </Button>

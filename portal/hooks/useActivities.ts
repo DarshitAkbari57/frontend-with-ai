@@ -2,8 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getActivities, getActivityById, deleteActivity, updateActivity } from '@/services/activityService';
-import type { Activity } from '@/types/api';
-
+import type { Activity, PaginatedResponse } from '@/types/api';
 export function useActivities(params?: {
   page?: number;
   limit?: number;
@@ -32,7 +31,7 @@ export function useDeleteActivity() {
       await queryClient.cancelQueries({ queryKey: ['activities'] });
       await queryClient.cancelQueries({ queryKey: ['activity', id] });
 
-      const listQueries = queryClient.getQueriesData<{ data: Activity[]; total: number; page: number; limit: number; totalPages: number }>({ queryKey: ['activities'] });
+      const listQueries = queryClient.getQueriesData<PaginatedResponse<Activity>>({ queryKey: ['activities'] });
       listQueries.forEach(([queryKey, oldData]) => {
         if (oldData) {
           queryClient.setQueryData(queryKey, (old: any) => {
@@ -75,7 +74,7 @@ export function useUpdateActivity() {
       await queryClient.cancelQueries({ queryKey: ['activities'] });
       await queryClient.cancelQueries({ queryKey: ['activity', id] });
 
-      const listQueries = queryClient.getQueriesData<{ data: Activity[]; total: number; page: number; limit: number; totalPages: number }>({ queryKey: ['activities'] });
+      const listQueries = queryClient.getQueriesData<PaginatedResponse<Activity>>({ queryKey: ['activities'] });
       listQueries.forEach(([queryKey, oldData]) => {
         if (oldData) {
           queryClient.setQueryData(queryKey, (old: any) => {

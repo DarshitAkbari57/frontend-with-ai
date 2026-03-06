@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-export default function LogoutButton() {
+export default function LogoutButton({ className }: { className?: string }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +22,12 @@ export default function LogoutButton() {
   }
 
   return (
-    <Button variant="outline" onClick={handleLogout} disabled={isLoading}>
+    <Button
+      variant="outline"
+      onClick={handleLogout}
+      disabled={isLoading}
+      className={cn(className)}
+    >
       {isLoading ? 'Logging out...' : 'Logout'}
     </Button>
   );
