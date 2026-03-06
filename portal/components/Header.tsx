@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import LogoutButton from './LogoutButton';
 import type { User } from '@/types/auth';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -61,12 +62,33 @@ export default function Header({ onMenuClick }: HeaderProps) {
         <h1 className="text-xl font-bold">Experience Portal</h1>
       </div>
       <div className="flex items-center gap-4">
-        {user && (
-          <div className="text-sm text-zinc-600 dark:text-zinc-300">
-            {displayName}
-          </div>
+        {user ? (
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 border-2 border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                aria-label="User menu"
+              >
+                {displayName.charAt(0).toUpperCase()}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent align="end" className="w-56 p-2 rounded-xl">
+              <div className="px-2 py-1.5 text-sm">
+                <p className="font-medium truncate text-zinc-900 dark:text-zinc-100">{displayName}</p>
+                {user.email && user.email !== displayName && (
+                  <p className="text-xs text-zinc-500 truncate">{user.email}</p>
+                )}
+              </div>
+              <div className="my-1 h-px bg-zinc-200 dark:bg-zinc-800" />
+              <div className="px-1 py-1">
+                <LogoutButton className="w-full" />
+              </div>
+            </PopoverContent>
+          </Popover>
+        ) : (
+          <LogoutButton />
         )}
-        <LogoutButton />
       </div>
     </header>
   );

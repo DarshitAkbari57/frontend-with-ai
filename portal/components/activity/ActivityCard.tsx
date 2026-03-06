@@ -123,14 +123,17 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
   });
 
   const costLabel = activity.activityCost > 0 ? `$${activity.activityCost}` : 'Free';
+  const imageUrl = activity.activityPicture?.media;
+  const isInvalidImage = imageUrl?.includes('a-cl-1') || imageUrl?.startsWith('data:image/svg') || imageUrl?.startsWith('<svg');
+  const shouldShowImage = Boolean(imageUrl) && !isInvalidImage;
 
   return (
     <Link href={`/activities/${activity.id}`} className="block h-full">
       <Card className="group cursor-pointer overflow-hidden border-zinc-200/80 !py-0 !gap-0 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-zinc-800 h-full flex flex-col">
         <div className="relative h-32 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-          {activity.activityPicture?.media ? (
+          {shouldShowImage ? (
             <img
-              src={activity.activityPicture.media}
+              src={imageUrl as string}
               alt={activity.activityName}
               className="h-full w-full object-fill"
               onError={(e) => {
@@ -142,7 +145,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
           ) : null}
           <div
             data-placeholder
-            className={`flex h-full items-center justify-center bg-gradient-to-br from-zinc-100 via-zinc-200 to-zinc-300 text-sm font-medium text-zinc-400 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-500 ${activity.activityPicture?.media ? 'hidden absolute inset-0' : ''}`}
+            className={`flex h-full items-center justify-center bg-gradient-to-br from-zinc-100 via-zinc-200 to-zinc-300 text-sm font-medium text-zinc-400 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-500 ${shouldShowImage ? 'hidden absolute inset-0' : ''}`}
           >
             No image available
           </div>

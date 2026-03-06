@@ -41,7 +41,8 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
 
   const costLabel = experience.experienceCost > 0 ? `$${experience.experienceCost}` : 'Free';
   const imageUrl = experience.expPicture?.media ?? null;
-  const shouldShowImage = Boolean(imageUrl) && failedImageUrl !== imageUrl;
+  const isInvalidImage = imageUrl?.includes('a-cl-1') || imageUrl?.startsWith('data:image/svg') || imageUrl?.startsWith('<svg');
+  const shouldShowImage = Boolean(imageUrl) && failedImageUrl !== imageUrl && !isInvalidImage;
 
   return (
     <Card
