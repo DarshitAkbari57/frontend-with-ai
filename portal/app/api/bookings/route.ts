@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const response = await fetchBackendRaw('/booking/getUserBookings', {
+    const response = await fetchBackendRaw<any[]>('/booking/getUserBookings', {
       method: 'POST',
       body: JSON.stringify(body),
     });
