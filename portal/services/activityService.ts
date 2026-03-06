@@ -1,19 +1,13 @@
 'use client';
 
-import type { Activity } from '@/types/api';
+import type { Activity, PaginatedResponse } from '@/types/api';
 
 export async function getActivities(params?: {
   page?: number;
   limit?: number;
   experienceId?: number;
   [key: string]: any;
-}): Promise<{
-  data: Activity[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}> {
+}): Promise<PaginatedResponse<Activity>> {
   const query = new URLSearchParams();
   if (params?.page !== undefined) {
     query.append('page', params.page.toString());
