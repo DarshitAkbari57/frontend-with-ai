@@ -4,12 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { ArrowLeft, CalendarDays, Globe, MapPin, UsersRound, Clock3, Link2, ChevronLeft } from 'lucide-react';
+import { ArrowLeft, CalendarDays, Globe, MapPin, UsersRound, Clock3, Link2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from '@/components/ui/toast';
 import { useActivity } from '@/hooks/useActivity';
-import type { Activity } from '@/types/api';
 
 function formatDateTime(dateString: string) {
   const date = new Date(dateString);

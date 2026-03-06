@@ -10,7 +10,7 @@ export default function BookingsPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(20);
 
-  const { data, isLoading, error, isFetching } = useBookings({
+  const { data, isLoading, error } = useBookings({
     page,
     limit,
   });
