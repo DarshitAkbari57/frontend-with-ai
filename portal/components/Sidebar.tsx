@@ -29,7 +29,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       )}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0",
+          "fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 transform transition-transform duration-200 ease-in-out md:sticky md:top-0 md:h-screen md:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
