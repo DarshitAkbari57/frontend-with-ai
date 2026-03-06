@@ -202,8 +202,36 @@ export default function ActivityDetailPage() {
                 <span className="text-zinc-500">Control</span>
                 <span className="font-medium">{activity.controlBy || '-'}</span>
               </div>
+              {activity.age > 0 && (
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-500">Minimum Age</span>
+                  <span className="font-medium">{activity.age}+</span>
+                </div>
+              )}
             </CardContent>
           </Card>
+
+          {(activity.includes && activity.includes !== '-') || (activity.promo && activity.promo !== '-') ? (
+            <Card className="border-zinc-200/80 dark:border-zinc-800">
+              <CardHeader>
+                <CardTitle className="text-lg">Additional Details</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 text-sm">
+                {activity.includes && activity.includes !== '-' && (
+                  <div>
+                    <span className="mb-1 block text-zinc-500">What's Included</span>
+                    <span className="font-medium text-zinc-900 dark:text-zinc-100">{activity.includes}</span>
+                  </div>
+                )}
+                {activity.promo && activity.promo !== '-' && (
+                  <div>
+                    <span className="mb-1 block text-zinc-500">Promo / Offers</span>
+                    <span className="font-medium text-emerald-600 dark:text-emerald-400">{activity.promo}</span>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ) : null}
 
           <Card className="border-zinc-200/80 dark:border-zinc-800">
             <CardHeader>
