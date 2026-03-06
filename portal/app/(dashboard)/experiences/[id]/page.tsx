@@ -827,7 +827,10 @@ export default function ExperienceDetailPage() {
           </CardHeader>
           <CardContent>
             {tickets.length > 0 ? (
-              <div className="space-y-3">
+              <div
+                className={`space-y-3 ${tickets.length > 2 ? 'no-scrollbar overflow-y-auto' : ''}`}
+                style={tickets.length > 2 ? { maxHeight: '21rem' } : undefined}
+              >
                 {tickets.map((ticket) => (
                   <article
                     key={renderTicketKey(ticket)}
