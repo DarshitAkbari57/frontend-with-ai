@@ -131,9 +131,7 @@ export default function ExperienceDetailPage() {
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to experiences
         </Button>
-        <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
-          Experience #{experience.id}
-        </span>
+       
         {experience.isOnline && (
           <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
             Online
