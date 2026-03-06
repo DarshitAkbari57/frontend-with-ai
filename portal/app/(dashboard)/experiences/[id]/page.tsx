@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
-import { ArrowLeft, CalendarDays, Globe, MapPin, UsersRound, Clock3, Link2, QrCode, ShieldCheck } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowLeft, CalendarDays, MapPin, UsersRound, Clock3, QrCode, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useExperience } from '@/hooks/useExperience';
@@ -36,14 +36,14 @@ type InviteeViewModel = {
   key: string;
   userName: string;
   invitationStatus: string;
-  inviteType?: string;
-  avatar?: string;
+  inviteType: string | undefined;
+  avatar: string | undefined;
 };
 
 type FunctionViewModel = {
   key: string;
   name: string;
-  media?: string;
+  media: string | undefined;
   isDefault: boolean;
 };
 
@@ -51,7 +51,7 @@ type CollaboratorViewModel = {
   key: string;
   collaboratorId: string;
   role: string;
-  adminId?: string;
+  adminId: string | undefined;
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -431,6 +431,8 @@ export default function ExperienceDetailPage() {
   const router = useRouter();
   const experienceId = Number(params?.id);
   const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null);
+  const [descriptionExtraLines, setDescriptionExtraLines] = useState(0);
+  const descriptionRef = useRef<HTMLParagraphElement | null>(null);
   const { data: experience, isLoading, error } = useExperience(
     Number.isFinite(experienceId) ? experienceId : undefined
   );
@@ -457,7 +459,6 @@ export default function ExperienceDetailPage() {
   );
 
   const isTicketEnabled = toBoolean(experienceRecord.isTicket) ?? tickets.length > 0;
-  const isQuestionnaireEnabled = toBoolean(experienceRecord.isQuestionnarie) ?? false;
   const canCreateActivity = toBoolean(experienceRecord.canCreateActivity) ?? false;
   const isAdmin = toBoolean(experienceRecord.isAdmin) ?? Boolean(experience?.isAdmin);
   const isPurchased = toBoolean(experienceRecord.isPurchased) ?? Boolean(experience?.isPurchased);
@@ -469,14 +470,40 @@ export default function ExperienceDetailPage() {
 
   const imageUrl = experience?.expPicture?.media ?? null;
   const shouldShowImage = Boolean(imageUrl) && failedImageUrl !== imageUrl;
-  const socialLinks = experience
-    ? [
-        { label: 'Instagram', href: experience.instagramUrl },
-        { label: 'Twitter', href: experience.twitterUrl },
-        { label: 'Facebook', href: experience.facebookUrl },
-        { label: 'Google', href: experience.googleUrl },
-      ].filter((item) => !!item.href)
-    : [];
+  const baseImageHeightPx = 384;
+  const lineHeightPx = 24;
+  const minImageHeightPx = 336;
+  const imageHeightPx = Math.max(minImageHeightPx, baseImageHeightPx - (descriptionExtraLines * lineHeightPx));
+
+  useEffect(() => {
+    const descriptionNode = descriptionRef.current;
+    if (!descriptionNode) {
+      return;
+    }
+
+    const updateDescriptionLines = () => {
+      const computedLineHeight = Number.parseFloat(window.getComputedStyle(descriptionNode).lineHeight);
+      if (!Number.isFinite(computedLineHeight) || computedLineHeight <= 0) {
+        setDescriptionExtraLines(descriptionNode.scrollHeight > descriptionNode.clientHeight ? 1 : 0);
+        return;
+      }
+
+      const lines = Math.max(1, Math.round(descriptionNode.scrollHeight / computedLineHeight));
+      setDescriptionExtraLines(Math.max(0, lines - 1));
+    };
+
+    const frameId = window.requestAnimationFrame(updateDescriptionLines);
+
+    const resizeObserver = new ResizeObserver(updateDescriptionLines);
+    resizeObserver.observe(descriptionNode);
+    window.addEventListener('resize', updateDescriptionLines);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateDescriptionLines);
+    };
+  }, [experience?.description]);
 
   const handleBackToExperiences = () => {
     if (window.history.length > 1) {
@@ -534,22 +561,14 @@ export default function ExperienceDetailPage() {
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to experiences
         </Button>
-       
-        {experience.isOnline && (
-          <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
-            Online
-          </span>
-        )}
-        {experience.isDisabled && (
-          <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
-            Disabled
-          </span>
-        )}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-        <Card className="overflow-hidden border-zinc-200/80 pt-0 dark:border-zinc-800">
-          <div className="relative h-72 w-full bg-zinc-100 dark:bg-zinc-900">
+      <div className="grid items-stretch gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <Card className="h-full overflow-hidden border-zinc-200/80 pt-0 dark:border-zinc-800">
+          <div
+            className="relative w-full bg-zinc-100 transition-[height] duration-300 dark:bg-zinc-900"
+            style={{ height: `${imageHeightPx}px` }}
+          >
             {shouldShowImage ? (
               <Image
                 src={imageUrl as string}
@@ -574,12 +593,12 @@ export default function ExperienceDetailPage() {
             <p className="text-sm font-semibold text-teal-700 dark:text-teal-300">
               {formatDateRange(experience.experienceStartDateTime, experience.experienceEndDateTime)}
             </p>
-            <p className="text-sm leading-6 text-zinc-700 dark:text-zinc-300">
+            <p ref={descriptionRef} className="text-sm leading-6 text-zinc-700 dark:text-zinc-300">
               {experience.description || 'No description available.'}
             </p>
 
             <div className="grid gap-3 text-sm text-zinc-700 dark:text-zinc-300 sm:grid-cols-2">
-              <div className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-zinc-800 dark:bg-zinc-900">
+              <div className=" flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-zinc-800 dark:bg-zinc-900">
                 <CalendarDays className="h-4 w-4 text-zinc-500" />
                 <span>{formatDateTime(experience.experienceStartDateTime)}</span>
               </div>
@@ -624,127 +643,90 @@ export default function ExperienceDetailPage() {
               <InfoRow label="Can create activity" value={canCreateActivity ? 'Yes' : 'No'} />
               <InfoRow label="Is admin" value={isAdmin ? 'Yes' : 'No'} />
               <InfoRow label="Is purchased" value={isPurchased ? 'Yes' : 'No'} />
-              <InfoRow label="Ticketing" value={isTicketEnabled ? 'Enabled' : 'Disabled'} />
-              <InfoRow label="Questionnaire" value={isQuestionnaireEnabled ? 'Enabled' : 'Disabled'} />
               <InfoRow label="Contents" value={String(contentCount)} />
               <InfoRow label="Tasks" value={String(taskCount)} />
               <InfoRow label="User requests" value={String(userRequestCount)} />
             </CardContent>
           </Card>
 
+        </div>
+      </div>
+
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="grid gap-6 md:grid-cols-2">
           <Card className="border-zinc-200/80 dark:border-zinc-800">
             <CardHeader>
-              <CardTitle className="text-lg">Links</CardTitle>
+              <CardTitle className="text-lg">Attendees</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-              {experience.streamLink ? (
-                <a
-                  href={experience.streamLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-blue-600 hover:underline dark:text-blue-400"
-                >
-                  <Globe className="h-4 w-4" />
-                  Open stream
-                </a>
+            <CardContent>
+              {invitees.length > 0 ? (
+                <div className="space-y-3">
+                  {invitees.map((invitee) => (
+                    <div
+                      key={invitee.key}
+                      className="flex items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900"
+                    >
+                      <div className="relative h-10 w-10 overflow-hidden rounded-full border border-zinc-300 bg-zinc-200 dark:border-zinc-700 dark:bg-zinc-700">
+                        {invitee.avatar ? (
+                          <Image src={invitee.avatar} alt={invitee.userName} fill sizes="40px" className="object-cover" unoptimized />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-xs font-semibold text-zinc-700 dark:text-zinc-200">
+                            {invitee.userName.slice(0, 2).toUpperCase()}
+                          </div>
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="truncate font-medium">{invitee.userName}</p>
+                        <p className="text-xs text-zinc-500">
+                          {invitee.invitationStatus}
+                          {invitee.inviteType ? ` - ${invitee.inviteType}` : ''}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               ) : (
-                <p className="text-sm text-zinc-500">No stream link available.</p>
+                <p className="text-sm text-zinc-500">No invite details available.</p>
               )}
+            </CardContent>
+          </Card>
 
-              {socialLinks.length > 0 ? (
-                socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href as string}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center gap-2 text-sm text-zinc-700 hover:underline dark:text-zinc-300"
-                  >
-                    <Link2 className="h-4 w-4" />
-                    {social.label}
-                  </a>
-                ))
+          <Card className="border-zinc-200/80 dark:border-zinc-800">
+            <CardHeader>
+              <CardTitle className="text-lg">Functions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {features.length > 0 ? (
+                <div className="space-y-3">
+                  {features.map((feature) => (
+                    <div
+                      key={feature.key}
+                      className="flex items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900"
+                    >
+                      <div className="relative h-9 w-9 overflow-hidden rounded-md border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+                        {feature.media ? (
+                          <Image src={feature.media} alt={feature.name} fill sizes="36px" className="object-cover" unoptimized />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center">
+                            <ShieldCheck className="h-4 w-4 text-zinc-500" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="truncate font-medium">{feature.name}</p>
+                        <p className="text-xs text-zinc-500">{feature.isDefault ? 'Default' : 'Custom'}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               ) : (
-                <p className="text-sm text-zinc-500">No social links available.</p>
+                <p className="text-sm text-zinc-500">No functions returned by backend.</p>
               )}
             </CardContent>
           </Card>
         </div>
-      </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="border-zinc-200/80 dark:border-zinc-800">
-          <CardHeader>
-            <CardTitle className="text-lg">Attendees</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {invitees.length > 0 ? (
-              <div className="space-y-3">
-                {invitees.map((invitee) => (
-                  <div
-                    key={invitee.key}
-                    className="flex items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900"
-                  >
-                    <div className="relative h-10 w-10 overflow-hidden rounded-full border border-zinc-300 bg-zinc-200 dark:border-zinc-700 dark:bg-zinc-700">
-                      {invitee.avatar ? (
-                        <Image src={invitee.avatar} alt={invitee.userName} fill sizes="40px" className="object-cover" unoptimized />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center text-xs font-semibold text-zinc-700 dark:text-zinc-200">
-                          {invitee.userName.slice(0, 2).toUpperCase()}
-                        </div>
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="truncate font-medium">{invitee.userName}</p>
-                      <p className="text-xs text-zinc-500">
-                        {invitee.invitationStatus}
-                        {invitee.inviteType ? ` - ${invitee.inviteType}` : ''}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-zinc-500">No invite details available.</p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card className="border-zinc-200/80 dark:border-zinc-800">
-          <CardHeader>
-            <CardTitle className="text-lg">Functions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {features.length > 0 ? (
-              <div className="space-y-3">
-                {features.map((feature) => (
-                  <div
-                    key={feature.key}
-                    className="flex items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900"
-                  >
-                    <div className="relative h-9 w-9 overflow-hidden rounded-md border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-800">
-                      {feature.media ? (
-                        <Image src={feature.media} alt={feature.name} fill sizes="36px" className="object-cover" unoptimized />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center">
-                          <ShieldCheck className="h-4 w-4 text-zinc-500" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="truncate font-medium">{feature.name}</p>
-                      <p className="text-xs text-zinc-500">{feature.isDefault ? 'Default' : 'Custom'}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-zinc-500">No functions returned by backend.</p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card className="border-zinc-200/80 dark:border-zinc-800">
+        <Card className="min-h-64 border-zinc-200/80 dark:border-zinc-800">
           <CardHeader>
             <CardTitle className="text-lg">Collaborators</CardTitle>
           </CardHeader>
@@ -845,56 +827,60 @@ export default function ExperienceDetailPage() {
           </CardHeader>
           <CardContent>
             {tickets.length > 0 ? (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {tickets.map((ticket) => (
                   <article
                     key={renderTicketKey(ticket)}
-                    className="overflow-hidden rounded-xl border border-zinc-300 bg-zinc-50 shadow-sm dark:border-zinc-700 dark:bg-zinc-900"
+                    className="relative mx-auto w-full max-w-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900"
                   >
-                    <div className="grid min-h-40 grid-cols-[56px_1fr_72px]">
-                      <div className="flex items-center justify-center bg-[#8CAFB7] px-1 text-center">
-                        <span className="[writing-mode:vertical-rl] rotate-180 text-base font-medium text-white">
+                    <div className="grid min-h-36 grid-cols-[52px_1fr_66px] grid-rows-[1fr_auto]">
+                      <div className="relative row-span-2 flex items-center justify-center bg-[#8CAFB7] px-1 text-center">
+                        <span className="absolute -left-5 -top-5 h-10 w-10 rounded-full bg-white dark:bg-zinc-950" />
+                        <span className="absolute -left-5 -bottom-5 h-10 w-10 rounded-full bg-white dark:bg-zinc-950" />
+                        <span className="[writing-mode:vertical-rl] rotate-180 text-base font-medium text-white/90">
                           {resolveTicketBrand(experience)}
                         </span>
                       </div>
 
-                      <div className="border-x border-zinc-300 dark:border-zinc-700">
-                        <div className="border-b border-zinc-300 px-3 py-2 text-center text-xl font-medium text-rose-500 dark:border-zinc-700">
+                      <div className="border-x-2 border-t-2 border-black dark:border-zinc-100">
+                        <div className="px-3 py-1.5 text-center text-lg font-medium text-rose-500">
                           {resolveTicketTitle(ticket)}
                         </div>
                         <div className="grid grid-cols-[56px_1fr] gap-3 p-3">
-                          <div className="flex h-14 w-14 items-center justify-center rounded-md border border-zinc-300 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100">
+                          <div className="flex h-14 w-14 items-center justify-center text-zinc-900 dark:text-zinc-100">
                             {resolveTicketQrMedia(ticket) ? (
                               <Image
                                 src={resolveTicketQrMedia(ticket) as string}
                                 alt="Ticket QR"
-                                width={42}
-                                height={42}
-                                className="h-10 w-10 object-contain"
+                                width={48}
+                                height={48}
+                                className="h-12 w-12 object-contain"
                                 unoptimized
                               />
                             ) : (
-                              <QrCode className="h-8 w-8" />
+                              <QrCode className="h-12 w-12" />
                             )}
                           </div>
-                          <p className="line-clamp-3 text-sm leading-5 text-zinc-700 dark:text-zinc-200">
+                          <p className="line-clamp-3 text-sm leading-5 text-zinc-900 dark:text-zinc-100">
                             {resolveTicketDescription(ticket)}
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-center gap-1 bg-[#ff3b4a] px-1 text-center text-white">
-                        <span className="[writing-mode:vertical-rl] rotate-180 text-lg font-semibold tracking-wide">
+                      <div className="relative row-span-2 flex items-center justify-center gap-1 bg-[#ff3b4a] px-1 text-center text-white">
+                        <span className="absolute -right-5 -top-5 h-10 w-10 rounded-full bg-white dark:bg-zinc-950" />
+                        <span className="absolute -right-5 -bottom-5 h-10 w-10 rounded-full bg-white dark:bg-zinc-950" />
+                        <span className="[writing-mode:vertical-rl] rotate-180 text-lg leading-none font-semibold tracking-wide text-black">
                           Ticket
                         </span>
-                        <span className="[writing-mode:vertical-rl] rotate-180 text-base">
-                          {resolveTicketIdentifier(ticket)}
+                        <span className="[writing-mode:vertical-rl] rotate-180 text-base leading-none font-light">
+                          ID {resolveTicketIdentifier(ticket)}
                         </span>
                       </div>
-                    </div>
 
-                    <div className="border-t border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-800 dark:border-zinc-700 dark:text-zinc-200">
-                      {resolveTicketDate(ticket)}
+                      <div className="border-x-2 border-y-2 border-black px-4 py-2 text-sm font-medium text-zinc-900 dark:border-zinc-100 dark:text-zinc-100">
+                        {resolveTicketDate(ticket)}
+                      </div>
                     </div>
                   </article>
                 ))}
