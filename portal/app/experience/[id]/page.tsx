@@ -1,6 +1,6 @@
 import React from 'react';
-import { fetchPublic, fetchFromBackend } from '@/lib/backend';
-import type { Experience, Activity } from '@/types/api';
+import { fetchPublic } from '@/lib/backend';
+import type { Experience } from '@/types/api';
 import { Heart, Clock, User, ArrowLeft, Info, Activity as ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
 import { GetTicketsButton } from '@/components/GetTicketsButton';
@@ -42,25 +42,8 @@ export default async function ExperienceDetailPage({ params, searchParams }: { p
   const isOnline = experience.isOnline;
   const loc = isOnline ? 'Online Experience' : (experience.location || experience.address || 'Location TBA');
 
-  // Fetch Activities (auth-optional — fails silently for unauthenticated users)
-  let activities: Activity[] = [];
-  try {
-    const actRes = await fetchFromBackend<any>('/activity');
-    const allActivities: Activity[] = Array.isArray(actRes.data) ? actRes.data : Array.isArray(actRes) ? actRes : [];
-    activities = allActivities.filter((act) => act.experienceId === experienceId);
-    activities = await Promise.all(
-      activities.map(async (act) => {
-        try {
-          const detail = await fetchFromBackend<any>(`/activity/${act.id}`);
-          return { ...act, activityPicture: detail.activityPicture ?? null } as Activity;
-        } catch {
-          return act;
-        }
-      })
-    );
-  } catch (err) {
-    console.error("Failed to fetch activities:", err);
-  }
+  // Activities come embedded in the public experience response — no separate auth call needed
+  const activities = experience.activities ?? [];
 
   return (
     <div className="min-h-screen bg-zinc-50 font-sans text-slate-900 selection:bg-emerald-500/20">
@@ -129,45 +112,45 @@ export default async function ExperienceDetailPage({ params, searchParams }: { p
                   </p>
                 </div>
               </section>
-            </div>
 
-            {/* Row 2 Left — Activities */}
-            <div className="lg:col-span-7">
-              <h2 className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase mb-8">
-                Activities
-              </h2>
-              {activities.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {activities.map((act) => (
-                    <div key={act.id} className="flex flex-col group">
-                      <div className="w-full aspect-square mb-4 overflow-hidden bg-slate-100 flex items-center justify-center relative">
-                        {act.activityPicture?.media ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={act.activityPicture.media} alt={act.activityName} className="object-cover w-full h-full transition-all duration-700" />
-                        ) : (
-                          <ActivityIcon className="text-slate-300" size={48} />
-                        )}
-                        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent flex flex-col">
-                          <span className="text-white font-bold text-lg leading-tight">{act.activityName}</span>
+              <hr className="border-slate-200 my-8" />
+
+              {/* Activities */}
+              <div>
+                <h2 className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase mb-8">
+                  Activities
+                </h2>
+                {activities.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {activities.map((act) => (
+                      <div key={act.id} className="flex flex-col group">
+                        <div className="w-full aspect-square mb-4 overflow-hidden bg-slate-100 flex items-center justify-center relative">
+                          {act.activityPicture?.media ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={act.activityPicture.media} alt={act.activityName} className="object-cover w-full h-full transition-all duration-700" />
+                          ) : (
+                            <ActivityIcon className="text-slate-300" size={48} />
+                          )}
+                          <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent flex flex-col">
+                            <span className="text-white font-bold text-lg leading-tight">{act.activityName}</span>
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-start text-sm">
+                          <span className="text-slate-500 font-medium">
+                            {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                          <span className="text-slate-900 font-bold uppercase tracking-wider text-xs">
+                            {act.activityCost === 0 ? 'Free' : `$${act.activityCost}`}
+                          </span>
                         </div>
                       </div>
-                      <div className="flex justify-between items-start text-sm">
-                        <span className="text-slate-500 font-medium">
-                          {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </span>
-                        <span className="text-slate-900 font-bold uppercase tracking-wider text-xs">
-                          {act.activityCost === 0 ? 'Free' : `$${act.activityCost}`}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-slate-500 italic">No specific activity items available.</div>
-              )}
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-slate-500 italic">No specific activity items available.</div>
+                )}
+              </div>
             </div>
-
-            {/* Row 2 Right — Organizer + Venue */}
             <div className="lg:col-span-5 space-y-16">
 
               <div>
