@@ -3,7 +3,6 @@ import { fetchFromBackend } from '@/lib/backend';
 import type { Experience, Activity } from '@/types/api';
 import { Calendar, MapPin, Heart, Clock, User, ArrowLeft, ArrowRight, Info, Activity as ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
-import { TicketBookingForm } from '@/components/TicketBookingForm';
 
 export default async function ExperienceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -180,9 +179,9 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
 
             </div>
 
-            {/* Right Column - Booking Widget */}
+            {/* Right Column - Removed Booking Widget */}
             <div className="lg:col-span-5 relative">
-              <TicketBookingForm experienceName={experience.title} />
+              {/* Form removed as requested */}
             </div>
             
             {/* Added Activity Section Spanning Full Width Contextually below */}
