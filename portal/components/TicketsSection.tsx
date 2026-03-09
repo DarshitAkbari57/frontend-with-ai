@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { TicketModal } from './TicketModal';
 
 interface Ticket {
   id: number;
@@ -18,6 +19,7 @@ export function TicketsSection({ experienceId }: { experienceId: number }) {
   const [status, setStatus] = useState<Status>('loading');
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [errorMsg, setErrorMsg] = useState('');
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
   useEffect(() => {
     async function fetchTickets() {
@@ -62,7 +64,8 @@ export function TicketsSection({ experienceId }: { experienceId: number }) {
           {tickets.map((ticket) => (
             <div
               key={ticket.id}
-              className="border border-slate-200 rounded-xl p-5 hover:border-emerald-300 hover:shadow-md transition-all bg-white"
+              onClick={() => setSelectedTicket(ticket)}
+              className="border border-slate-200 rounded-xl p-5 hover:border-emerald-300 hover:shadow-md transition-all bg-white cursor-pointer"
             >
               <div className="flex items-start justify-between gap-4 mb-2">
                 <h4 className="font-bold text-slate-900 text-lg leading-tight">{ticket.title}</h4>
@@ -82,6 +85,15 @@ export function TicketsSection({ experienceId }: { experienceId: number }) {
             </div>
           ))}
         </div>
+      )}
+
+      {selectedTicket && (
+        <TicketModal
+          ticket={selectedTicket}
+          experienceId={experienceId}
+          isOpen={!!selectedTicket}
+          onClose={() => setSelectedTicket(null)}
+        />
       )}
     </div>
   );
