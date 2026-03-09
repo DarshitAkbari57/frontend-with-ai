@@ -66,182 +66,148 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
   return (
     <div className="min-h-screen bg-zinc-50 font-sans text-slate-900 selection:bg-emerald-500/20">
       
-      {/* Dynamic Navbar */}
-      <header className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-slate-200/50 transition-all duration-300">
-        <div className="flex items-center justify-between h-20 px-4 md:px-8 max-w-7xl mx-auto">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-colors font-medium">
-              <ArrowLeft size={20} /> <span className="hidden sm:inline">Back to experiences</span>
+      {/* Main Content Space */}
+      {/* Main Content Space */}
+      <main className="w-full relative min-h-screen">
+        
+        {/* Full-width Header Banner - Hero */}
+        <div className="relative w-full h-[50vh] min-h-[400px]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img 
+            src={imageUrl} 
+            alt={experience.title} 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-slate-900/60 mix-blend-multiply"></div>
+          
+          {/* Back Button Positioned over Hero */}
+          <div className="absolute top-8 left-4 md:left-12 z-10">
+            <Link href="/" className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 text-white transition-colors">
+              <ArrowLeft size={20} />
             </Link>
           </div>
-          <span className="font-bold text-xl tracking-tight text-slate-900 absolute left-1/2 -translate-x-1/2 hidden md:block">
-            Portal
-          </span>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-rose-50 px-4 py-2 rounded-full border border-rose-100">
-              <Heart size={18} className="text-rose-500 fill-rose-500/20" />
-              <span className="font-bold text-rose-700">{experience.likeCount}</span>
-            </div>
+
+          <div className="absolute inset-0 flex flex-col items-center sm:items-start justify-center text-center sm:text-left p-8 md:px-24">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light text-white uppercase tracking-[0.2em] mb-4">
+              {experience.title}
+            </h1>
+            <p className="text-white/80 tracking-widest text-sm uppercase font-semibold mb-8">
+              {startDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} • {loc}
+            </p>
+            <button className="px-8 py-3 bg-white text-slate-900 text-sm font-bold uppercase tracking-widest hover:bg-slate-100 transition-colors">
+              Get Tickets
+            </button>
           </div>
         </div>
-      </header>
 
-      {/* Main Content Space */}
-      <main className="pt-28 pb-24 md:pt-32 relative">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          
-          {/* Header Banner - Hero */}
-          <div className="relative w-full aspect-[21/9] md:aspect-[21/7] rounded-[2rem] overflow-hidden shadow-2xl shadow-emerald-900/5 mb-12 border-4 border-white">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img 
-              src={imageUrl} 
-              alt={experience.title} 
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+        {/* Content Section */}
+        <div className="max-w-[1400px] mx-auto px-8 md:px-24 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
             
-            <div className="absolute bottom-0 left-0 w-full p-8 md:p-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <div className="max-w-3xl">
-                <div className="flex gap-3 mb-4 flex-wrap">
-                  {isOnline && (
-                    <span className="px-3 py-1 bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-md">Live Online</span>
-                  )}
-                  {experience.experienceCost === 0 && (
-                    <span className="px-3 py-1 bg-blue-500 text-white font-bold text-xs uppercase tracking-wider rounded-md">Free</span>
-                  )}
-                </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4 tracking-tight drop-shadow-md">
-                  {experience.title}
-                </h1>
-                
-                <div className="flex flex-wrap items-center gap-6 text-slate-200 font-medium">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="text-emerald-400" size={20} />
-                    <span>{startDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="text-emerald-400" size={20} />
-                    <span>{loc}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            
-            {/* Left Column - Details */}
-            <div className="lg:col-span-7 space-y-12">
-              
-              {/* Host Banner */}
-              <div className="flex items-center justify-between p-6 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                <div className="flex items-center gap-4">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={hostAvatar} alt={hostName} className="w-14 h-14 rounded-full object-cover shadow-sm bg-slate-100" />
-                  <div>
-                    <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Hosted By</p>
-                    <p className="text-xl font-bold text-slate-900">{hostName}</p>
-                  </div>
-                </div>
-                <button className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition-colors">
-                  Contact
-                </button>
-              </div>
-
+            {/* Left Column:  (Activities) */}
+            <div className="lg:col-span-7">
               {/* About Section */}
-              <section>
-                <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                  <Info className="text-emerald-500" /> About this experience
-                </h2>
-                <div className="prose prose-lg prose-slate max-w-none text-slate-600 leading-relaxed font-medium">
-                  <p>{experience.description}</p>
-                </div>
-              </section>
-              
-              <hr className="border-slate-200" />
-
-              {/* Additional Details */}
-              <section className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="font-bold text-slate-900 mb-2 flex items-center gap-2 text-lg"><Clock size={18} className="text-slate-400"/> Timing</h3>
-                  <p className="text-slate-600 font-medium">
-                    Starts: {startDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}<br/>
-                    Ends: {new Date(experience.experienceEndDateTime).toLocaleDateString()}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-900 mb-2 flex items-center gap-2 text-lg"><User size={18} className="text-slate-400"/> Attendees</h3>
-                  <p className="text-slate-600 font-medium">
-                    {experience.inviteDetails?.length || 0} People expected
-                  </p>
-                </div>
-              </section>
-
-            </div>
-
-            {/* Right Column - Removed Booking Widget */}
-            <div className="lg:col-span-5 relative">
-              {/* Form removed as requested */}
-            </div>
-            
-            {/* Added Activity Section Spanning Full Width Contextually below */}
-            {activities.length > 0 && (
-              <div className="lg:col-span-12 mt-12 pt-12 border-t border-slate-200">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-6">
-                  <div>
-                    <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-2 flex items-center gap-3">
-                      <ActivityIcon className="text-emerald-500" size={32} /> Experience Activities
-                    </h2>
-                    <p className="text-slate-500 text-lg">Detailed agenda and exclusive sessions.</p>
+              {experience.description && (
+                <div className="mb-16">
+                  <h2 className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase mb-6">
+                    About this experience
+                  </h2>
+                  <div className="text-slate-600 leading-relaxed max-w-2xl text-lg font-medium">
+                    <p>{experience.description}</p>
                   </div>
                 </div>
+              )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <h2 className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase mb-8">
+               Activities
+              </h2>
+              
+              {activities.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {activities.map((act) => (
-                    <div key={act.id} className="flex gap-5 p-4 rounded-2xl bg-white border border-slate-200 hover:border-emerald-300 transition-all duration-200 group shadow-sm hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer">
-                      <div className="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden relative shadow-inner bg-slate-100 flex items-center justify-center">
+                    <div key={act.id} className="flex flex-col group">
+                      <div className="w-full aspect-square mb-4 overflow-hidden bg-slate-100 flex items-center justify-center relative">
                         {act.activityPicture?.media ? (
-                          <img src={act.activityPicture.media} alt={act.activityName} className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" />
+                          <img src={act.activityPicture.media} alt={act.activityName} className="object-cover w-full h-full transition-all duration-700" />
                         ) : (
-                          <ActivityIcon className="text-slate-300" size={40} />
+                          <ActivityIcon className="text-slate-300" size={48} />
                         )}
+                        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent flex flex-col">
+                           <span className="text-white font-bold text-lg leading-tight">{act.activityName}</span>
+                        </div>
                       </div>
-                      
-                      <div className="flex flex-col py-1 flex-1 min-w-0">
-                        <div className="flex justify-between items-start mb-1 gap-2">
-                          <h4 className="text-lg font-bold text-slate-900 truncate group-hover:text-emerald-600 transition-colors">
-                            {act.activityName}
-                          </h4>
-                        </div>
-                        <p className="text-sm text-slate-500 line-clamp-2 mb-3">
-                          {act.description}
-                        </p>
-                        
-                        <div className="mt-auto items-end">
-                          <div className="flex flex-col gap-1.5 text-xs font-semibold text-slate-500 mb-2">
-                            <div className="flex items-center gap-1.5">
-                              <Clock size={14} className="text-emerald-500 shrink-0" />
-                              <span className="truncate">{new Date(act.activityStartDateTime).toLocaleDateString([], { month: 'short', day: 'numeric'})} • {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                            </div>
-                            <div className="flex items-center gap-1.5 truncate">
-                              <MapPin size={14} className="text-slate-400 shrink-0" />
-                              <span className="truncate">{act.isOnline ? 'Online Event' : (act.activityLocation || 'TBA')}</span>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center mt-2">
-                            <span className="text-sm font-extrabold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
-                              {act.activityCost === 0 ? 'Free' : `$${act.activityCost}`}
-                            </span>
-                          </div>
-                        </div>
+                      <div className="flex justify-between items-start text-sm">
+                        <span className="text-slate-500 font-medium">
+                           {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                        <span className="text-slate-900 font-bold uppercase tracking-wider text-xs">
+                          {act.activityCost === 0 ? 'Free' : `$${act.activityCost}`}
+                        </span>
                       </div>
                     </div>
                   ))}
                 </div>
+              ) : (
+                <div className="text-slate-500 italic">No specific activities items available.</div>
+              )}
+            </div>
+
+            {/* Right Column: Speakers & Venue */}
+            <div className="lg:col-span-5 space-y-16">
+              
+              {/* Speakers Section mapping to Host */}
+              <div>
+                <h2 className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase mb-8">
+                  organizer
+                </h2>
+                <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                  <div className="flex items-center gap-4">
+                    <span className="text-xs font-bold text-slate-400 tracking-widest w-12 shrink-0">HOST</span>
+                    <span className="font-bold text-slate-900 tracking-wide text-lg">{hostName}</span>
+                  </div>
+                  <img src={hostAvatar} alt={hostName} className="w-10 h-10 rounded-full object-cover grayscale" />
+                </div>
+                {/* Fallback extra row to match image style */}
+                <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4 opacity-50">
+                   <div className="flex items-center gap-4">
+                    <span className="text-xs font-bold text-slate-400 tracking-widest w-12 shrink-0">MOD</span>
+                    <span className="font-bold text-slate-900 tracking-wide">Community Team</span>
+                  </div>
+                </div>
               </div>
-            )}
-            
+
+              {/* Venue Section */}
+              <div>
+                <h2 className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase mb-8">
+                  Venue
+                </h2>
+                <div className="text-slate-600 space-y-6 text-sm leading-loose">
+                  <div>
+                    <strong className="block text-slate-900 tracking-wider mb-1 uppercase text-xs">Dates</strong>
+                    <p>Starts: {startDate.toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' })} at {startDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</p>
+                    <p>Ends: {new Date(experience.experienceEndDateTime).toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' })} at {new Date(experience.experienceEndDateTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</p>
+                  </div>
+                  
+                  <div>
+                    <strong className="block text-slate-900 tracking-wider mb-1 uppercase text-xs">Location</strong>
+                    {isOnline ? (
+                      <p>Online Experience.<br/>Access link will be provided upon booking.</p>
+                    ) : (
+                      <p>{loc}<br/>{experience.address}</p>
+                    )}
+                  </div>
+                  
+                  <div>
+                     <strong className="block text-slate-900 tracking-wider mb-1 uppercase text-xs">Engagement</strong>
+                     <p className="flex items-center gap-4">
+                        <span className="flex items-center gap-1.5"><User size={14}/> {experience.inviteDetails?.length || 0} Expected</span>
+                        <span className="flex items-center gap-1.5 text-rose-500"><Heart size={14}/> {experience.likeCount} Likes</span>
+                     </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </main>
