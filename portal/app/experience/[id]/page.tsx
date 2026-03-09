@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchPublic } from '@/lib/backend';
-import type { Experience } from '@/types/api';
+import type { Experience, Activity } from '@/types/api';
 import { Heart, Clock, User, ArrowLeft, Info, Activity as ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
 import { GetTicketsButton } from '@/components/GetTicketsButton';
@@ -42,8 +42,44 @@ export default async function ExperienceDetailPage({ params, searchParams }: { p
   const isOnline = experience.isOnline;
   const loc = isOnline ? 'Online Experience' : (experience.location || experience.address || 'Location TBA');
 
-  // Activities come embedded in the public experience response — no separate auth call needed
-  const activities = experience.activities ?? [];
+  // Activities might be an array directly or an object containing groupActivities
+  let activities: Activity[] = [];
+  if (Array.isArray(experience.activities)) {
+    activities = experience.activities;
+  } else if (experience.activities && typeof experience.activities === 'object') {
+    const groupActivities = Array.isArray((experience.activities as any).groupActivities) 
+      ? (experience.activities as any).groupActivities 
+      : [];
+      
+    // Flatten the groupActivities since they might be nested under `activity` property
+    for (const group of groupActivities) {
+      if (!group || typeof group !== 'object') continue;
+      
+      if (Array.isArray(group.activity) && group.activity.length > 0) {
+        // Fallback times from parent group if needed
+        const fallbackStart = group.startTime || group.activityStartDateTime;
+        group.activity.forEach((act: any) => {
+          activities.push({
+            ...act,
+            id: act.id || act.activityId,
+            activityName: act.activityName || act.name || act.title || 'Untitled Activity',
+            activityCost: act.activityCost ?? act.cost ?? 0,
+            activityStartDateTime: act.activityStartDateTime || fallbackStart,
+            activityPicture: act.activityPicture || act.picture || null,
+          } as Activity);
+        });
+      } else {
+        activities.push({
+          ...group,
+          id: group.id || group.activityId || group.sequenceNumber,
+          activityName: group.activityName || group.name || group.title || 'Untitled Activity',
+          activityCost: group.activityCost ?? group.cost ?? 0,
+          activityStartDateTime: group.activityStartDateTime || group.startTime,
+          activityPicture: group.activityPicture || group.picture || null,
+        } as Activity);
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen bg-zinc-50 font-sans text-slate-900 selection:bg-emerald-500/20">
