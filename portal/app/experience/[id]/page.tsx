@@ -1,20 +1,22 @@
 import React from 'react';
-import { fetchFromBackend } from '@/lib/backend';
+import { fetchPublic, fetchFromBackend } from '@/lib/backend';
 import type { Experience, Activity } from '@/types/api';
 import { Calendar, MapPin, Heart, Clock, User, ArrowLeft, ArrowRight, Info, Activity as ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
 
-export default async function ExperienceDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ExperienceDetailPage({ params, searchParams }: { params: Promise<{ id: string }>, searchParams?: Promise<{ timezone?: string }> }) {
   const resolvedParams = await params;
+  const resolvedSearch = searchParams ? await searchParams : {};
+  const timezone = resolvedSearch.timezone || 'UTC';
   const experienceId = parseInt(resolvedParams.id, 10);
-  
+
   if (isNaN(experienceId)) {
     return <div className="min-h-screen flex items-center justify-center text-2xl font-bold">Invalid Experience ID</div>;
   }
 
   let experience: Experience;
   try {
-    experience = await fetchFromBackend<Experience>(`/experience/${experienceId}`);
+    experience = await fetchPublic<Experience>(`/experience/public/${experienceId}?timezone=${encodeURIComponent(timezone)}`);
   } catch (error) {
     console.error("Error fetching experience:", error);
     return (
@@ -107,13 +109,50 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
             {/* Left Column:  (Activities) */}
             <div className="lg:col-span-7">
               {/* About Section */}
-              {experience.description && (
-                <div className="mb-16">
-                  <h2 className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase mb-6">
-                    About this experience
-                  </h2>
-                  <div className="text-slate-600 leading-relaxed max-w-2xl text-lg font-medium">
-                    <p>{experience.description}</p>
+              <section>
+                <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                  <Info className="text-emerald-500" /> About this experience
+                </h2>
+                <div className="prose prose-lg prose-slate max-w-none text-slate-600 leading-relaxed font-medium">
+                  <p>{experience.description}</p>
+                </div>
+              </section>
+              
+              <hr className="border-slate-200" />
+
+              {/* Additional Details */}
+              <section className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-2 flex items-center gap-2 text-lg"><Clock size={18} className="text-slate-400"/> Timing</h3>
+                  <p className="text-slate-600 font-medium">
+                    Starts: {startDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}<br/>
+                    Ends: {new Date(experience.experienceEndDateTime).toLocaleDateString()}
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-2 flex items-center gap-2 text-lg"><User size={18} className="text-slate-400"/> Attendees</h3>
+                  <p className="text-slate-600 font-medium">
+                    {experience.inviteDetails?.length || 0} People expected
+                  </p>
+                </div>
+              </section>
+
+            </div>
+
+            {/* Right Column - Booking Widget */}
+            <div className="lg:col-span-5 relative">
+              <TicketBookingForm experienceName={experience.title} experienceId={experienceId} />
+            </div>
+            
+            {/* Added Activity Section Spanning Full Width Contextually below */}
+            {activities.length > 0 && (
+              <div className="lg:col-span-12 mt-12 pt-12 border-t border-slate-200">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-6">
+                  <div>
+                    <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-2 flex items-center gap-3">
+                      <ActivityIcon className="text-emerald-500" size={32} /> Experience Activities
+                    </h2>
+                    <p className="text-slate-500 text-lg">Detailed agenda and exclusive sessions.</p>
                   </div>
                 </div>
               )}
