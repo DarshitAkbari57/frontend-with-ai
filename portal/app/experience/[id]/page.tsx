@@ -4,7 +4,7 @@ import type { Experience, Activity } from '@/types/api';
 import { Heart, Clock, User, ArrowLeft, Info, Activity as ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
 import { GetTicketsButton } from '@/components/GetTicketsButton';
-
+import { TicketsSection } from '@/components/TicketsSection';
 export default async function ExperienceDetailPage({ params, searchParams }: { params: Promise<{ id: string }>, searchParams?: Promise<{ timezone?: string }> }) {
   const resolvedParams = await params;
   const resolvedSearch = searchParams ? await searchParams : {};
@@ -108,7 +108,7 @@ export default async function ExperienceDetailPage({ params, searchParams }: { p
             <p className="text-white/80 tracking-widest text-sm uppercase font-semibold mb-8">
               {startDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &bull; {loc}
             </p>
-            <GetTicketsButton experienceId={experienceId} />
+            <GetTicketsButton />
           </div>
         </div>
 
@@ -240,6 +240,8 @@ export default async function ExperienceDetailPage({ params, searchParams }: { p
             </div>
 
           </div>
+          
+          <TicketsSection experienceId={experienceId} />
         </div>
       </main>
     </div>
