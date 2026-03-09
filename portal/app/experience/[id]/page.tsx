@@ -1,21 +1,23 @@
 import React from 'react';
-import { fetchFromBackend } from '@/lib/backend';
+import { fetchPublic, fetchFromBackend } from '@/lib/backend';
 import type { Experience, Activity } from '@/types/api';
 import { Calendar, MapPin, Heart, Clock, User, ArrowLeft, ArrowRight, Info, Activity as ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
 import { TicketBookingForm } from '@/components/TicketBookingForm';
 
-export default async function ExperienceDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ExperienceDetailPage({ params, searchParams }: { params: Promise<{ id: string }>, searchParams?: Promise<{ timezone?: string }> }) {
   const resolvedParams = await params;
+  const resolvedSearch = searchParams ? await searchParams : {};
+  const timezone = resolvedSearch.timezone || 'UTC';
   const experienceId = parseInt(resolvedParams.id, 10);
-  
+
   if (isNaN(experienceId)) {
     return <div className="min-h-screen flex items-center justify-center text-2xl font-bold">Invalid Experience ID</div>;
   }
 
   let experience: Experience;
   try {
-    experience = await fetchFromBackend<Experience>(`/experience/${experienceId}`);
+    experience = await fetchPublic<Experience>(`/experience/public/${experienceId}?timezone=${encodeURIComponent(timezone)}`);
   } catch (error) {
     console.error("Error fetching experience:", error);
     return (
@@ -182,7 +184,7 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
 
             {/* Right Column - Booking Widget */}
             <div className="lg:col-span-5 relative">
-              <TicketBookingForm experienceName={experience.title} />
+              <TicketBookingForm experienceName={experience.title} experienceId={experienceId} />
             </div>
             
             {/* Added Activity Section Spanning Full Width Contextually below */}
