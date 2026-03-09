@@ -1,7 +1,7 @@
 import React from 'react';
 import { fetchFromBackend } from '@/lib/backend';
-import type { Experience } from '@/types/api';
-import { Calendar, MapPin, Heart, Clock, User, ArrowLeft, ArrowRight, Info } from 'lucide-react';
+import type { Experience, Activity } from '@/types/api';
+import { Calendar, MapPin, Heart, Clock, User, ArrowLeft, ArrowRight, Info, Activity as ActivityIcon } from 'lucide-react';
 import Link from 'next/link';
 import { TicketBookingForm } from '@/components/TicketBookingForm';
 
@@ -39,6 +39,30 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
   const startDate = new Date(experience.experienceStartDateTime);
   const isOnline = experience.isOnline;
   const loc = isOnline ? 'Online Experience' : (experience.location || experience.address || 'Location TBA');
+
+  // Fetch Activities
+  let activities: Activity[] = [];
+  try {
+    const actRes = await fetchFromBackend<any>('/activity');
+    let allActivities: Activity[] = Array.isArray(actRes.data) ? actRes.data : Array.isArray(actRes) ? actRes : [];
+    
+    // Filter activities
+    activities = allActivities.filter((act) => act.experienceId === experienceId);
+    
+    // Fetch pictures for specific activities
+    activities = await Promise.all(
+      activities.map(async (act) => {
+        try {
+          const detail = await fetchFromBackend<any>(`/activity/${act.id}`);
+          return { ...act, activityPicture: detail.activityPicture ?? null } as Activity;
+        } catch {
+          return act;
+        }
+      })
+    );
+  } catch (err) {
+    console.error("Failed to fetch activities:", err);
+  }
 
   return (
     <div className="min-h-screen bg-zinc-50 font-sans text-slate-900 selection:bg-emerald-500/20">
@@ -160,7 +184,65 @@ export default async function ExperienceDetailPage({ params }: { params: Promise
             <div className="lg:col-span-5 relative">
               <TicketBookingForm experienceName={experience.title} />
             </div>
+            
+            {/* Added Activity Section Spanning Full Width Contextually below */}
+            {activities.length > 0 && (
+              <div className="lg:col-span-12 mt-12 pt-12 border-t border-slate-200">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-6">
+                  <div>
+                    <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-2 flex items-center gap-3">
+                      <ActivityIcon className="text-emerald-500" size={32} /> Experience Activities
+                    </h2>
+                    <p className="text-slate-500 text-lg">Detailed agenda and exclusive sessions.</p>
+                  </div>
+                </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {activities.map((act) => (
+                    <div key={act.id} className="flex gap-5 p-4 rounded-2xl bg-white border border-slate-200 hover:border-emerald-300 transition-all duration-200 group shadow-sm hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer">
+                      <div className="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden relative shadow-inner bg-slate-100 flex items-center justify-center">
+                        {act.activityPicture?.media ? (
+                          <img src={act.activityPicture.media} alt={act.activityName} className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" />
+                        ) : (
+                          <ActivityIcon className="text-slate-300" size={40} />
+                        )}
+                      </div>
+                      
+                      <div className="flex flex-col py-1 flex-1 min-w-0">
+                        <div className="flex justify-between items-start mb-1 gap-2">
+                          <h4 className="text-lg font-bold text-slate-900 truncate group-hover:text-emerald-600 transition-colors">
+                            {act.activityName}
+                          </h4>
+                        </div>
+                        <p className="text-sm text-slate-500 line-clamp-2 mb-3">
+                          {act.description}
+                        </p>
+                        
+                        <div className="mt-auto items-end">
+                          <div className="flex flex-col gap-1.5 text-xs font-semibold text-slate-500 mb-2">
+                            <div className="flex items-center gap-1.5">
+                              <Clock size={14} className="text-emerald-500 shrink-0" />
+                              <span className="truncate">{new Date(act.activityStartDateTime).toLocaleDateString([], { month: 'short', day: 'numeric'})} • {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5 truncate">
+                              <MapPin size={14} className="text-slate-400 shrink-0" />
+                              <span className="truncate">{act.isOnline ? 'Online Event' : (act.activityLocation || 'TBA')}</span>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center mt-2">
+                            <span className="text-sm font-extrabold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
+                              {act.activityCost === 0 ? 'Free' : `$${act.activityCost}`}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
           </div>
         </div>
       </main>
