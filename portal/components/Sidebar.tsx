@@ -23,18 +23,18 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Mobile overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-20 bg-black/50 md:hidden"
+          className="fixed inset-0 z-20 bg-zinc-900/40 backdrop-blur-sm md:hidden transition-all duration-300"
           onClick={onClose}
         ></div>
       )}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 transform transition-transform duration-200 ease-in-out md:sticky md:top-0 md:h-screen md:translate-x-0",
+          "fixed inset-y-0 left-0 z-30 w-64 bg-white/70 backdrop-blur-xl border-r border-zinc-200/50 transform transition-all duration-300 ease-in-out md:sticky md:top-0 md:h-screen md:translate-x-0 shadow-2xl shadow-zinc-200/50",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="p-4">
-          <h2 className="text-lg font-semibold">Portal</h2>
+          <h2 className="text-lg font-semibold text-zinc-900">Portal</h2>
           <nav className="mt-6 space-y-2">
             {navItems.map((item) => {
               const isActive =
@@ -45,12 +45,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "block rounded-md px-3 py-2 text-sm font-medium",
+                    "block rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
                     isActive
-                      ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
-                      : "text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                      ? "bg-white text-zinc-900 shadow-sm border border-zinc-200"
+                      : "text-zinc-600 hover:bg-zinc-100/50 hover:text-zinc-900"
                   )}
-                  onClick={onClose} // close mobile nav on click
+                  onClick={onClose}
                 >
                   {item.name}
                 </Link>

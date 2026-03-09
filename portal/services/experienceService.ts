@@ -1,6 +1,9 @@
-'use client';
-
 import type { Experience } from '@/types/api';
+
+const getBaseUrl = () => {
+  if (typeof window !== 'undefined') return '';
+  return process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+};
 
 export async function getExperiences(params: {
   page?: number;
@@ -28,7 +31,7 @@ export async function getExperiences(params: {
     }
   });
 
-  const res = await fetch(`/api/experiences?${query.toString()}`);
+  const res = await fetch(`${getBaseUrl()}/api/experiences?${query.toString()}`);
   if (!res.ok) {
     throw new Error('Failed to fetch experiences');
   }
@@ -36,7 +39,7 @@ export async function getExperiences(params: {
 }
 
 export async function getExperienceById(id: number): Promise<Experience> {
-  const res = await fetch(`/api/experiences/${id}`);
+  const res = await fetch(`${getBaseUrl()}/api/experiences/${id}`);
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
     throw new Error(error.error || 'Failed to fetch experience');
@@ -45,7 +48,7 @@ export async function getExperienceById(id: number): Promise<Experience> {
 }
 
 export async function deleteExperience(id: number): Promise<{ success: boolean }> {
-  const res = await fetch(`/api/experiences/${id}`, { method: 'DELETE' });
+  const res = await fetch(`${getBaseUrl()}/api/experiences/${id}`, { method: 'DELETE' });
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
     throw new Error(error.error || 'Failed to delete experience');
@@ -54,7 +57,7 @@ export async function deleteExperience(id: number): Promise<{ success: boolean }
 }
 
 export async function updateExperience(id: number, updates: Partial<Experience>): Promise<Experience> {
-  const res = await fetch(`/api/experiences/${id}`, {
+  const res = await fetch(`${getBaseUrl()}/api/experiences/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updates),
