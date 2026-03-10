@@ -5,6 +5,7 @@ import { Heart, Clock, User, ArrowLeft, Info, Activity as ActivityIcon } from 'l
 import Link from 'next/link';
 import { GetTicketsButton } from '@/components/GetTicketsButton';
 import { TicketsSection } from '@/components/TicketsSection';
+import { ActivitiesSlider } from '@/components/ActivitiesSlider';
 export default async function ExperienceDetailPage({ params, searchParams }: { params: Promise<{ id: string }>, searchParams?: Promise<{ timezone?: string }> }) {
   const resolvedParams = await params;
   const resolvedSearch = searchParams ? await searchParams : {};
@@ -58,13 +59,16 @@ export default async function ExperienceDetailPage({ params, searchParams }: { p
       if (Array.isArray(group.activity) && group.activity.length > 0) {
         // Fallback times from parent group if needed
         const fallbackStart = group.startTime || group.activityStartDateTime;
+        const fallbackEnd = group.endTime || group.activityEndDateTime;
         group.activity.forEach((act: any) => {
           activities.push({
             ...act,
             id: act.id || act.activityId,
             activityName: act.activityName || act.name || act.title || 'Untitled Activity',
+            description: act.description ?? '',
             activityCost: act.activityCost ?? act.cost ?? 0,
             activityStartDateTime: act.activityStartDateTime || fallbackStart,
+            activityEndDateTime: act.activityEndDateTime || act.endTime || fallbackEnd,
             activityPicture: act.activityPicture || act.picture || null,
           } as Activity);
         });
@@ -73,8 +77,10 @@ export default async function ExperienceDetailPage({ params, searchParams }: { p
           ...group,
           id: group.id || group.activityId || group.sequenceNumber,
           activityName: group.activityName || group.name || group.title || 'Untitled Activity',
+          description: group.description ?? '',
           activityCost: group.activityCost ?? group.cost ?? 0,
           activityStartDateTime: group.activityStartDateTime || group.startTime,
+          activityEndDateTime: group.activityEndDateTime || group.endTime,
           activityPicture: group.activityPicture || group.picture || null,
         } as Activity);
       }
@@ -152,40 +158,7 @@ export default async function ExperienceDetailPage({ params, searchParams }: { p
               <hr className="border-slate-200 my-8" />
 
               {/* Activities */}
-              <div>
-                <h2 className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase mb-8">
-                  Activities
-                </h2>
-                {activities.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {activities.map((act) => (
-                      <div key={act.id} className="flex flex-col group">
-                        <div className="w-full aspect-square mb-4 overflow-hidden bg-slate-100 flex items-center justify-center relative">
-                          {act.activityPicture?.media ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={act.activityPicture.media} alt={act.activityName} className="object-cover w-full h-full transition-all duration-700" />
-                          ) : (
-                            <ActivityIcon className="text-slate-300" size={48} />
-                          )}
-                          <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent flex flex-col">
-                            <span className="text-white font-bold text-lg leading-tight">{act.activityName}</span>
-                          </div>
-                        </div>
-                        <div className="flex justify-between items-start text-sm">
-                          <span className="text-slate-500 font-medium">
-                            {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </span>
-                          <span className="text-slate-900 font-bold uppercase tracking-wider text-xs">
-                            {act.activityCost === 0 ? 'Free' : `$${act.activityCost}`}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-slate-500 italic">No specific activity items available.</div>
-                )}
-              </div>
+              <ActivitiesSlider activities={activities} />
             </div>
             <div className="lg:col-span-5 space-y-16">
 

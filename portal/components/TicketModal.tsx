@@ -44,8 +44,11 @@ function CheckoutForm({
   const stripe = useStripe();
   const elements = useElements();
 
-  const [username, setUsername] = useState('');
-  const [phone, setPhone] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [countryCode, setCountryCode] = useState('+1');
+  const [contactNumber, setContactNumber] = useState('');
   const [quantity, setQuantity] = useState(1);
 
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -87,8 +90,9 @@ function CheckoutForm({
         type: 'card',
         card: cardElement,
         billing_details: {
-          name: username,
-          phone: phone,
+          name: `${firstName} ${lastName}`.trim(),
+          email: email,
+          phone: `${countryCode}${contactNumber}`,
         },
       });
 
@@ -107,18 +111,32 @@ function CheckoutForm({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ticketId: ticket.id,
+          ticketTitle: ticket.title,
+          ticketPrice: ticket.cost,
           experienceId: experienceId,
-          username,
-          phone,
+          firstName,
+          lastName,
+          email,
+          countryCode,
+          contactNumber: parseInt(contactNumber) || 0,
           quantity,
           totalPrice,
           paymentToken: token,
         }),
       });
 
+      const responseData = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.error || errorData.message || 'Failed to create booking');
+        throw new Error(responseData.error || responseData.message || 'Failed to create booking');
+      }
+
+      // Handle Stripe requiresAction if payment intent needs confirmation
+      if (responseData.data?.requiresAction && responseData.data?.paymentIntentClientSecret) {
+        const { error: confirmError } = await stripe.confirmCardPayment(responseData.data.paymentIntentClientSecret);
+        if (confirmError) {
+          throw new Error(confirmError.message || 'Payment confirmation failed');
+        }
       }
 
       setStatus('success');
@@ -153,52 +171,89 @@ function CheckoutForm({
   }
 
   return (
-    <div className="bg-white rounded-3xl w-full max-w-lg mx-4 flex flex-col max-h-[90vh] shadow-2xl overflow-hidden border border-slate-100">
-      {/* Header */}
-      <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white/80 backdrop-blur-md z-10">
-        <div>
-          <h3 className="text-xl font-bold text-slate-900 leading-tight mb-1">{ticket.title}</h3>
-          <p className="text-sm font-medium text-slate-500">
-            {new Date(ticket.ticketDate).toLocaleDateString()} &middot; {ticket.availableQuantity} spots left
-          </p>
+    <div className="bg-white rounded-[24px] w-full max-w-4xl mx-4 flex flex-col md:flex-row max-h-[90vh] shadow-2xl overflow-hidden border border-slate-100 relative">
+      
+      {/* Left Side: Guest Details & Header */}
+      <div className="flex-1 flex flex-col p-6 overflow-y-auto">
+        {/* Header content moved to left column */}
+        <div className="mb-6 flex items-start justify-between">
+          <div>
+            <h3 className="text-xl font-bold text-slate-900 leading-tight mb-1">{ticket.title}</h3>
+            <p className="text-sm font-medium text-slate-500">
+              {new Date(ticket.ticketDate).toLocaleDateString()} &middot; {ticket.availableQuantity} spots left
+            </p>
+          </div>
+          {/* Close button for mobile */}
+          <button
+            onClick={onClose}
+            className="md:hidden p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors bg-slate-50"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
-        <button
-          onClick={onClose}
-          className="p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors bg-slate-50"
-        >
-          <X className="w-5 h-5" />
-        </button>
-      </div>
 
-      {/* Form Content */}
-      <div className="p-6 overflow-y-auto">
-        <form id="booking-form" onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-4 bg-slate-50 p-5 rounded-2xl border border-slate-100">
-            <h4 className="text-sm font-bold tracking-wider text-slate-500 uppercase mb-2">Guest Details</h4>
+        <form id="booking-form" onSubmit={handleSubmit} className="flex flex-col space-y-6 flex-1">
+          <div className="flex flex-col space-y-4 bg-slate-50/50 p-6 rounded-[20px] border border-slate-100 h-fit">
+            <h4 className="text-xs font-bold tracking-wider text-slate-500 uppercase mb-2">Guest Details</h4>
             
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">First Name</label>
+                <input
+                  type="text"
+                  required
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 bg-white"
+                  placeholder="John"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Last Name</label>
+                <input
+                  type="text"
+                  required
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 bg-white"
+                  placeholder="Doe"
+                />
+              </div>
+            </div>
+
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Full Name</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Email</label>
               <input
-                type="text"
+                type="email"
                 required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 bg-white"
-                placeholder="John Doe"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 bg-white"
+                placeholder="john@example.com"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">Phone Number</label>
-                <input
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 bg-white"
-                  placeholder="+1 (555) 000-0000"
-                />
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    required
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    className="w-20 px-3 py-3 rounded-xl border border-slate-200 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition-all font-medium text-slate-800 bg-white text-center"
+                    placeholder="+1"
+                  />
+                  <input
+                    type="tel"
+                    required
+                    value={contactNumber}
+                    onChange={(e) => setContactNumber(e.target.value)}
+                    className="flex-1 px-4 py-3 rounded-xl border border-slate-200 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 bg-white"
+                    placeholder="555 000 0000"
+                  />
+                </div>
               </div>
 
               <div>
@@ -210,67 +265,82 @@ function CheckoutForm({
                   required
                   value={quantity}
                   onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all font-medium text-slate-800 bg-white"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition-all font-medium text-slate-800 bg-white"
                 />
               </div>
             </div>
           </div>
-
-          {totalPrice > 0 && (
-            <div className="space-y-4">
-              <h4 className="text-sm font-bold tracking-wider text-slate-500 uppercase">Payment Details</h4>
-              <div className="p-4 rounded-xl border border-slate-200 bg-white">
-                <CardElement 
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: '16px',
-                        color: '#1e293b',
-                        '::placeholder': { color: '#94a3b8' },
-                        fontFamily: 'system-ui, -apple-system, sans-serif'
-                      },
-                      invalid: {
-                        color: '#ef4444',
-                      },
-                    },
-                  }} 
-                />
-              </div>
-            </div>
-          )}
-
-          {status === 'error' && (
-            <div className="p-4 bg-red-50 text-red-600 rounded-xl font-medium border border-red-200 text-sm">
-              {errorMessage}
-            </div>
-          )}
         </form>
       </div>
 
-      {/* Footer Output */}
-      <div className="p-6 border-t border-slate-100 bg-slate-50 shrink-0">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-slate-500 font-semibold">Total Cost</span>
-          <span className="text-2xl font-black text-slate-900">
-            {totalPrice === 0 ? 'Free' : `$${totalPrice.toFixed(2)}`}
-          </span>
+      {/* Right Side: Payment Details and Action */}
+      <div className="w-full md:w-[380px] lg:w-[440px] bg-slate-50/30 border-t md:border-t-0 md:border-l border-slate-100 flex flex-col pt-12 md:pt-6 relative">
+        {/* Desktop close button */}
+        <button
+          onClick={onClose}
+          className="hidden md:flex absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors bg-white border border-slate-100 shadow-sm z-10"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        <div className="flex-1 px-6 pb-6 lg:px-8 mt-4 md:mt-14">
+          <div className="flex flex-col flex-1 space-y-4">
+            {totalPrice > 0 && (
+              <div className="space-y-4">
+                <h4 className="text-xs font-bold tracking-wider text-slate-500 uppercase">Payment Details</h4>
+                <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                  <CardElement 
+                    options={{
+                      style: {
+                        base: {
+                          fontSize: '15px',
+                          color: '#1e293b',
+                          '::placeholder': { color: '#94a3b8' },
+                          fontFamily: 'system-ui, -apple-system, sans-serif'
+                        },
+                        invalid: {
+                          color: '#ef4444',
+                        },
+                      },
+                    }} 
+                  />
+                </div>
+              </div>
+            )}
+
+            {status === 'error' && (
+              <div className="p-4 bg-red-50 text-red-600 rounded-xl font-medium border border-red-200 text-sm shadow-sm mt-4">
+                {errorMessage}
+              </div>
+            )}
+          </div>
         </div>
 
-        <button
-          type="submit"
-          form="booking-form"
-          disabled={status === 'loading' || !stripe}
-          className="w-full py-4 bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg shadow-slate-900/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-lg"
-        >
-          {status === 'loading' ? (
-            <>
-              <Loader2 className="w-5 h-5 animate-spin" />
-              Processing...
-            </>
-          ) : (
-            `Pay ${totalPrice === 0 ? 'Free' : `$${totalPrice.toFixed(2)}`}`
-          )}
-        </button>
+        {/* Cost and Pay Button */}
+        <div className="p-6 lg:p-8 border-t border-slate-100 bg-white mt-auto">
+          <div className="flex items-center justify-between mb-6">
+            <span className="text-slate-600 font-semibold text-sm">Total Cost</span>
+            <span className="text-2xl font-black text-slate-900">
+              {totalPrice === 0 ? 'Free' : `$${totalPrice.toFixed(2)}`}
+            </span>
+          </div>
+
+          <button
+            type="submit"
+            form="booking-form"
+            disabled={status === 'loading' || !stripe}
+            className="w-full py-4 bg-[#0f172a] hover:bg-slate-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-lg shadow-slate-900/10 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-[15px]"
+          >
+            {status === 'loading' ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Processing...
+              </>
+            ) : (
+              `Pay ${totalPrice === 0 ? 'Free' : `$${totalPrice.toFixed(2)}`}`
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

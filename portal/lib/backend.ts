@@ -123,13 +123,13 @@ export async function fetchBackendRaw<T>(path: string, options: RequestInit = {}
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const url = `${baseUrl}/api/v1${normalizedPath}`;
 
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...(options.headers as Record<string, string>),
   };
 
-  if (idToken) {
-    (headers as Record<string, string>)['Authorization'] = `Bearer ${idToken}`;
+  if (idToken && !headers['Authorization'] && !headers['authorization']) {
+    headers['Authorization'] = `Bearer ${idToken}`;
   }
 
   let response = await fetch(url, {
@@ -154,6 +154,7 @@ export async function fetchBackendRaw<T>(path: string, options: RequestInit = {}
     let errorMessage = `Backend responded with status ${response.status}`;
     try {
       const errorBody = await response.json();
+      console.error('--- BACKEND ERROR RESPONSE ---', JSON.stringify(errorBody, null, 2));
       errorMessage = errorBody.message || errorMessage;
     } catch {
       // ignore parsing errors
