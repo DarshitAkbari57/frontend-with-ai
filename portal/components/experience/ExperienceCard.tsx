@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Experience } from '@/types/api';
@@ -26,10 +26,14 @@ function formatDate(dateString: string) {
 
 export default function ExperienceCard({ experience }: ExperienceCardProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null);
 
   const handleOpenDetails = () => {
-    router.push(`/experiences/${experience.id}`);
+    const currentSearch = searchParams.toString();
+    const fromPath = currentSearch ? `${pathname}?${currentSearch}` : pathname;
+    router.push(`/experiences/${experience.id}?from=${encodeURIComponent(fromPath)}`);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { ArrowLeft, CalendarDays, Globe, MapPin, UsersRound, Clock3, Link2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -27,6 +27,8 @@ function formatDateTime(dateString: string) {
 
 export default function ActivityDetailPage() {
   const params = useParams();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const id = params?.id as string;
   const activityId = parseInt(id, 10);
@@ -104,6 +106,8 @@ export default function ActivityDetailPage() {
     { label: 'Facebook', href: activity.facebookUrl },
     { label: 'Google', href: activity.googleUrl },
   ].filter((item) => !!item.href);
+  const currentSearch = searchParams.toString();
+  const fromPath = currentSearch ? `${pathname}?${currentSearch}` : pathname;
 
   return (
     <div className="space-y-6 pb-8">
@@ -287,7 +291,7 @@ export default function ActivityDetailPage() {
       */}
             <CardContent className="flex flex-1 items-stretch pb-6">
               <Link
-                href={`/experiences/${activity.experienceId}`}
+                href={`/experiences/${activity.experienceId}?from=${encodeURIComponent(fromPath)}`}
                 className="group flex w-full items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4 transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800/80"
               >
                 <div className="space-y-1">

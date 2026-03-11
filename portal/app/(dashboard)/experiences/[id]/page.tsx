@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, CalendarDays, MapPin, UsersRound, Clock3, QrCode, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -68,6 +68,14 @@ function asNonEmptyString(value: unknown): string | undefined {
   }
   const trimmed = value.trim();
   return trimmed ? trimmed : undefined;
+}
+
+function normalizeInternalPath(value: string | null): string | null {
+  const candidate = asNonEmptyString(value);
+  if (!candidate || !candidate.startsWith('/') || candidate.startsWith('//')) {
+    return null;
+  }
+  return candidate;
 }
 
 function toFiniteNumber(value: unknown): number | undefined {
@@ -428,8 +436,11 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 
 export default function ExperienceDetailPage() {
   const params = useParams<{ id: string }>();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const experienceId = Number(params?.id);
+  const fromPath = normalizeInternalPath(searchParams.get('from'));
   const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null);
   const [descriptionExtraLines, setDescriptionExtraLines] = useState(0);
   const descriptionRef = useRef<HTMLParagraphElement | null>(null);
@@ -506,6 +517,11 @@ export default function ExperienceDetailPage() {
   }, [experience?.description]);
 
   const handleBackToExperiences = () => {
+    if (fromPath && fromPath !== pathname) {
+      router.push(fromPath);
+      return;
+    }
+
     if (window.history.length > 1) {
       router.back();
       return;

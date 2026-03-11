@@ -83,7 +83,7 @@ export default async function AllExperiencesPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {experiences.map((exp: ExperienceData) => (
-            <Link href={`/experience/${exp.id}`} key={exp.id} className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 flex flex-col transition-all duration-300 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer">
+            <Link href={`/experience/${exp.id}?from=${encodeURIComponent('/experience')}`} key={exp.id} className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 flex flex-col transition-all duration-300 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer">
               <div className="aspect-[4/3] w-full relative overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 

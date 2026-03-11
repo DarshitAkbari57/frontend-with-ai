@@ -158,7 +158,7 @@ export default async function LandingPage() {
                 )}
               </div>
               <div className="pt-6">
-                <Link href={`/experience/${featuredExperience.id}`}>
+                <Link href={`/experience/${featuredExperience.id}?from=${encodeURIComponent('/')}`}>
                   <button className="px-8 py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-xl shadow-slate-900/20 flex items-center gap-2 group w-full sm:w-auto justify-center">
                     Explore Experience
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -205,7 +205,7 @@ export default async function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {topExperiences.map((exp: ExperienceData) => (
-              <Link href={`/experience/${exp.id}`} key={exp.id} className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 flex flex-col transition-all duration-300 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer">
+              <Link href={`/experience/${exp.id}?from=${encodeURIComponent('/')}`} key={exp.id} className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 flex flex-col transition-all duration-300 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer">
                 <div className="aspect-[4/3] w-full relative overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 

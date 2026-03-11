@@ -6,10 +6,29 @@ import Link from 'next/link';
 import { GetTicketsButton } from '@/components/GetTicketsButton';
 import { TicketsSection } from '@/components/TicketsSection';
 import { ActivitiesSlider } from '@/components/ActivitiesSlider';
-export default async function ExperienceDetailPage({ params, searchParams }: { params: Promise<{ id: string }>, searchParams?: Promise<{ timezone?: string }> }) {
+
+function normalizeInternalPath(value?: string): string | null {
+  if (!value) {
+    return null;
+  }
+  const trimmed = value.trim();
+  if (!trimmed || !trimmed.startsWith('/') || trimmed.startsWith('//')) {
+    return null;
+  }
+  return trimmed;
+}
+
+export default async function ExperienceDetailPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ timezone?: string; from?: string }>;
+}) {
   const resolvedParams = await params;
   const resolvedSearch = searchParams ? await searchParams : {};
   const timezone = resolvedSearch.timezone || 'UTC';
+  const backHref = normalizeInternalPath(resolvedSearch.from) || '/';
   const experienceId = parseInt(resolvedParams.id, 10);
 
   if (isNaN(experienceId)) {
@@ -102,7 +121,7 @@ export default async function ExperienceDetailPage({ params, searchParams }: { p
           <div className="absolute inset-0 bg-slate-900/60 mix-blend-multiply"></div>
 
           <div className="absolute top-8 left-4 md:left-12 z-10">
-            <Link href="/" className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 text-white transition-colors">
+            <Link href={backHref} className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 text-white transition-colors">
               <ArrowLeft size={20} />
             </Link>
           </div>
