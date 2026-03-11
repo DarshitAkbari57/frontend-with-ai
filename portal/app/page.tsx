@@ -519,13 +519,15 @@ export default function LandingPage() {
 
                 {/* CTA */}
                 <div className="pt-4">
-                  <button className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-black rounded-xl hover:shadow-2xl hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105 group flex items-center justify-center gap-3">
-                    Get Tickets
-                    <ArrowRight
-                      size={18}
-                      className="group-hover:translate-x-2 transition-transform"
-                    />
-                  </button>
+                  <Link href={`/experience/${featuredExperience.id}`}>
+                    <button className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-black rounded-xl hover:shadow-2xl hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105 group flex items-center justify-center gap-3">
+                      Explore Experience
+                      <ArrowRight
+                        size={18}
+                        className="group-hover:translate-x-2 transition-transform"
+                      />
+                    </button>
+                  </Link>
                 </div>
               </div>
             </ScrollReveal>
@@ -640,6 +642,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mockExperiences.map((exp, idx) => (
               <ScrollReveal key={exp.id} delay={idx * 100}>
+                <Link href={`/experience/${exp.id}`}>
                 <div className="group relative bg-slate-800/30 backdrop-blur-sm border border-slate-700/60 rounded-2xl overflow-hidden transition-all duration-300 hover:border-cyan-500/60 hover:-translate-y-2 flex flex-col h-full">
                   {/* Image container */}
                   <div className="relative h-64 overflow-hidden bg-slate-900">
@@ -700,6 +703,7 @@ export default function LandingPage() {
                     </div>
                   </div>
                 </div>
+                </Link>
               </ScrollReveal>
             ))}
           </div>
