@@ -84,16 +84,21 @@ export default function LandingPage() {
       <header className="fixed top-0 z-50 w-full bg-slate-950/20 backdrop-blur-md border-b border-white/10 transition-all duration-300">
         <div className="flex items-center justify-between h-20 px-4 md:px-8 max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="white" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
             <span className="font-bold text-xl tracking-tight text-white">Experience Portal</span>
           </div>
-          <div className="flex items-center gap-6">
+          {/* <div className="flex items-center gap-6">
             <Link href="/login" className="text-sm font-semibold text-white/90 hover:text-white transition-colors">
               Sign In
             </Link>
             <Link href="/signup" className="text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-lg transition-colors shadow-lg shadow-emerald-500/30">
               Sign Up
             </Link>
-          </div>
+          </div> */}
         </div>
       </header>
 
@@ -117,14 +122,14 @@ export default function LandingPage() {
               Join thousands of attendees and creators globally. Find your next adventure or host your own spectacular event.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4">
+            {/* <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/signup">
                 <button className="w-full sm:w-auto px-8 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 transition-colors font-bold text-lg text-white shadow-lg shadow-emerald-500/30 flex justify-center items-center gap-2 group">
                   Create Event
                   <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
