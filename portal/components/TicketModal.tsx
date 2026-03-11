@@ -171,7 +171,7 @@ function CheckoutForm({
   }
 
   return (
-    <div className="bg-white rounded-[24px] w-full max-w-4xl mx-4 flex flex-col md:flex-row max-h-[90vh] shadow-2xl overflow-hidden border border-slate-100 relative">
+    <div className="bg-white rounded-[24px] w-full max-w-5xl mx-4 flex flex-col md:flex-row max-h-[90vh] shadow-2xl overflow-hidden border border-slate-100 relative">
       
       {/* Left Side: Guest Details & Header */}
       <div className="flex-1 flex flex-col p-6 overflow-y-auto">
@@ -233,8 +233,8 @@ function CheckoutForm({
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
+            <div className="flex gap-4">
+              <div className="flex-[2] min-w-0">
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">Phone Number</label>
                 <div className="flex gap-2">
                   <input
@@ -242,7 +242,7 @@ function CheckoutForm({
                     required
                     value={countryCode}
                     onChange={(e) => setCountryCode(e.target.value)}
-                    className="w-20 px-3 py-3 rounded-xl border border-slate-200 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition-all font-medium text-slate-800 bg-white text-center"
+                    className="w-20 shrink-0 px-3 py-3 rounded-xl border border-slate-200 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition-all font-medium text-slate-800 bg-white text-center"
                     placeholder="+1"
                   />
                   <input
@@ -250,13 +250,13 @@ function CheckoutForm({
                     required
                     value={contactNumber}
                     onChange={(e) => setContactNumber(e.target.value)}
-                    className="flex-1 px-4 py-3 rounded-xl border border-slate-200 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 bg-white"
+                    className="flex-1 min-w-0 px-4 py-3 rounded-xl border border-slate-200 focus:border-slate-800 focus:ring-1 focus:ring-slate-800 outline-none transition-all placeholder:text-slate-400 font-medium text-slate-800 bg-white"
                     placeholder="555 000 0000"
                   />
                 </div>
               </div>
 
-              <div>
+              <div className="flex-1 min-w-[100px] max-w-[140px]">
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">Quantity</label>
                 <input
                   type="number"
