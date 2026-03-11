@@ -1,86 +1,102 @@
 import React from 'react';
 import { Calendar, Users, Heart, MapPin, Activity, Star, Clock, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { fetchPublic } from '@/lib/backend';
 
-const mockExperiences = [
-  {
-    id: 30,
-    title: "Nebula Music Festival",
-    description: "Experience the ultimate electronic music festival with top DJs and immersive visuals.",
-    likeCount: 1240,
-    commentCount: 89,
-    experienceStartDateTime: "2026-02-27T02:01:38.038Z",
-    location: "135 W 41st St, New York, NY",
-    color: { background_colour: "#00C853", button_bg_colour: "#001f2d" },
-    expPicture: { media: "https://media.istockphoto.com/id/1806011581/photo/overjoyed-happy-young-people-dancing-jumping-and-singing-during-concert-of-favorite-group.jpg?s=612x612&w=0&k=20&c=cMFdhX403-yKneupEN-VWSfFdy6UWf1H0zqo6QBChP4=" },
-    userDetail: { userName: "NebulaLive", profilePicture: { media: "https://media.istockphoto.com/id/1806011581/photo/overjoyed-happy-young-people-dancing-jumping-and-singing-during-concert-of-favorite-group.jpg?s=612x612&w=0&k=20&c=cMFdhX403-yKneupEN-VWSfFdy6UWf1H0zqo6QBChP4=" } }
-  },
-  {
-    id: 31,
-    title: "Oracle Tech Summit",
-    description: "Deep dive into the future of cloud computing, AI, and enterprise architecture.",
-    likeCount: 856,
-    commentCount: 42,
-    experienceStartDateTime: "2026-03-15T09:00:00.000Z",
-    location: "Moscone Center, San Francisco, CA",
-    color: { background_colour: "#00C853", button_bg_colour: "#001f2d" },
-    expPicture: { media: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1000&auto=format&fit=crop" },
-    userDetail: { userName: "OracleEvents", profilePicture: { media: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" } }
-  },
-  {
-    id: 32,
-    title: "Artisan Coffee Masterclass",
-    description: "Learn the secrets of brewing the perfect cup of coffee from world-renowned baristas.",
-    likeCount: 520,
-    commentCount: 28,
-    experienceStartDateTime: "2026-04-10T10:00:00.000Z",
-    location: "The Roastery, Seattle, WA",
-    color: { background_colour: "#FF9800", button_bg_colour: "#3E2723" },
-    expPicture: { media: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1000&auto=format&fit=crop" },
-    userDetail: { userName: "SeattleBrewers", profilePicture: { media: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=100&h=100&fit=crop" } }
+// 🔥 Force Next.js to fetch fresh data every time (Bypasses Cache)
+export const dynamic = 'force-dynamic';
+
+const NO_IMAGE = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
+
+interface ActivityData {
+  id: number;
+  activityName: string;
+  description: string;
+  activityStartDateTime: string;
+  activityCost: number;
+  activityLocation: string | null;
+  isOnline: boolean;
+  activityPicture?: { media: string | null } | null;
+}
+
+interface ExperienceData {
+  id: number;
+  title: string;
+  description: string;
+  likeCount: number;
+  commentCount: number;
+  experienceStartDateTime: string;
+  location: string | null;
+  expPicture: { media: string | null } | null;
+  userDetail: {
+    id: number;
+    userName: string;
+    firstName: string | null;
+    lastName: string | null;
+    profilePicture: { media: string | null } | null;
+  };
+  [key: string]: any;
+}
+
+async function getPublicExperiences(): Promise<ExperienceData[]> {
+  try {
+    // fetchPublic automatically returns json.data!
+    const data = await fetchPublic<ExperienceData[]>('/experience/public/getAllExperience', {
+      method: 'POST',
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+        // Note: fetchPublic automatically adds 'Content-Type': 'application/json', so we don't need to repeat it
+      },
+      body: JSON.stringify({
+        limit: 10, // Match Postman (or use 100 for the full page)
+        page: 1,
+        search: "" // Match Postman exactly
+      }),
+      cache: 'no-store'
+    });
+    
+    // Since fetchPublic returns json.data, we just verify it's an array and return it
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Failed to fetch public experiences:', error);
+    return [];
   }
-];
+}
 
-const mockActivities = [
-  {
-    id: 1,
-    activityName: "VIP Backstage Tour",
-    description: "Exclusive access behind the scenes before the main event.",
-    activityStartDateTime: "2026-02-27T18:00:00.000Z",
-    activityCost: 150,
-    activityLocation: "Main Stage Left",
-    isOnline: false,
-    activityPicture: { media: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1000&auto=format&fit=crop" }
-  },
-  {
-    id: 2,
-    activityName: "Cloud Architecture Workshop",
-    description: "Hands-on session with top engineers.",
-    activityStartDateTime: "2026-03-15T11:00:00.000Z",
-    activityCost: 0,
-    activityLocation: "Room 3B",
-    isOnline: true,
-    activityPicture: { media: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1000&auto=format&fit=crop" }
-  },
-  {
-    id: 3,
-    activityName: "Afterparty Celebration",
-    description: "Unwind and network with fellow attendees.",
-    activityStartDateTime: "2026-02-28T02:00:00.000Z",
-    activityCost: 50,
-    activityLocation: "Rooftop Lounge",
-    isOnline: false,
-    activityPicture: { media: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000&auto=format&fit=crop" }
+async function getPublicActivities(): Promise<ActivityData[]> {
+  try {
+    const response: any = await fetchPublic('/activity/public/getAll', {
+      method: 'GET',
+      headers: {
+        'ngrok-skip-browser-warning': 'true',
+        'Content-Type': 'application/json'
+      },
+      cache: 'no-store' // Don't cache the API response
+    });
+    
+    // Bulletproof array extraction
+    if (Array.isArray(response)) return response;
+    if (response && Array.isArray(response.data)) return response.data;
+    return [];
+  } catch (error) {
+    console.error('Failed to fetch public activities:', error);
+    return [];
   }
-];
+}
 
-export default function LandingPage() {
-  const featuredExperience = mockExperiences[0];
+export default async function LandingPage() {
+  // Fetch data and take only the first 3 for the landing page
+  const experiences = await getPublicExperiences();
+  const topExperiences = experiences.slice(0, 3);
+  const featuredExperience = topExperiences.length > 0 ? topExperiences[0] : null;
+  
+  const activities = await getPublicActivities();
+  const topActivities = activities.slice(0, 3);
   
   return (
     <div className="min-h-screen bg-zinc-50 text-slate-900 font-sans selection:bg-emerald-500/20">
       
-      {/* Navbar for Landing Page */}
+      {/* Navbar */}
       <header className="fixed top-0 z-50 w-full bg-slate-950/20 backdrop-blur-md border-b border-white/10 transition-all duration-300">
         <div className="flex items-center justify-between h-20 px-4 md:px-8 max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
@@ -91,18 +107,10 @@ export default function LandingPage() {
             </div>
             <span className="font-bold text-xl tracking-tight text-white">Experience Portal</span>
           </div>
-          {/* <div className="flex items-center gap-6">
-            <Link href="/login" className="text-sm font-semibold text-white/90 hover:text-white transition-colors">
-              Sign In
-            </Link>
-            <Link href="/signup" className="text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-lg transition-colors shadow-lg shadow-emerald-500/30">
-              Sign Up
-            </Link>
-          </div> */}
         </div>
       </header>
 
-      {/* Hero Banner Section */}
+      {/* Hero Banner */}
       <div className="relative w-full h-screen min-h-[600px] flex flex-col justify-center overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img 
@@ -110,7 +118,6 @@ export default function LandingPage() {
           alt="Bright Event Conference" 
           className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* Deep Navy to Transparent Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/20"></div>
         
         <div className="relative z-10 flex flex-col justify-center px-4 md:px-8 max-w-7xl mx-auto w-full pt-20">
@@ -121,24 +128,15 @@ export default function LandingPage() {
             <p className="text-slate-200 text-lg md:text-xl max-w-2xl font-medium mb-10">
               Join thousands of attendees and creators globally. Find your next adventure or host your own spectacular event.
             </p>
-            
-            {/* <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/signup">
-                <button className="w-full sm:w-auto px-8 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 transition-colors font-bold text-lg text-white shadow-lg shadow-emerald-500/30 flex justify-center items-center gap-2 group">
-                  Create Event
-                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-              </Link>
-            </div> */}
           </div>
         </div>
       </div>
 
-      {/* Featured Experience Section (Like the first image) */}
+      {/* Featured Experience Section */}
+      {featuredExperience && (
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
-            {/* Left side detail */}
             <div className="flex-1 space-y-6 max-w-xl">
               <h2 className="text-emerald-600 font-bold text-lg tracking-wide uppercase">Featured Experience</h2>
               <h3 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight">
@@ -152,10 +150,12 @@ export default function LandingPage() {
                   <Calendar className="text-emerald-500" size={20} />
                   <span className="font-medium">{new Date(featuredExperience.experienceStartDateTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                 </div>
+                {featuredExperience.location && (
                 <div className="flex items-center gap-2 text-slate-600">
                   <MapPin className="text-emerald-500" size={20} />
                   <span className="font-medium truncate max-w-[200px] sm:max-w-full">{featuredExperience.location}</span>
                 </div>
+                )}
               </div>
               <div className="pt-6">
                 <Link href={`/experience/${featuredExperience.id}`}>
@@ -167,29 +167,26 @@ export default function LandingPage() {
               </div>
             </div>
             
-            {/* Right side image */}
             <div className="flex-1 relative w-full mt-10 lg:mt-0">
                <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl shadow-emerald-500/10 border-8 border-white bg-white">
                  {/* eslint-disable-next-line @next/next/no-img-element */}
                  <img 
-                   src={featuredExperience.expPicture.media} 
+                   src={featuredExperience.expPicture?.media || NO_IMAGE} 
                    alt={featuredExperience.title} 
                    className="w-full object-cover aspect-[4/3] transform hover:scale-105 transition-transform duration-700" 
                  />
-                 {/* Top Right Floating Badge */}
                  <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg flex items-center gap-2">
                     <Heart size={16} className="text-rose-500 fill-rose-500" />
                     <span className="font-bold text-slate-800 text-sm">{featuredExperience.likeCount} Likes</span>
                  </div>
                </div>
-               
-               {/* Background decors */}
                <div className="absolute -z-10 top-1/2 -right-12 w-64 h-64 bg-emerald-50 rounded-full blur-3xl opacity-60 mix-blend-multiply"></div>
                <div className="absolute -z-10 -bottom-12 left-1/2 w-72 h-72 bg-blue-50 rounded-full blur-3xl opacity-60 mix-blend-multiply"></div>
             </div>
           </div>
         </div>
       </section>
+      )}
 
       {/* Trending Experiences */}
       <section className="py-24 bg-zinc-50 border-t border-slate-200/50">
@@ -201,22 +198,21 @@ export default function LandingPage() {
               </h2>
               <p className="text-slate-500 text-lg max-w-2xl">Discover the most popular events happening around you. Don't miss out on these top-rated experiences.</p>
             </div>
-            <button className="hidden sm:flex items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors bg-emerald-50 px-5 py-2.5 rounded-full hover:bg-emerald-100 whitespace-nowrap">
+            <Link href="/experience" className="hidden sm:flex items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors bg-emerald-50 px-5 py-2.5 rounded-full hover:bg-emerald-100 whitespace-nowrap">
               View all experiences <ArrowRight size={16} />
-            </button>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {mockExperiences.map((exp) => (
+            {topExperiences.map((exp: ExperienceData) => (
               <Link href={`/experience/${exp.id}`} key={exp.id} className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 flex flex-col transition-all duration-300 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer">
                 <div className="aspect-[4/3] w-full relative overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
-                    src={exp.expPicture.media} 
+                    src={exp.expPicture?.media || NO_IMAGE} 
                     alt={exp.title}
                     className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700 ease-out"
                   />
-                  {/* Floating Date Badge */}
                   <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg flex items-center gap-2">
                     <Calendar size={16} className="text-emerald-600" />
                     <span className="text-sm font-bold text-slate-800 uppercase tracking-wide">
@@ -233,23 +229,24 @@ export default function LandingPage() {
                   </div>
                   
                   <p className="text-base text-slate-500 line-clamp-2 mb-6 flex-1">
-                    {exp.description}
+                    {exp.description || 'No description available.'}
                   </p>
 
+                  {exp.location && (
                   <div className="flex items-center gap-4 text-sm font-semibold text-slate-600 mb-6 mt-auto">
                     <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 w-full">
                       <MapPin size={16} className="text-slate-400 shrink-0" /> 
                       <span className="truncate">{exp.location}</span>
                     </div>
                   </div>
+                  )}
                 </div>
                 
-                {/* Host Footer */}
                 <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={exp.userDetail.profilePicture.media} className="w-8 h-8 rounded-full object-cover shadow-sm border border-white" alt="Host" />
-                    <span className="text-sm font-medium text-slate-500">by <span className="font-bold text-slate-700 truncate max-w-[100px] inline-block align-bottom">{exp.userDetail.userName}</span></span>
+                    <img src={exp.userDetail?.profilePicture?.media || NO_IMAGE} className="w-8 h-8 rounded-full object-cover shadow-sm border border-white" alt="Host" />
+                    <span className="text-sm font-medium text-slate-500">by <span className="font-bold text-slate-700 truncate max-w-[100px] inline-block align-bottom">{exp.userDetail?.userName || 'Unknown'}</span></span>
                   </div>
                   <div className="flex items-center gap-1.5 text-slate-500 font-semibold text-sm">
                     <Heart size={16} className="text-rose-500" /> {exp.likeCount}
@@ -259,9 +256,9 @@ export default function LandingPage() {
             ))}
           </div>
           
-          <button className="sm:hidden mt-8 w-full flex justify-center items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors bg-emerald-50 px-5 py-3 rounded-xl hover:bg-emerald-100">
+          <Link href="/experience" className="sm:hidden mt-8 w-full flex justify-center items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors bg-emerald-50 px-5 py-3 rounded-xl hover:bg-emerald-100">
             View all experiences <ArrowRight size={16} />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -275,17 +272,21 @@ export default function LandingPage() {
               </h2>
               <p className="text-slate-500 text-lg max-w-2xl">Find engaging activities and workshops tailored to your interests.</p>
             </div>
-            <button className="hidden sm:flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors bg-slate-50 px-5 py-2.5 rounded-full border border-slate-200 hover:bg-slate-100 whitespace-nowrap">
+            <Link href="/activity" className="hidden sm:flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors bg-slate-50 px-5 py-2.5 rounded-full border border-slate-200 hover:bg-slate-100 whitespace-nowrap">
               Explore activities <ArrowRight size={16} />
-            </button>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockActivities.map((act) => (
+            {topActivities.map((act) => (
               <div key={act.id} className="flex gap-5 p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 transition-all duration-200 group cursor-pointer shadow-sm hover:shadow-xl hover:shadow-slate-200/50">
                 <div className="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden relative shadow-inner">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={act.activityPicture.media} alt={act.activityName} className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" />
+                  <img 
+                    src={act.activityPicture?.media || NO_IMAGE} 
+                    alt={act.activityName} 
+                    className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" 
+                  />
                 </div>
                 
                 <div className="flex flex-col py-1 flex-1 min-w-0">
@@ -295,18 +296,22 @@ export default function LandingPage() {
                     </h4>
                   </div>
                   <p className="text-sm text-slate-500 line-clamp-2 mb-3">
-                    {act.description}
+                    {act.description || 'No description available.'}
                   </p>
                   
                   <div className="mt-auto items-end">
                     <div className="flex flex-col gap-1.5 text-xs font-semibold text-slate-500 mb-2">
                       <div className="flex items-center gap-1.5">
                         <Clock size={14} className="text-emerald-500 shrink-0" />
-                        <span className="truncate">{new Date(act.activityStartDateTime).toLocaleDateString([], { month: 'short', day: 'numeric'})} • {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        <span className="truncate">
+                          {new Date(act.activityStartDateTime).toLocaleDateString([], { month: 'short', day: 'numeric'})} • {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1.5 truncate">
                         <MapPin size={14} className="text-slate-400 shrink-0" />
-                        <span className="truncate">{act.isOnline ? 'Online Event' : act.activityLocation}</span>
+                        <span className="truncate">
+                          {act.isOnline ? 'Online Event' : (act.activityLocation || 'Location TBD')}
+                        </span>
                       </div>
                     </div>
                     
@@ -321,9 +326,9 @@ export default function LandingPage() {
             ))}
           </div>
           
-          <button className="sm:hidden mt-8 w-full flex justify-center items-center gap-2 text-sm font-bold text-slate-600 transition-colors bg-slate-50 px-5 py-3 border border-slate-200 rounded-xl hover:bg-slate-100">
+          <Link href="/activity" className="sm:hidden mt-8 w-full flex justify-center items-center gap-2 text-sm font-bold text-slate-600 transition-colors bg-slate-50 px-5 py-3 border border-slate-200 rounded-xl hover:bg-slate-100">
             Explore activities <ArrowRight size={16} />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -363,6 +368,7 @@ export default function LandingPage() {
           </div>
         </footer>
       </div>
+
     </div>
   );
 }
