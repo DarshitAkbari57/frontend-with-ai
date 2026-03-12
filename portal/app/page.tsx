@@ -215,7 +215,7 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {topExperiences.map((exp: ExperienceData) => (
               <Link href={`/experience/${exp.id}?from=${encodeURIComponent('/')}`} key={exp.id} className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 flex flex-col transition-all duration-300 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer">
-                <div className="aspect-[4/3] w-full relative overflow-hidden">
+                <div className="aspect-[16/10] w-full relative overflow-hidden">
                   <ImageWithFallback
                     src={exp.expPicture?.media || NO_IMAGE}
                     alt={exp.title}
@@ -231,9 +231,9 @@ export default async function LandingPage() {
                   </div>
                 </div>
 
-                <div className="p-6 flex-1 flex flex-col">
+                <div className="p-5 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-2xl font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-1">
+                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-1">
                       {exp.title}
                     </h3>
                   </div>
@@ -243,7 +243,7 @@ export default async function LandingPage() {
                   </p>
 
                   {exp.location && (
-                  <div className="flex items-center gap-4 text-sm font-semibold text-slate-600 mb-6 mt-auto">
+                  <div className="flex items-center gap-4 text-sm font-semibold text-slate-600 mb-1 mt-auto">
                     <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 w-full">
                       <MapPin size={16} className="text-slate-400 shrink-0" /> 
                       <span className="truncate">{exp.location}</span>
@@ -252,7 +252,7 @@ export default async function LandingPage() {
                   )}
                 </div>
                 
-                <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
+                <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <ImageWithFallback
                       src={exp.userDetail?.profilePicture?.media || NO_IMAGE}
