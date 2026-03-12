@@ -63,7 +63,6 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
             alt={experience.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            unoptimized
             onError={() => setFailedImageUrl(imageUrl)}
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />

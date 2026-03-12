@@ -138,9 +138,8 @@ export default function ActivityDetailPage() {
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 70vw"
-                unoptimized
                 onError={() => setFailedImageUrl(imageUrl as string)}
-                className="object-full"
+                className="object-cover"
               />
             ) : (
               <div className="flex h-full items-center justify-center bg-linear-to-br from-zinc-100 via-zinc-200 to-zinc-300 text-sm font-medium text-zinc-500 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700 dark:text-zinc-300">

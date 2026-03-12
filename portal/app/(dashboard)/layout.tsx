@@ -4,7 +4,6 @@ import { useState } from 'react';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
-import { Toaster } from '@/components/ui/toast';
 
 export default function DashboardLayout({
   children,
@@ -22,7 +21,6 @@ export default function DashboardLayout({
         <div className="flex-1 flex flex-col">
           <Header onMenuClick={() => setSidebarOpen(true)} />
           <main className="flex-1 p-4">{children}</main>
-          <Toaster />
         </div>
       </div>
     </ProtectedRoute>

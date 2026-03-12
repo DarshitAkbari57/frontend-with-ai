@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
+import Image from 'next/image';
 import type { Activity } from '@/types/api';
 import { Clock, Activity as ActivityIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -28,7 +29,7 @@ export function ActivitiesSlider({ activities }: { activities: Activity[] }) {
   return (
     <div className="w-full overflow-hidden relative group">
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-xl font-bold tracking-[0.2em] text-slate-900 uppercase">
+        <h2 className="text-xl font-bold tracking-[0.12em] sm:tracking-[0.2em] text-slate-900 uppercase">
           Activities
         </h2>
         
@@ -67,8 +68,13 @@ export function ActivitiesSlider({ activities }: { activities: Activity[] }) {
             <div className="flex flex-col group/card bg-white border border-slate-100 rounded-[24px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 h-full">
               <div className="w-full aspect-[4/3] bg-slate-100 flex items-center justify-center relative overflow-hidden">
                 {act.activityPicture?.media ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={act.activityPicture.media} alt={act.activityName} className="object-cover w-full h-full group-hover/card:scale-105 transition-transform duration-700" />
+                  <Image
+                    src={act.activityPicture.media}
+                    alt={act.activityName}
+                    fill
+                    sizes="(max-width: 640px) 85vw, 45vw"
+                    className="object-cover w-full h-full group-hover/card:scale-105 transition-transform duration-700"
+                  />
                 ) : (
                   <ActivityIcon className="text-slate-300" size={48} />
                 )}

@@ -1,9 +1,11 @@
 import React from 'react';
-import { Clock, MapPin, ArrowRight } from 'lucide-react';
+import { Clock, MapPin } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { fetchPublic } from '@/lib/backend';
 
 const NO_IMAGE = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
+export const revalidate = 60;
 
 interface ActivityData {
   id: number;
@@ -69,10 +71,12 @@ export default async function AllActivitiesPage() {
           {activities.map((act: ActivityData) => (
             <div key={act.id} className="flex gap-5 p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 transition-all duration-200 group cursor-pointer shadow-sm hover:shadow-xl hover:shadow-slate-200/50">
               <div className="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden relative shadow-inner">
-                <img 
-                  src={act.activityPicture?.media || NO_IMAGE} 
-                  alt={act.activityName} 
-                  className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" 
+                <Image
+                  src={act.activityPicture?.media || NO_IMAGE}
+                  alt={act.activityName}
+                  fill
+                  sizes="(max-width: 640px) 112px, 128px"
+                  className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               
@@ -89,7 +93,7 @@ export default async function AllActivitiesPage() {
                     <div className="flex items-center gap-1.5">
                       <Clock size={14} className="text-emerald-500 shrink-0" />
                       <span className="truncate">
-                        {new Date(act.activityStartDateTime).toLocaleDateString([], { month: 'short', day: 'numeric'})} • {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {new Date(act.activityStartDateTime).toLocaleDateString([], { month: 'short', day: 'numeric'})} | {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5 truncate">

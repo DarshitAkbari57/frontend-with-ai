@@ -11,6 +11,18 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'disgo-eb-bucket.s3.ap-south-1.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ui-avatars.com',
+      },
     ],
   },
 };

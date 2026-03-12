@@ -1,10 +1,12 @@
 import React from 'react';
-import { Calendar, Users, Heart, MapPin, Activity, Star, Clock, ArrowRight } from 'lucide-react';
+import { Calendar, Heart, MapPin, Activity, Star, Clock, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { fetchPublic } from '@/lib/backend';
 
-// 🔥 Force Next.js to fetch fresh data every time (Bypasses Cache)
-export const dynamic = 'force-dynamic';
+// Revalidate public landing content periodically for faster response.
+const REVALIDATE_SECONDS = 60;
+export const revalidate = 60;
 
 const NO_IMAGE = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
 
@@ -52,7 +54,8 @@ async function getPublicExperiences(): Promise<ExperienceData[]> {
         page: 1,
         search: "" // Match Postman exactly
       }),
-      cache: 'no-store'
+      cache: 'force-cache',
+      next: { revalidate: REVALIDATE_SECONDS }
     });
     
     // Since fetchPublic returns json.data, we just verify it's an array and return it
@@ -71,7 +74,8 @@ async function getPublicActivities(): Promise<ActivityData[]> {
         'ngrok-skip-browser-warning': 'true',
         'Content-Type': 'application/json'
       },
-      cache: 'no-store' // Don't cache the API response
+      cache: 'force-cache',
+      next: { revalidate: REVALIDATE_SECONDS }
     });
     
     // Bulletproof array extraction
@@ -86,11 +90,12 @@ async function getPublicActivities(): Promise<ActivityData[]> {
 
 export default async function LandingPage() {
   // Fetch data and take only the first 3 for the landing page
-  const experiences = await getPublicExperiences();
+  const [experiences, activities] = await Promise.all([
+    getPublicExperiences(),
+    getPublicActivities(),
+  ]);
   const topExperiences = experiences.slice(0, 3);
   const featuredExperience = topExperiences.length > 0 ? topExperiences[0] : null;
-  
-  const activities = await getPublicActivities();
   const topActivities = activities.slice(0, 3);
   
   return (
@@ -111,11 +116,13 @@ export default async function LandingPage() {
       </header>
 
       {/* Hero Banner */}
-      <div className="relative w-full h-screen min-h-[600px] flex flex-col justify-center overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img 
-          src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=2000" 
-          alt="Bright Event Conference" 
+      <div className="relative w-full min-h-[100svh] flex flex-col justify-center overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=2000"
+          alt="Bright Event Conference"
+          fill
+          priority
+          sizes="100vw"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/20"></div>
@@ -169,11 +176,13 @@ export default async function LandingPage() {
             
             <div className="flex-1 relative w-full mt-10 lg:mt-0">
                <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl shadow-emerald-500/10 border-8 border-white bg-white">
-                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                 <img 
-                   src={featuredExperience.expPicture?.media || NO_IMAGE} 
-                   alt={featuredExperience.title} 
-                   className="w-full object-cover aspect-[4/3] transform hover:scale-105 transition-transform duration-700" 
+                 <Image
+                   src={featuredExperience.expPicture?.media || NO_IMAGE}
+                   alt={featuredExperience.title}
+                   width={960}
+                   height={720}
+                   sizes="(max-width: 1024px) 100vw, 50vw"
+                   className="w-full object-cover aspect-[4/3] transform hover:scale-105 transition-transform duration-700"
                  />
                  <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg flex items-center gap-2">
                     <Heart size={16} className="text-rose-500 fill-rose-500" />
@@ -207,10 +216,11 @@ export default async function LandingPage() {
             {topExperiences.map((exp: ExperienceData) => (
               <Link href={`/experience/${exp.id}?from=${encodeURIComponent('/')}`} key={exp.id} className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 flex flex-col transition-all duration-300 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer">
                 <div className="aspect-[4/3] w-full relative overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    src={exp.expPicture?.media || NO_IMAGE} 
+                  <Image
+                    src={exp.expPicture?.media || NO_IMAGE}
                     alt={exp.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700 ease-out"
                   />
                   <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg flex items-center gap-2">
@@ -244,8 +254,14 @@ export default async function LandingPage() {
                 
                 <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={exp.userDetail?.profilePicture?.media || NO_IMAGE} className="w-8 h-8 rounded-full object-cover shadow-sm border border-white" alt="Host" />
+                    <Image
+                      src={exp.userDetail?.profilePicture?.media || NO_IMAGE}
+                      className="w-8 h-8 rounded-full object-cover shadow-sm border border-white"
+                      alt="Host"
+                      width={32}
+                      height={32}
+                      sizes="32px"
+                    />
                     <span className="text-sm font-medium text-slate-500">by <span className="font-bold text-slate-700 truncate max-w-[100px] inline-block align-bottom">{exp.userDetail?.userName || 'Unknown'}</span></span>
                   </div>
                   <div className="flex items-center gap-1.5 text-slate-500 font-semibold text-sm">
@@ -281,11 +297,12 @@ export default async function LandingPage() {
             {topActivities.map((act) => (
               <div key={act.id} className="flex gap-5 p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 transition-all duration-200 group cursor-pointer shadow-sm hover:shadow-xl hover:shadow-slate-200/50">
                 <div className="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden relative shadow-inner">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    src={act.activityPicture?.media || NO_IMAGE} 
-                    alt={act.activityName} 
-                    className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" 
+                  <Image
+                    src={act.activityPicture?.media || NO_IMAGE}
+                    alt={act.activityName}
+                    fill
+                    sizes="(max-width: 640px) 112px, 128px"
+                    className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
                 
@@ -304,7 +321,7 @@ export default async function LandingPage() {
                       <div className="flex items-center gap-1.5">
                         <Clock size={14} className="text-emerald-500 shrink-0" />
                         <span className="truncate">
-                          {new Date(act.activityStartDateTime).toLocaleDateString([], { month: 'short', day: 'numeric'})} • {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          {new Date(act.activityStartDateTime).toLocaleDateString([], { month: 'short', day: 'numeric'})} | {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5 truncate">
@@ -372,3 +389,5 @@ export default async function LandingPage() {
     </div>
   );
 }
+
+

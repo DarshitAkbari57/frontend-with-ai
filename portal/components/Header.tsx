@@ -1,36 +1,15 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import LogoutButton from './LogoutButton';
-import type { User } from '@/types/auth';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useAuthStatus } from '@/hooks/useAuthStatus';
 
 interface HeaderProps {
   onMenuClick: () => void;
 }
 
 export default function Header({ onMenuClick }: HeaderProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const res = await fetch('/api/auth/status');
-        if (res.ok) {
-          const data = await res.json();
-          setUser(data.user);
-        } else {
-          router.push('/login');
-        }
-      } catch (err) {
-        console.error('Failed to fetch user', err);
-        router.push('/login');
-      }
-    }
-    fetchUser();
-  }, [router]);
+  const { data } = useAuthStatus();
+  const user = data?.authenticated ? data.user ?? null : null;
 
   // Determine display name
   const displayName = user?.email || user?.phone_number || user?.given_name || user?.sub || 'User';

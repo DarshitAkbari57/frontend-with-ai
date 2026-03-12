@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { TicketModal } from './TicketModal';
+import dynamic from 'next/dynamic';
 
 interface Ticket {
   id: number;
@@ -14,6 +14,11 @@ interface Ticket {
 }
 
 type Status = 'loading' | 'done' | 'error';
+
+const LazyTicketModal = dynamic(
+  () => import('./TicketModal').then((module) => module.TicketModal),
+  { ssr: false }
+);
 
 export function TicketsSection({ experienceId }: { experienceId: number }) {
   const [status, setStatus] = useState<Status>('loading');
@@ -88,7 +93,7 @@ export function TicketsSection({ experienceId }: { experienceId: number }) {
       )}
 
       {selectedTicket && (
-        <TicketModal
+        <LazyTicketModal
           ticket={selectedTicket}
           experienceId={experienceId}
           isOpen={!!selectedTicket}

@@ -6,6 +6,13 @@ export interface BackendResponse<T> {
   status: number;
 }
 
+type BackendFetchOptions = RequestInit & {
+  next?: {
+    revalidate?: number | false;
+    tags?: string[];
+  };
+};
+
 function normalizeToken(token?: string): string | undefined {
   if (!token) return undefined;
   const trimmed = token.trim();
@@ -13,7 +20,7 @@ function normalizeToken(token?: string): string | undefined {
   return trimmed.startsWith('Bearer ') ? trimmed.slice(7) : trimmed;
 }
 
-export async function fetchFromBackend<T>(path: string, options: RequestInit = {}): Promise<T> {
+export async function fetchFromBackend<T>(path: string, options: BackendFetchOptions = {}): Promise<T> {
   const cookieStore = await cookies();
   const idToken = cookieStore.get('idToken')?.value;
   const accessToken = cookieStore.get('accessToken')?.value;
@@ -73,7 +80,7 @@ export async function fetchFromBackend<T>(path: string, options: RequestInit = {
 }
 
 // Unauthenticated fetch for public endpoints (no auth cookies/headers)
-export async function fetchPublic<T>(path: string, options: RequestInit = {}): Promise<T> {
+export async function fetchPublic<T>(path: string, options: BackendFetchOptions = {}): Promise<T> {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!baseUrl) {
     throw new Error('Missing NEXT_PUBLIC_API_BASE_URL environment variable');
@@ -110,7 +117,7 @@ export async function fetchPublic<T>(path: string, options: RequestInit = {}): P
 }
 
 // Helper that returns full backend response (including metadata like total)
-export async function fetchBackendRaw<T>(path: string, options: RequestInit = {}): Promise<{ data: T } & Record<string, any>> {
+export async function fetchBackendRaw<T>(path: string, options: BackendFetchOptions = {}): Promise<{ data: T } & Record<string, any>> {
   const cookieStore = await cookies();
   const idToken = cookieStore.get('idToken')?.value;
   const accessToken = cookieStore.get('accessToken')?.value;

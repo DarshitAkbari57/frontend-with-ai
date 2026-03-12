@@ -592,7 +592,6 @@ export default function ExperienceDetailPage() {
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 70vw"
-                unoptimized
                 onError={() => setFailedImageUrl(imageUrl)}
                 className="object-cover"
               />

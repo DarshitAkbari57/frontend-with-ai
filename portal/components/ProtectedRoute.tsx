@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState, ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuthStatus } from '@/hooks/useAuthStatus';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -9,32 +10,25 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const router = useRouter();
-  const [isAuth, setIsAuth] = useState<boolean | null>(null);
+  const { data, isLoading, isSuccess, isError } = useAuthStatus();
+  const isAuthenticated = Boolean(data?.authenticated);
 
   useEffect(() => {
-    async function checkAuth() {
-      try {
-        const res = await fetch('/api/auth/status');
-        if (res.ok) {
-          setIsAuth(true);
-        } else {
-          setIsAuth(false);
-          router.push('/login');
-        }
-      } catch (err) {
-        setIsAuth(false);
-        router.push('/login');
-      }
+    if (isError || (isSuccess && !isAuthenticated)) {
+      router.push('/login');
     }
-    checkAuth();
-  }, [router]);
+  }, [isAuthenticated, isSuccess, isError, router]);
 
-  if (isAuth === null) {
+  if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-zinc-900"></div>
       </div>
     );
+  }
+
+  if (!isAuthenticated) {
+    return null;
   }
 
   return <>{children}</>;

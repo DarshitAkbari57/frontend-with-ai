@@ -1,31 +1,17 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/toast';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import type { Activity } from '@/types/api';
-import { CalendarDays, MapPin, UserRound, ArrowRight, Shield, Globe, Clock } from 'lucide-react';
+import { CalendarDays, MapPin, UserRound, Shield, Clock } from 'lucide-react';
 import { deleteActivity, updateActivity } from '@/lib/api';
 
 interface ActivityCardProps {
   activity: Activity;
-}
-
-function formatDateTime(dateString: string) {
-  const date = new Date(dateString);
-  if (Number.isNaN(date.getTime())) {
-    return 'Invalid date';
-  }
-
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  }).format(date);
 }
 
 function formatDate(dateString: string) {
@@ -43,6 +29,7 @@ function formatDate(dateString: string) {
 
 export default function ActivityCard({ activity }: ActivityCardProps) {
   const queryClient = useQueryClient();
+  const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null);
 
   const deleteMutation = useMutation({
     mutationFn: () => deleteActivity(activity.id.toString()),
@@ -125,22 +112,20 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
   const costLabel = activity.activityCost > 0 ? `$${activity.activityCost}` : 'Free';
   const imageUrl = activity.activityPicture?.media;
   const isInvalidImage = imageUrl?.includes('a-cl-1') || imageUrl?.startsWith('data:image/svg') || imageUrl?.startsWith('<svg');
-  const shouldShowImage = Boolean(imageUrl) && !isInvalidImage;
+  const shouldShowImage = Boolean(imageUrl) && failedImageUrl !== imageUrl && !isInvalidImage;
 
   return (
     <Link href={`/activities/${activity.id}`} className="block h-full">
       <Card className="group cursor-pointer overflow-hidden border-zinc-200/80 !py-0 !gap-0 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-zinc-800 h-full flex flex-col">
         <div className="relative h-32 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
           {shouldShowImage ? (
-            <img
+            <Image
               src={imageUrl as string}
               alt={activity.activityName}
-              className="h-full w-full object-fill"
-              onError={(e) => {
-                const target = e.currentTarget;
-                target.style.display = 'none';
-                target.parentElement?.querySelector('[data-placeholder]')?.classList.remove('hidden');
-              }}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="h-full w-full object-cover"
+              onError={() => setFailedImageUrl(imageUrl as string)}
             />
           ) : null}
           <div

@@ -196,7 +196,7 @@ function CheckoutForm({
           <div className="flex flex-col space-y-4 bg-slate-50/50 p-6 rounded-[20px] border border-slate-100 h-fit">
             <h4 className="text-xs font-bold tracking-wider text-slate-500 uppercase mb-2">Guest Details</h4>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">First Name</label>
                 <input

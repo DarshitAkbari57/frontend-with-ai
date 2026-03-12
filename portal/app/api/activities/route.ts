@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchBackendRaw, fetchFromBackend } from '@/lib/backend';
+import { fetchBackendRaw } from '@/lib/backend';
 import type { Activity } from '@/types/api';
 
 function toPositiveInt(value: string | null, fallback: number): number {
@@ -7,7 +7,21 @@ function toPositiveInt(value: string | null, fallback: number): number {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
+function toFiniteNumber(value: unknown): number | undefined {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+  if (typeof value === 'string' && value.trim() !== '') {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+  return undefined;
+}
+
 export async function GET(request: NextRequest) {
+  const startedAt = Date.now();
   try {
     const { searchParams } = new URL(request.url);
     const page = toPositiveInt(searchParams.get('page'), 1);
@@ -36,36 +50,31 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const total = activities.length;
-    const totalPages = total === 0 ? 1 : Math.ceil(total / limit);
+    const backendTotal =
+      experienceId === null && !search
+        ? toFiniteNumber((response as Record<string, unknown>).total) ??
+          toFiniteNumber((response as Record<string, unknown>).totalCount) ??
+          toFiniteNumber((response as Record<string, unknown>).count)
+        : undefined;
+
+    const total = backendTotal ?? activities.length;
+    const hasExactTotal = backendTotal !== undefined;
+    const totalPages = hasExactTotal
+      ? Math.max(1, Math.ceil(total / limit))
+      : Math.max(1, page + (activities.length === limit ? 1 : 0));
     const safePage = Math.min(page, totalPages);
     const startIndex = (safePage - 1) * limit;
     const data = activities.slice(startIndex, startIndex + limit);
-
-    // Enrich paginated activities with activityPicture from detail endpoint
-    const enriched = await Promise.all(
-      data.map(async (activity) => {
-        try {
-          const detail = await fetchFromBackend<any>(
-            `/activity/${activity.id}`,
-            { method: 'GET' }
-          );
-          return {
-            ...activity,
-            activityPicture: detail.activityPicture ?? null,
-          };
-        } catch {
-          return { ...activity, activityPicture: null };
-        }
-      })
-    );
+    const hasMore = hasExactTotal ? safePage * limit < total : data.length === limit;
 
     return NextResponse.json({
-      data: enriched,
+      data,
       total,
       page: safePage,
       limit,
       totalPages,
+      hasMore,
+      hasExactTotal,
     });
   } catch (error: any) {
     const status = error.status || 500;
@@ -73,10 +82,14 @@ export async function GET(request: NextRequest) {
       { error: error.message || 'Failed to fetch activities' },
       { status }
     );
+  } finally {
+    const durationMs = Date.now() - startedAt;
+    console.info(`[api/activities] GET completed in ${durationMs}ms`);
   }
 }
 
 export async function POST(request: NextRequest) {
+  const startedAt = Date.now();
   try {
     const body = await request.json();
     const response = await fetchBackendRaw<any>('/activity/createActivity', {
@@ -90,5 +103,8 @@ export async function POST(request: NextRequest) {
       { error: error.message || 'Failed to create activity' },
       { status }
     );
+  } finally {
+    const durationMs = Date.now() - startedAt;
+    console.info(`[api/activities] POST completed in ${durationMs}ms`);
   }
 }
