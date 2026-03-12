@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import ImageWithFallback from '@/components/ImageWithFallback';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, CalendarDays, MapPin, UsersRound, Clock3, QrCode, ShieldCheck } from 'lucide-react';
@@ -683,7 +684,7 @@ export default function ExperienceDetailPage() {
                     >
                       <div className="relative h-10 w-10 overflow-hidden rounded-full border border-zinc-300 bg-zinc-200 dark:border-zinc-700 dark:bg-zinc-700">
                         {invitee.avatar ? (
-                          <Image src={invitee.avatar} alt={invitee.userName} fill sizes="40px" className="object-cover" unoptimized />
+                          <ImageWithFallback src={invitee.avatar} alt={invitee.userName} fill sizes="40px" className="object-cover" unoptimized />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-xs font-semibold text-zinc-700 dark:text-zinc-200">
                             {invitee.userName.slice(0, 2).toUpperCase()}
@@ -720,7 +721,7 @@ export default function ExperienceDetailPage() {
                     >
                       <div className="relative h-9 w-9 overflow-hidden rounded-md border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-800">
                         {feature.media ? (
-                          <Image src={feature.media} alt={feature.name} fill sizes="36px" className="object-cover" unoptimized />
+                          <ImageWithFallback src={feature.media} alt={feature.name} fill sizes="36px" className="object-cover" unoptimized />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center">
                             <ShieldCheck className="h-4 w-4 text-zinc-500" />
@@ -784,7 +785,7 @@ export default function ExperienceDetailPage() {
                       <div className="flex gap-3">
                         <div className="relative mt-0.5 h-10 w-10 shrink-0 overflow-hidden rounded-md border border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-800">
                           {activity.picture ? (
-                            <Image src={activity.picture} alt={activity.title} fill sizes="40px" className="object-cover" unoptimized />
+                            <ImageWithFallback src={activity.picture} alt={activity.title} fill sizes="40px" className="object-cover" unoptimized />
                           ) : (
                             <div className="flex h-full w-full items-center justify-center text-zinc-500">
                               <CalendarDays className="h-4 w-4" />
@@ -867,7 +868,7 @@ export default function ExperienceDetailPage() {
                         <div className="grid grid-cols-[56px_1fr] gap-3 p-3">
                           <div className="flex h-14 w-14 items-center justify-center text-zinc-900 dark:text-zinc-100">
                             {resolveTicketQrMedia(ticket) ? (
-                              <Image
+                              <ImageWithFallback
                                 src={resolveTicketQrMedia(ticket) as string}
                                 alt="Ticket QR"
                                 width={48}

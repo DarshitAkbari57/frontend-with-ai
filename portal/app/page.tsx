@@ -1,7 +1,7 @@
 import React from 'react';
 import { Calendar, Heart, MapPin, Activity, Star, Clock, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import ImageWithFallback from '@/components/ImageWithFallback';
 import { fetchPublic } from '@/lib/backend';
 
 // Revalidate public landing content periodically for faster response.
@@ -117,7 +117,7 @@ export default async function LandingPage() {
 
       {/* Hero Banner */}
       <div className="relative w-full min-h-[100svh] flex flex-col justify-center overflow-hidden">
-        <Image
+        <ImageWithFallback
           src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=2000"
           alt="Bright Event Conference"
           fill
@@ -176,7 +176,7 @@ export default async function LandingPage() {
             
             <div className="flex-1 relative w-full mt-10 lg:mt-0">
                <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl shadow-emerald-500/10 border-8 border-white bg-white">
-                 <Image
+                 <ImageWithFallback
                    src={featuredExperience.expPicture?.media || NO_IMAGE}
                    alt={featuredExperience.title}
                    width={960}
@@ -216,7 +216,7 @@ export default async function LandingPage() {
             {topExperiences.map((exp: ExperienceData) => (
               <Link href={`/experience/${exp.id}?from=${encodeURIComponent('/')}`} key={exp.id} className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 flex flex-col transition-all duration-300 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer">
                 <div className="aspect-[4/3] w-full relative overflow-hidden">
-                  <Image
+                  <ImageWithFallback
                     src={exp.expPicture?.media || NO_IMAGE}
                     alt={exp.title}
                     fill
@@ -254,7 +254,7 @@ export default async function LandingPage() {
                 
                 <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Image
+                    <ImageWithFallback
                       src={exp.userDetail?.profilePicture?.media || NO_IMAGE}
                       className="w-8 h-8 rounded-full object-cover shadow-sm border border-white"
                       alt="Host"
@@ -297,7 +297,7 @@ export default async function LandingPage() {
             {topActivities.map((act) => (
               <div key={act.id} className="flex gap-5 p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 transition-all duration-200 group cursor-pointer shadow-sm hover:shadow-xl hover:shadow-slate-200/50">
                 <div className="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden relative shadow-inner">
-                  <Image
+                  <ImageWithFallback
                     src={act.activityPicture?.media || NO_IMAGE}
                     alt={act.activityName}
                     fill

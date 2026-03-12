@@ -1,7 +1,7 @@
 import React from 'react';
 import { Clock, MapPin } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import ImageWithFallback from '@/components/ImageWithFallback';
 import { fetchPublic } from '@/lib/backend';
 
 const NO_IMAGE = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
@@ -71,7 +71,7 @@ export default async function AllActivitiesPage() {
           {activities.map((act: ActivityData) => (
             <div key={act.id} className="flex gap-5 p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 transition-all duration-200 group cursor-pointer shadow-sm hover:shadow-xl hover:shadow-slate-200/50">
               <div className="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden relative shadow-inner">
-                <Image
+                <ImageWithFallback
                   src={act.activityPicture?.media || NO_IMAGE}
                   alt={act.activityName}
                   fill

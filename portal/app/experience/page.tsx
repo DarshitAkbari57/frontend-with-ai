@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar, Heart, MapPin } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import ImageWithFallback from '@/components/ImageWithFallback';
 
 const NO_IMAGE = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
 
@@ -144,7 +144,7 @@ export default function AllExperiencesPage() {
                 className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 flex flex-col transition-all duration-300 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer"
               >
                 <div className="aspect-[4/3] w-full relative overflow-hidden">
-                  <Image
+                  <ImageWithFallback
                     src={exp.expPicture?.media || NO_IMAGE}
                     alt={exp.title}
                     fill
@@ -178,7 +178,7 @@ export default function AllExperiencesPage() {
 
                 <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Image
+                    <ImageWithFallback
                       src={exp.userDetail?.profilePicture?.media || NO_IMAGE}
                       className="w-8 h-8 rounded-full object-cover shadow-sm border border-white"
                       alt="Host"

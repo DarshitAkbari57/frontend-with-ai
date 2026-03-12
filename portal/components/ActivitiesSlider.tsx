@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import Image from 'next/image';
+import ImageWithFallback from '@/components/ImageWithFallback';
 import type { Activity } from '@/types/api';
 import { Clock, Activity as ActivityIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -68,7 +68,7 @@ export function ActivitiesSlider({ activities }: { activities: Activity[] }) {
             <div className="flex flex-col group/card bg-white border border-slate-100 rounded-[24px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 h-full">
               <div className="w-full aspect-[4/3] bg-slate-100 flex items-center justify-center relative overflow-hidden">
                 {act.activityPicture?.media ? (
-                  <Image
+                  <ImageWithFallback
                     src={act.activityPicture.media}
                     alt={act.activityName}
                     fill

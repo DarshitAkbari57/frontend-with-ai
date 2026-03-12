@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import type { Experience, Activity } from '@/types/api';
 import { Heart, Clock, User, ArrowLeft, Info } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import ImageWithFallback from '@/components/ImageWithFallback';
 import { useParams, useSearchParams } from 'next/navigation';
 import { GetTicketsButton } from '@/components/GetTicketsButton';
 import { TicketsSection } from '@/components/TicketsSection';
@@ -296,7 +296,7 @@ export default function ExperienceDetailPage() {
     <div className="min-h-screen bg-zinc-50 font-sans text-slate-900 selection:bg-emerald-500/20">
       <main className="w-full relative min-h-screen">
         <div className="relative w-full h-[50vh] min-h-[400px]">
-          <Image
+          <ImageWithFallback
             src={imageUrl}
             alt={experience.title}
             fill
@@ -388,7 +388,7 @@ export default function ExperienceDetailPage() {
                       {hostName}
                     </span>
                   </div>
-                  <Image
+                  <ImageWithFallback
                     src={hostAvatar}
                     alt={hostName}
                     width={40}
