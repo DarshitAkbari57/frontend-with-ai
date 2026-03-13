@@ -37,7 +37,7 @@ interface ExperienceData {
     lastName: string | null;
     profilePicture: { media: string | null } | null;
   };
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 async function getPublicExperiences(): Promise<ExperienceData[]> {
@@ -68,7 +68,7 @@ async function getPublicExperiences(): Promise<ExperienceData[]> {
 
 async function getPublicActivities(): Promise<ActivityData[]> {
   try {
-    const response: any = await fetchPublic('/activity/public/getAll', {
+    const response: ActivityData[] | { data: ActivityData[] } = await fetchPublic('/activity/public/getAll', {
       method: 'GET',
       headers: {
         'ngrok-skip-browser-warning': 'true',
@@ -99,98 +99,140 @@ export default async function LandingPage() {
   const topActivities = activities.slice(0, 3);
   
   return (
-    <div className="min-h-screen bg-zinc-50 text-slate-900 font-sans selection:bg-emerald-500/20">
+    <div className="min-h-screen bg-[#020617] text-slate-100 font-sans selection:bg-emerald-500/30 overflow-x-hidden">
       
+      {/* Background Animated Blobs */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-emerald-500/10 rounded-full blur-[120px] animate-pulse-slow"></div>
+        <div className="absolute bottom-[10%] right-[-5%] w-[45%] h-[55%] bg-blue-600/10 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-[30%] right-[10%] w-[35%] h-[35%] bg-purple-600/10 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute bottom-[20%] left-[10%] w-[40%] h-[40%] bg-pink-600/5 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-[40%] left-[40%] w-[30%] h-[30%] bg-cyan-600/5 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute bottom-[-10%] right-[30%] w-[40%] h-[40%] bg-indigo-600/5 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '5s' }}></div>
+      </div>
+
       {/* Navbar */}
-      <header className="fixed top-0 z-50 w-full bg-slate-950/20 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+      <header className="fixed top-0 z-50 w-full bg-slate-950/40 backdrop-blur-xl border-b border-white/5 transition-all duration-500">
         <div className="flex items-center justify-between h-20 px-4 md:px-8 max-w-7xl mx-auto">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="white" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+          <div className="flex items-center gap-3 group cursor-pointer">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-lg shadow-pink-500/20 group-hover:scale-110 transition-transform duration-500">
+              <Star size={22} fill="white" className="text-white" />
             </div>
-            <span className="font-bold text-xl tracking-tight text-white">Experience Portal</span>
+            <span className="font-bold text-2xl tracking-tight text-gradient-vibrant group-hover:drop-shadow-[0_0_10px_rgba(236,72,153,0.3)] transition-all">Experience Portal</span>
+          </div>
+          <div className="hidden md:flex items-center gap-6">
+            <button className="px-6 py-2.5 bg-emerald-500 text-[#020617] font-black rounded-xl glow-button text-sm tracking-wide">
+              Sign In
+            </button>
           </div>
         </div>
       </header>
 
       {/* Hero Banner */}
-      <div className="relative w-full min-h-[100svh] flex flex-col justify-center overflow-hidden">
-        <ImageWithFallback
-          src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=2000"
-          alt="Bright Event Conference"
-          fill
-          priority
-          sizes="100vw"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/20"></div>
+      <div className="relative w-full min-h-[100svh] flex flex-col justify-center overflow-hidden border-b border-white/5">
+        <div className="absolute inset-0 z-0">
+          <ImageWithFallback
+            src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=2000&q=80"
+            alt="Vibrant Event Background"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-40 scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/20 via-[#020617]/80 to-[#020617]"></div>
+          <div className="absolute inset-0 bg-mesh-vibrant opacity-60"></div>
+        </div>
         
         <div className="relative z-10 flex flex-col justify-center px-4 md:px-8 max-w-7xl mx-auto w-full pt-20">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.1] tracking-tight mb-6">
-              Discover extraordinary <br className="hidden md:block"/> experiences around you.
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-sm font-bold mb-8 animate-float shadow-[0_0_20px_rgba(236,72,153,0.1)]">
+              <Activity size={16} />
+              <span>Explore the Extraordinary</span>
+            </div>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white leading-[0.95] tracking-tighter mb-8">
+              Discover <span className="text-gradient-vibrant">Limitless</span> <br /> Experiences.
             </h1>
-            <p className="text-slate-200 text-lg md:text-xl max-w-2xl font-medium mb-10">
-              Join thousands of attendees and creators globally. Find your next adventure or host your own spectacular event.
+            <p className="text-slate-300 text-xl md:text-2xl max-w-2xl font-medium mb-12 leading-relaxed">
+              Step into a world of curated adventures. From high-octane thrillers to serene retreats, find the moments that define your story.
             </p>
+            <div className="flex flex-wrap gap-5">
+              <Link href="/experience">
+                <button className="px-10 py-5 bg-emerald-500 text-[#020617] font-black rounded-2xl hover:bg-emerald-400 transition-all shadow-[0_0_30px_-5px_rgba(16,185,129,0.5)] flex items-center gap-3 group text-lg glow-button">
+                  Start Exploring
+                  <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
+
       </div>
 
       {/* Featured Experience Section */}
       {featuredExperience && (
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
-            <div className="flex-1 space-y-6 max-w-xl">
-              <h2 className="text-emerald-600 font-bold text-lg tracking-wide uppercase">Featured Experience</h2>
-              <h3 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight">
-                {featuredExperience.title}
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24">
+            <div className="flex-1 space-y-8 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-black uppercase tracking-[0.2em]">
+                Spotlight
+              </div>
+              <h3 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-tight tracking-tight">
+                <span className="text-gradient-vibrant">{featuredExperience.title}</span>
               </h3>
-              <p className="text-lg text-slate-600 leading-relaxed">
-                Find events to connect with people who share your interests. Whatever your interest, Experience Portal helps you connect with like-minded people. {featuredExperience.description}
+              <p className="text-xl text-slate-400 leading-relaxed font-medium">
+                {featuredExperience.description || "Discover this unique opportunity to connect and grow."}
               </p>
-              <div className="flex flex-wrap items-center gap-6 pt-4">
-                <div className="flex items-center gap-2 text-slate-600">
-                  <Calendar className="text-emerald-500" size={20} />
-                  <span className="font-medium">{new Date(featuredExperience.experienceStartDateTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                <div className="glass-card p-4 rounded-2xl flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                    <Calendar size={20} />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-slate-500 uppercase">Date & Time</div>
+                    <div className="font-bold text-white">{new Date(featuredExperience.experienceStartDateTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                  </div>
                 </div>
                 {featuredExperience.location && (
-                <div className="flex items-center gap-2 text-slate-600">
-                  <MapPin className="text-emerald-500" size={20} />
-                  <span className="font-medium truncate max-w-[200px] sm:max-w-full">{featuredExperience.location}</span>
+                <div className="glass-card p-4 rounded-2xl flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400">
+                    <MapPin size={20} />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-slate-500 uppercase">Location</div>
+                    <div className="font-bold text-white truncate max-w-[150px]">{featuredExperience.location}</div>
+                  </div>
                 </div>
                 )}
               </div>
-              <div className="pt-6">
+
+              <div className="pt-8">
                 <Link href={`/experience/${featuredExperience.id}?from=${encodeURIComponent('/')}`}>
-                  <button className="px-8 py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-xl shadow-slate-900/20 flex items-center gap-2 group w-full sm:w-auto justify-center">
-                    Explore Experience
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  <button className="px-10 py-5 bg-white text-[#020617] font-black rounded-2xl hover:bg-emerald-500 transition-all shadow-xl flex items-center gap-3 group">
+                    View Details
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                 </Link>
               </div>
             </div>
             
-            <div className="flex-1 relative w-full mt-10 lg:mt-0">
-               <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl shadow-emerald-500/10 border-8 border-white bg-white">
+            <div className="flex-1 relative w-full lg:max-w-xl">
+               <div className="relative z-10 rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl group">
                  <ImageWithFallback
                    src={featuredExperience.expPicture?.media || NO_IMAGE}
                    alt={featuredExperience.title}
                    width={960}
-                   height={720}
+                   height={1280}
                    sizes="(max-width: 1024px) 100vw, 50vw"
-                   className="w-full object-cover aspect-[4/3] transform hover:scale-105 transition-transform duration-700"
+                   className="w-full object-cover aspect-[3/4] transform group-hover:scale-110 transition-transform duration-1000"
                  />
-                 <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg flex items-center gap-2">
-                    <Heart size={16} className="text-rose-500 fill-rose-500" />
-                    <span className="font-bold text-slate-800 text-sm">{featuredExperience.likeCount} Likes</span>
-                 </div>
+                 <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60"></div>
+                
                </div>
-               <div className="absolute -z-10 top-1/2 -right-12 w-64 h-64 bg-emerald-50 rounded-full blur-3xl opacity-60 mix-blend-multiply"></div>
-               <div className="absolute -z-10 -bottom-12 left-1/2 w-72 h-72 bg-blue-50 rounded-full blur-3xl opacity-60 mix-blend-multiply"></div>
+               {/* Decorative elements behind image */}
+               <div className="absolute -top-10 -right-10 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl -z-0"></div>
+               <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl -z-0"></div>
             </div>
           </div>
         </div>
@@ -198,143 +240,141 @@ export default async function LandingPage() {
       )}
 
       {/* Trending Experiences */}
-      <section className="py-24 bg-zinc-50 border-t border-slate-200/50">
+      <section className="py-24 relative">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
-            <div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 mb-4">
-                Trending Experiences
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-16 gap-8">
+            <div className="space-y-4">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-white">
+                Trending <span className="text-gradient-vibrant">Now</span>
               </h2>
-              <p className="text-slate-500 text-lg max-w-2xl">Discover the most popular events happening around you. Don't miss out on these top-rated experiences.</p>
+              <p className="text-slate-400 text-xl max-w-2xl font-medium">Be part of the moments everyone is talking about.</p>
             </div>
-            <Link href="/experience" className="hidden sm:flex items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors bg-emerald-50 px-5 py-2.5 rounded-full hover:bg-emerald-100 whitespace-nowrap">
-              View all experiences <ArrowRight size={16} />
+            <Link href="/experience" className="group flex items-center gap-3 text-lg font-bold text-emerald-400 hover:text-emerald-300 transition-all bg-emerald-500/5 px-8 py-4 rounded-2xl border border-emerald-500/10 hover:border-emerald-500/30 whitespace-nowrap">
+              View All <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {topExperiences.map((exp: ExperienceData) => (
-              <Link href={`/experience/${exp.id}?from=${encodeURIComponent('/')}`} key={exp.id} className="group relative rounded-3xl overflow-hidden bg-white border border-slate-200 flex flex-col transition-all duration-300 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer">
-                <div className="aspect-[16/10] w-full relative overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {topExperiences.map((exp: ExperienceData, index: number) => (
+              <Link href={`/experience/${exp.id}?from=${encodeURIComponent('/')}`} key={exp.id} className="group relative rounded-[2rem] overflow-hidden glass-card inner-glow flex flex-col transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_-20px_rgba(236,72,153,0.3)]">
+                <div className="aspect-[11/10] w-full relative overflow-hidden">
                   <ImageWithFallback
                     src={exp.expPicture?.media || NO_IMAGE}
                     alt={exp.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700 ease-out"
+                    className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-1000 ease-out"
                   />
-                  <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-lg flex items-center gap-2">
-                    <Calendar size={16} className="text-emerald-600" />
-                    <span className="text-sm font-bold text-slate-800 uppercase tracking-wide">
-                      {new Date(exp.experienceStartDateTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-5 flex-1 flex flex-col">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-1">
-                      {exp.title}
-                    </h3>
-                  </div>
-                  
-                  <p className="text-base text-slate-500 line-clamp-2 mb-6 flex-1">
-                    {exp.description || 'No description available.'}
-                  </p>
-
-                  {exp.location && (
-                  <div className="flex items-center gap-4 text-sm font-semibold text-slate-600 mb-1 mt-auto">
-                    <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 w-full">
-                      <MapPin size={16} className="text-slate-400 shrink-0" /> 
-                      <span className="truncate">{exp.location}</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60"></div>
+                  <div className="absolute top-4 left-4 flex flex-col gap-2">
+                    <div className="glass px-4 py-2 rounded-xl border border-white/20 flex items-center gap-2">
+                      <Calendar size={14} className="text-emerald-400" />
+                      <span className="text-xs font-black text-white uppercase tracking-widest">
+                        {new Date(exp.experienceStartDateTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      </span>
+                    </div>
+                    <div className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest self-start ${
+                      index % 4 === 0 ? 'badge-nature' : index % 4 === 1 ? 'badge-tech' : index % 4 === 2 ? 'badge-culture' : 'badge-adventure'
+                    }`}>
+                      {index % 4 === 0 ? 'Nature' : index % 4 === 1 ? 'Tech' : index % 4 === 2 ? 'Culture' : 'Adventure'}
                     </div>
                   </div>
-                  )}
-                </div>
-                
-                <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <ImageWithFallback
-                      src={exp.userDetail?.profilePicture?.media || NO_IMAGE}
-                      className="w-8 h-8 rounded-full object-cover shadow-sm border border-white"
-                      alt="Host"
-                      width={32}
-                      height={32}
-                      sizes="32px"
-                    />
-                    <span className="text-sm font-medium text-slate-500">by <span className="font-bold text-slate-700 truncate max-w-[100px] inline-block align-bottom">{exp.userDetail?.userName || 'Unknown'}</span></span>
+                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full glass border border-white/20 flex items-center justify-center text-rose-500 shadow-[0_0_15px_rgba(244,63,94,0.2)] hover:scale-110 transition-transform">
+                    <Heart size={20} fill={index % 3 === 0 ? "currentColor" : "none"} />
                   </div>
-                  <div className="flex items-center gap-1.5 text-slate-500 font-semibold text-sm">
-                    <Heart size={16} className="text-rose-500" /> {exp.likeCount}
+                </div>
+
+                <div className="p-8 flex-1 flex flex-col relative">
+                  <h3 className="text-2xl font-black text-white group-hover:text-emerald-400 transition-colors line-clamp-1 mb-3">
+                    {exp.title}
+                  </h3>
+                  
+                  <p className="text-base text-slate-400 font-medium line-clamp-2 mb-8 flex-1">
+                    {exp.description || 'Step into an unforgettable experience curated just for you.'}
+                  </p>
+
+                  <div className="flex items-center justify-between mt-auto pt-6 border-t border-white/5">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <ImageWithFallback
+                          src={exp.userDetail?.profilePicture?.media || NO_IMAGE}
+                          className="w-10 h-10 rounded-xl object-cover border border-white/10"
+                          alt="Host"
+                          width={40}
+                          height={40}
+                          sizes="40px"
+                        />
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-[#020617]"></div>
+                      </div>
+                      <span className="text-sm font-bold text-slate-400">by <span className="text-white">{exp.userDetail?.userName || 'Pro'}</span></span>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-rose-500/10 text-rose-500">
+                      <Heart size={16} className="fill-rose-500" />
+                      <span className="font-black text-sm">{exp.likeCount}</span>
+                    </div>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
-          
-          <Link href="/experience" className="sm:hidden mt-8 w-full flex justify-center items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors bg-emerald-50 px-5 py-3 rounded-xl hover:bg-emerald-100">
-            View all experiences <ArrowRight size={16} />
-          </Link>
         </div>
       </section>
 
       {/* Upcoming Activities */}
-      <section className="py-24 bg-white border-t border-slate-200">
+      <section className="py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
-            <div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 mb-4">
-                Upcoming Activities
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-16 gap-8">
+            <div className="space-y-4">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-white">
+                Upcoming <span className="text-gradient-vibrant">Activities</span>
               </h2>
-              <p className="text-slate-500 text-lg max-w-2xl">Find engaging activities and workshops tailored to your interests.</p>
+              <p className="text-slate-400 text-xl max-w-2xl font-medium">Fine-tune your skills or learn something entirely new.</p>
             </div>
-            <Link href="/activity" className="hidden sm:flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors bg-slate-50 px-5 py-2.5 rounded-full border border-slate-200 hover:bg-slate-100 whitespace-nowrap">
-              Explore activities <ArrowRight size={16} />
+            <Link href="/activity" className="group flex items-center gap-3 text-lg font-bold text-slate-300 hover:text-white transition-all bg-white/5 px-8 py-4 rounded-2xl border border-white/10 hover:border-white/20 whitespace-nowrap backdrop-blur-md">
+              Explore All <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {topActivities.map((act) => (
-              <div key={act.id} className="flex gap-5 p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 transition-all duration-200 group cursor-pointer shadow-sm hover:shadow-xl hover:shadow-slate-200/50">
-                <div className="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden relative shadow-inner">
+              <div key={act.id} className="flex gap-6 p-6 rounded-[2rem] glass-card inner-glow group cursor-pointer lg:hover:shadow-[0_20px_40px_-15px_rgba(236,72,153,0.3)]">
+                <div className="w-24 h-24 sm:w-32 sm:h-32 shrink-0 rounded-2xl overflow-hidden relative shadow-2xl border border-white/10">
                   <ImageWithFallback
                     src={act.activityPicture?.media || NO_IMAGE}
                     alt={act.activityName}
                     fill
-                    sizes="(max-width: 640px) 112px, 128px"
-                    className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 640px) 96px, 128px"
+                    className="object-cover w-full h-full group-hover:scale-125 transition-transform duration-700"
                   />
                 </div>
                 
                 <div className="flex flex-col py-1 flex-1 min-w-0">
-                  <div className="flex justify-between items-start mb-1 gap-2">
-                    <h4 className="text-lg font-bold text-slate-900 truncate group-hover:text-emerald-600 transition-colors">
-                      {act.activityName}
-                    </h4>
-                  </div>
-                  <p className="text-sm text-slate-500 line-clamp-2 mb-3">
-                    {act.description || 'No description available.'}
+                  <h4 className="text-xl font-black text-white truncate group-hover:text-emerald-400 transition-colors mb-2">
+                    {act.activityName}
+                  </h4>
+                  <p className="text-sm text-slate-400 font-medium line-clamp-2 mb-4 leading-relaxed">
+                    {act.description || 'Elevate your routine with this expertly crafted session.'}
                   </p>
                   
-                  <div className="mt-auto items-end">
-                    <div className="flex flex-col gap-1.5 text-xs font-semibold text-slate-500 mb-2">
-                      <div className="flex items-center gap-1.5">
-                        <Clock size={14} className="text-emerald-500 shrink-0" />
+                  <div className="mt-auto space-y-3">
+                    <div className="flex flex-col gap-2 text-xs font-bold text-slate-500">
+                      <div className="flex items-center gap-2">
+                        <Clock size={16} className="text-emerald-500/70" />
                         <span className="truncate">
-                          {new Date(act.activityStartDateTime).toLocaleDateString([], { month: 'short', day: 'numeric'})} | {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          {new Date(act.activityStartDateTime).toLocaleDateString([], { month: 'short', day: 'numeric'})} • {new Date(act.activityStartDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
-                      <div className="flex items-center gap-1.5 truncate">
-                        <MapPin size={14} className="text-slate-400 shrink-0" />
-                        <span className="truncate">
-                          {act.isOnline ? 'Online Event' : (act.activityLocation || 'Location TBD')}
+                      <div className="flex items-center gap-2">
+                        <MapPin size={16} className="text-blue-500/70" />
+                        <span className="truncate text-slate-400">
+                          {act.isOnline ? 'Digital Studio' : (act.activityLocation || 'City Center')}
                         </span>
                       </div>
                     </div>
                     
-                    <div className="flex items-center mt-2">
-                      <span className="text-sm font-extrabold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
-                        {act.activityCost === 0 ? 'Free' : `$${act.activityCost}`}
+                    <div className="flex items-center">
+                      <span className="text-sm font-black text-emerald-400 bg-emerald-500/10 px-4 py-1.5 rounded-xl border border-emerald-500/20 shadow-lg">
+                        {act.activityCost === 0 ? 'Complimentary' : `$${act.activityCost}`}
                       </span>
                     </div>
                   </div>
@@ -342,45 +382,52 @@ export default async function LandingPage() {
               </div>
             ))}
           </div>
-          
-          <Link href="/activity" className="sm:hidden mt-8 w-full flex justify-center items-center gap-2 text-sm font-bold text-slate-600 transition-colors bg-slate-50 px-5 py-3 border border-slate-200 rounded-xl hover:bg-slate-100">
-            Explore activities <ArrowRight size={16} />
-          </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <div className="px-4 md:px-8 pb-8 pt-12 bg-white">
-        <footer className="bg-[#212121] text-white rounded-[2rem] pt-16 pb-8 px-8 md:px-12">
+      <div className="px-4 md:px-8 pb-12 pt-24 relative overflow-hidden">
+        {/* Decorative footer glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        
+        <footer className="glass rounded-[3rem] pt-20 pb-12 px-8 md:px-16 relative z-10 border border-white/5">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-              <div className="col-span-1 md:col-span-2 space-y-4">
-                <span className="font-bold text-2xl tracking-tight text-white mb-2 block">Experience Portal</span>
-                <p className="text-slate-300 max-w-sm">Connect with people who share your interests through amazing events and activities around the world.</p>
-                <div className="flex gap-4 pt-2">
-                  <div className="w-10 h-10 rounded-full bg-[#323232] flex items-center justify-center text-white hover:bg-[#404040] cursor-pointer transition-colors"><Activity size={20} /></div>
-                  <div className="w-10 h-10 rounded-full bg-[#323232] flex items-center justify-center text-white hover:bg-[#404040] cursor-pointer transition-colors"><Star size={20} /></div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+              <div className="col-span-1 md:col-span-2 space-y-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center">
+                    <Star size={24} fill="white" className="text-white" />
+                  </div>
+                  <span className="font-black text-3xl tracking-tight text-white"><span className="text-gradient-vibrant">Experience</span> Portal</span>
+                </div>
+                <p className="text-slate-400 text-lg max-w-sm font-medium leading-relaxed">Defining the future of shared experiences. Join a global community of dreamers and doers.</p>
+                <div className="flex gap-5 pt-4">
+                  {[Activity, Star, Heart].map((Icon, i) => (
+                    <div key={i} className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-emerald-500 hover:text-[#020617] cursor-pointer transition-all hover:-translate-y-1">
+                      <Icon size={24} />
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div>
-                <h4 className="font-bold text-white mb-4">Discover</h4>
-                <ul className="space-y-3 text-slate-300 font-medium">
-                  <li><a href="#" className="hover:text-white transition-colors">Trending Experiences</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">Upcoming Activities</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">Online Events</a></li>
+              <div className="space-y-6">
+                <h4 className="font-black text-xl text-white">Discover</h4>
+                <ul className="space-y-4 text-slate-400 font-bold">
+                  <li><a href="#" className="hover:text-emerald-400 transition-colors">Digital Gallery</a></li>
+                  <li><a href="#" className="hover:text-emerald-400 transition-colors">Upcoming Thrills</a></li>
+                  <li><a href="#" className="hover:text-emerald-400 transition-colors">World Tours</a></li>
                 </ul>
               </div>
-              <div>
-                <h4 className="font-bold text-white mb-4">Company</h4>
-                <ul className="space-y-3 text-slate-300 font-medium">
-                  <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">Contact Support</a></li>
+              <div className="space-y-6">
+                <h4 className="font-black text-xl text-white">Connect</h4>
+                <ul className="space-y-4 text-slate-400 font-bold">
+                  <li><a href="#" className="hover:text-emerald-400 transition-colors">Our Vision</a></li>
+                  <li><a href="#" className="hover:text-emerald-400 transition-colors">Ambassadors</a></li>
+                  <li><a href="#" className="hover:text-emerald-400 transition-colors">Direct Support</a></li>
                 </ul>
               </div>
             </div>
-            <div className="text-center text-slate-400 font-medium text-sm pt-8 border-t border-slate-600/30">
-              &copy; 2026 Experience Portal. All rights reserved.
+            <div className="text-center text-slate-500 font-bold text-sm pt-12 border-t border-white/5">
+              &copy; 2026 Experience Portal • Handcrafted for the extraordinary.
             </div>
           </div>
         </footer>
